@@ -1,0 +1,1932 @@
+[INFO] 2026-05-18 23:09:08  已选择: 完整部署 (Jenkins + GitLab + MantisBT + Nginx)
+[INFO] 2026-05-18 23:09:08  服务: ['jenkins', 'gitlab', 'mantisbt', 'nginx'], Nginx: True
+=== 2026-05-18 23:09:08  端口占用扫描
+[INFO] 2026-05-18 23:09:08  已占用端口: 5 个
+[WARN] 2026-05-18 23:09:08    端口 53 已被占用
+[WARN] 2026-05-18 23:09:08    端口 11434 已被占用
+[WARN] 2026-05-18 23:09:08    端口 18789 已被占用
+[WARN] 2026-05-18 23:09:08    端口 18791 已被占用
+[WARN] 2026-05-18 23:09:08    端口 34213 已被占用
+=== 2026-05-18 23:09:08  端口扫描完成
+=== 2026-05-18 23:09:08  Docker 网络扫描
+[INFO] 2026-05-18 23:09:08  Docker bridge 子网: 172.18.0.0/16
+[WARN] 2026-05-18 23:09:08  宿主路由表包含非 Docker 私有网段: ['172.24.208.1', '172.19.0.0', '172.24.208.0', '172.18.0.0']
+[INFO] 2026-05-18 23:09:08  物理网卡私有 IP: 172.24.219.93(eth0)
+=== 2026-05-18 23:09:08  Docker 网络扫描完成
+=== 2026-05-18 23:09:08  Docker 卷扫描
+[INFO] 2026-05-18 23:09:09  已发现 12 个卷
+[WARN] 2026-05-18 23:09:09    卷: devopsclaw_gitlab-config (可能与其他实例冲突)
+[WARN] 2026-05-18 23:09:09    卷: devopsclaw_gitlab-data (可能与其他实例冲突)
+[WARN] 2026-05-18 23:09:09    卷: devopsclaw_gitlab-logs (可能与其他实例冲突)
+[WARN] 2026-05-18 23:09:09    卷: devopsclaw_jenkins-home (可能与其他实例冲突)
+[WARN] 2026-05-18 23:09:09    卷: devopsclaw_nginx-logs (可能与其他实例冲突)
+[WARN] 2026-05-18 23:09:09    卷: devopsclaw_openclaw-data (可能与其他实例冲突)
+[WARN] 2026-05-18 23:09:09    卷: gitlab-config (可能与其他实例冲突)
+[WARN] 2026-05-18 23:09:09    卷: gitlab-data (可能与其他实例冲突)
+[WARN] 2026-05-18 23:09:09    卷: gitlab-logs (可能与其他实例冲突)
+[WARN] 2026-05-18 23:09:09    卷: mantisbt-db-data (可能与其他实例冲突)
+[WARN] 2026-05-18 23:09:09    卷: mantisbt-db-data_1 (可能与其他实例冲突)
+[WARN] 2026-05-18 23:09:09    卷: mantisbt-web (可能与其他实例冲突)
+[INFO] 2026-05-18 23:09:09  已加载 .env 文件: /mnt/c/Users/Tong/Desktop/DevOpsClaw/deploy/.env
+[INFO] 2026-05-18 23:09:11  使用 IP: 172.24.219.93
+=== 2026-05-18 23:09:11  开始部署: 模式=full, 服务=['jenkins', 'gitlab', 'mantisbt', 'nginx']
+[INFO] 2026-05-18 23:09:11  Nginx 绑定地址: 0.0.0.0
+=== 2026-05-18 23:09:11  部署 jenkins
+[INFO] 2026-05-18 23:09:11    卷: JENKINS_VOLUME_HOME=jenkins-home
+
+[0;34m=== 检查 Docker 环境 ===[0m
+[0;32m[INFO][0m 2026-05-18 23:09:11 - Docker 已安装: Docker version 29.1.3, build 29.1.3-0ubuntu3~24.04.2
+[0;32m[INFO][0m 2026-05-18 23:09:12 - Docker Compose (standalone) 已安装: 1.29.2
+[0;32m[INFO][0m 2026-05-18 23:09:12 - 加载环境变量: /mnt/c/Users/Tong/Desktop/DevOpsClaw/deploy/.env
+
+[0;34m=== 部署 Jenkins 服务 ===[0m
+[0;32m[INFO][0m 2026-05-18 23:09:12 - 使用 Docker 命名卷存储: jenkins-home
+[0;32m[INFO][0m 2026-05-18 23:09:12 - 创建 Jenkins 容器...
+[0;32m[INFO][0m 2026-05-18 23:09:18 - ✓ Jenkins 容器已启动
+[0;32m[INFO][0m 2026-05-18 23:09:18 - 容器: devopsagent-jenkins - 运行中 ✓
+[0;32m[INFO][0m 2026-05-18 23:09:18 - Jenkins 部署完成!
+[INFO] 2026-05-18 23:09:18  ✓ jenkins 部署完成
+=== 2026-05-18 23:09:18  部署 gitlab
+[WARN] 2026-05-18 23:09:18    [gitlab] 卷 gitlab-config 已存在 → 使用 gitlab-config_1
+[WARN] 2026-05-18 23:09:18    [gitlab] 卷 gitlab-logs 已存在 → 使用 gitlab-logs_1
+[WARN] 2026-05-18 23:09:18    [gitlab] 卷 gitlab-data 已存在 → 使用 gitlab-data_1
+[INFO] 2026-05-18 23:09:18    卷: GITLAB_VOLUME_CONFIG=gitlab-config_1, GITLAB_VOLUME_LOGS=gitlab-logs_1, GITLAB_VOLUME_DATA=gitlab-data_1
+
+[0;34m=== 检查 Docker 环境 ===[0m
+[0;32m[INFO][0m 2026-05-18 23:09:18 - Docker 已安装: Docker version 29.1.3, build 29.1.3-0ubuntu3~24.04.2
+[0;32m[INFO][0m 2026-05-18 23:09:18 - Docker Compose (standalone) 已安装: 1.29.2
+[0;32m[INFO][0m 2026-05-18 23:09:18 - 加载环境变量: /mnt/c/Users/Tong/Desktop/DevOpsClaw/deploy/.env
+
+[0;34m=== 部署 GitLab 服务 ===[0m
+[0;32m[INFO][0m 2026-05-18 23:09:19 - 使用 Docker 命名卷存储 (推荐用于 WSL/Windows)
+[0;32m[INFO][0m 2026-05-18 23:09:19 - 创建 GitLab 容器...
+[0;32m[INFO][0m 2026-05-18 23:09:29 - ✓ GitLab 容器已启动
+[1;33m[WARN][0m 2026-05-18 23:09:29 - GitLab 初始化需要 5-10 分钟，请耐心等待...
+[0;32m[INFO][0m 2026-05-18 23:09:29 - 命名卷管理命令:
+[0;32m[INFO][0m 2026-05-18 23:09:29 -   查看卷: docker volume ls
+[0;32m[INFO][0m 2026-05-18 23:09:29 -   备份数据: docker run --rm -v gitlab-data:/data -v /mnt/c/Users/Tong/Desktop/DevOpsClaw/deploy:/backup alpine tar cvzf /backup/gitlab-data-backup.tar.gz /data
+[0;32m[INFO][0m 2026-05-18 23:09:29 -   恢复数据: docker run --rm -v gitlab-data:/data -v /mnt/c/Users/Tong/Desktop/DevOpsClaw/deploy:/backup alpine tar xvzf /backup/gitlab-data-backup.tar.gz -C /
+[0;32m[INFO][0m 2026-05-18 23:09:29 - 容器: devopsagent-gitlab - 运行中 ✓
+[1;33m[WARN][0m 2026-05-18 23:09:29 - GitLab 首次初始化需要 5-10 分钟
+[0;32m[INFO][0m 2026-05-18 23:09:29 - 默认用户名: root
+[0;32m[INFO][0m 2026-05-18 23:09:29 - GitLab 部署完成!
+[INFO] 2026-05-18 23:09:29  ✓ gitlab 部署完成
+=== 2026-05-18 23:09:29  部署 mantisbt
+[WARN] 2026-05-18 23:09:29    [mantisbt] 卷 mantisbt-web 已存在 → 使用 mantisbt-web_1
+[WARN] 2026-05-18 23:09:30    [mantisbt] 卷 mantisbt-db-data 已存在 → 使用 mantisbt-db-data_2
+[INFO] 2026-05-18 23:09:30    卷: MANTISBT_VOLUME_WEB=mantisbt-web_1, MARIADB_VOLUME_DATA=mantisbt-db-data_2
+
+[0;34m=== 部署 MantisBT Bug 追踪系统 ===[0m
+
+[0;34m=== 部署 MantisBT MariaDB 数据库 ===[0m
+[0;32m[INFO][0m 2026-05-18 23:09:30 - 使用 Docker 命名卷存储 (推荐用于 WSL/Windows)
+[0;32m[INFO][0m 2026-05-18 23:09:30 - 创建 MariaDB 容器...
+[0;32m[INFO][0m 2026-05-18 23:09:35 - ✓ MariaDB 容器已启动
+[0;32m[INFO][0m 2026-05-18 23:09:35 - 等待 MariaDB 就绪...
+[0;32m[INFO][0m 2026-05-18 23:09:35 - ✓ MariaDB 已就绪
+[0;32m[INFO][0m 2026-05-18 23:09:36 - 使用 Docker 命名卷存储
+[0;32m[INFO][0m 2026-05-18 23:09:36 - MantisBT 容器已在运行，停止并删除...
+[0;32m[INFO][0m 2026-05-18 23:09:36 - 创建 MantisBT 容器...
+[0;32m[INFO][0m 2026-05-18 23:09:48 - ✓ MantisBT 容器已启动
+[0;32m[INFO][0m 2026-05-18 23:09:48 - 创建 config_inc.php（自动配置数据库连接）...
+[0;32m[INFO][0m 2026-05-18 23:09:48 - 安装 MantisBT 数据库表...
+[1;33m[WARN][0m 2026-05-18 23:09:51 - 数据库表可能未完全安装，请访问 Web 界面手动完成
+[0;32m[INFO][0m 2026-05-18 23:09:51 - 
+[0;32m[INFO][0m 2026-05-18 23:09:51 - MantisBT 部署完成
+[0;32m[INFO][0m 2026-05-18 23:09:51 - ====================
+[INFO] 2026-05-18 23:09:51  ✓ mantisbt 部署完成
+=== 2026-05-18 23:09:51  部署 nginx
+
+[0;34m=== 检查 Docker 环境 ===[0m
+[0;32m[INFO][0m 2026-05-18 23:09:51 - Docker 已安装: Docker version 29.1.3, build 29.1.3-0ubuntu3~24.04.2
+[0;32m[INFO][0m 2026-05-18 23:09:51 - Docker Compose (standalone) 已安装: 1.29.2
+[0;32m[INFO][0m 2026-05-18 23:09:51 - 加载环境变量: /mnt/c/Users/Tong/Desktop/DevOpsClaw/deploy/.env
+
+[0;34m=== 部署 Nginx 反向代理服务 ===[0m
+
+[0;34m=== 检查 Nginx SSL 证书 ===[0m
+[0;32m[INFO][0m 2026-05-18 23:09:52 - ✓ SSL 证书已存在: jenkins.crt
+[0;32m[INFO][0m 2026-05-18 23:09:52 - ✓ SSL 证书已存在: gitlab.crt
+[0;32m[INFO][0m 2026-05-18 23:09:52 - ✓ SSL 证书已存在: agent.crt
+[0;32m[INFO][0m 2026-05-18 23:09:52 - ✓ SSL 证书已存在: mantisbt.crt
+[0;32m[INFO][0m 2026-05-18 23:09:52 - ✓ SSL 证书已存在: registry.crt
+[0;32m[INFO][0m 2026-05-18 23:09:52 - ✓ SSL 证书已存在: harbor.crt
+[0;32m[INFO][0m 2026-05-18 23:09:52 - ✓ SSL 证书已存在: sonarqube.crt
+
+[0;34m=== 生成 Nginx SSL 自签名证书 ===[0m
+[0;32m[INFO][0m 2026-05-18 23:09:52 - 跳过已存在的证书: jenkins
+[0;32m[INFO][0m 2026-05-18 23:09:52 - 跳过已存在的证书: gitlab
+[0;32m[INFO][0m 2026-05-18 23:09:52 - 跳过已存在的证书: agent
+[0;32m[INFO][0m 2026-05-18 23:09:52 - 跳过已存在的证书: mantisbt
+[0;32m[INFO][0m 2026-05-18 23:09:52 - 跳过已存在的证书: registry
+[0;32m[INFO][0m 2026-05-18 23:09:52 - 跳过已存在的证书: harbor
+[0;32m[INFO][0m 2026-05-18 23:09:52 - 跳过已存在的证书: sonarqube
+[0;32m[INFO][0m 2026-05-18 23:09:52 - SSL 证书生成完成
+[0;32m[INFO][0m 2026-05-18 23:09:52 - 证书目录: /mnt/c/Users/Tong/Desktop/DevOpsClaw/deploy/deploy_nginx/nginx/ssl
+[0;32m[INFO][0m 2026-05-18 23:09:52 - 创建 Nginx 容器...
+[0;32m[INFO][0m 2026-05-18 23:09:56 - ✓ Nginx 容器已启动
+[0;32m[INFO][0m 2026-05-18 23:09:56 - 测试 Nginx 配置...
+[0;32m[INFO][0m 2026-05-18 23:09:56 - ✓ Nginx 配置语法正确
+[0;32m[INFO][0m 2026-05-18 23:09:56 - 容器: devopsagent-nginx - 运行中 ✓
+[0;32m[INFO][0m 2026-05-18 23:09:56 - 配置目录: /mnt/c/Users/Tong/Desktop/DevOpsClaw/deploy/deploy_nginx/nginx
+[0;32m[INFO][0m 2026-05-18 23:09:56 - SSL 证书目录: /mnt/c/Users/Tong/Desktop/DevOpsClaw/deploy/deploy_nginx/nginx/ssl
+[0;32m[INFO][0m 2026-05-18 23:09:56 - Nginx 部署完成!
+[INFO] 2026-05-18 23:09:56  ✓ nginx 部署完成
+=== 2026-05-18 23:09:56  配置 Nginx 反向代理
+[INFO] 2026-05-18 23:09:56  ✓ 检测到 jenkins 容器 (devopsagent-jenkins)
+[INFO] 2026-05-18 23:09:56    jenkins.conf 内容未变, 跳过
+[INFO] 2026-05-18 23:09:56  ✓ 检测到 gitlab 容器 (devopsagent-gitlab)
+[INFO] 2026-05-18 23:09:56    gitlab.conf 内容未变, 跳过
+[INFO] 2026-05-18 23:09:56  ✓ 检测到 mantisbt 容器 (devopsagent-mantisbt)
+[INFO] 2026-05-18 23:09:56    mantisbt.conf 内容未变, 跳过
+[INFO] 2026-05-18 23:10:01  ✓ Nginx 已启动
+[WARN] 2026-05-18 23:10:01  无法获取 Jenkins 密码 (容器可能未运行或已配置)
+[WARN] 2026-05-18 23:10:01  无法获取 GitLab 密码 (容器可能未运行或密码文件已过期)
+[INFO] 2026-05-18 23:10:01  部署流程完成!
+[INFO] 2026-05-18 23:24:51  已选择: 完整部署 (Jenkins + GitLab + MantisBT + Nginx)
+[INFO] 2026-05-18 23:24:51  服务: ['jenkins', 'gitlab', 'mantisbt', 'nginx'], Nginx: True
+=== 2026-05-18 23:24:51  端口占用扫描
+[INFO] 2026-05-18 23:24:51  已占用端口: 5 个
+[WARN] 2026-05-18 23:24:51    端口 53 已被占用
+[WARN] 2026-05-18 23:24:51    端口 11434 已被占用
+[WARN] 2026-05-18 23:24:51    端口 18789 已被占用
+[WARN] 2026-05-18 23:24:51    端口 18791 已被占用
+[WARN] 2026-05-18 23:24:51    端口 34213 已被占用
+=== 2026-05-18 23:24:51  端口扫描完成
+=== 2026-05-18 23:24:51  Docker 网络扫描
+[INFO] 2026-05-18 23:24:51  Docker bridge 子网: 172.18.0.0/16
+[WARN] 2026-05-18 23:24:51  宿主路由表包含非 Docker 私有网段: ['172.18.0.0', '172.19.0.0', '172.24.208.0', '172.24.208.1']
+[INFO] 2026-05-18 23:24:51  物理网卡私有 IP: 172.24.219.93(eth0)
+=== 2026-05-18 23:24:51  Docker 网络扫描完成
+=== 2026-05-18 23:24:51  Docker 卷扫描
+[INFO] 2026-05-18 23:24:52  已发现 14 个卷
+[WARN] 2026-05-18 23:24:52    卷: devopsclaw_gitlab-config (可能与其他实例冲突)
+[WARN] 2026-05-18 23:24:52    卷: devopsclaw_gitlab-data (可能与其他实例冲突)
+[WARN] 2026-05-18 23:24:52    卷: devopsclaw_gitlab-logs (可能与其他实例冲突)
+[WARN] 2026-05-18 23:24:52    卷: devopsclaw_jenkins-home (可能与其他实例冲突)
+[WARN] 2026-05-18 23:24:52    卷: devopsclaw_nginx-logs (可能与其他实例冲突)
+[WARN] 2026-05-18 23:24:52    卷: devopsclaw_openclaw-data (可能与其他实例冲突)
+[WARN] 2026-05-18 23:24:52    卷: gitlab-config (可能与其他实例冲突)
+[WARN] 2026-05-18 23:24:52    卷: gitlab-data (可能与其他实例冲突)
+[WARN] 2026-05-18 23:24:52    卷: gitlab-logs (可能与其他实例冲突)
+[WARN] 2026-05-18 23:24:52    卷: mantisbt-db-data (可能与其他实例冲突)
+[WARN] 2026-05-18 23:24:52    卷: mantisbt-db-data_1 (可能与其他实例冲突)
+[WARN] 2026-05-18 23:24:52    卷: mantisbt-db-data_2 (可能与其他实例冲突)
+[WARN] 2026-05-18 23:24:52    卷: mantisbt-web (可能与其他实例冲突)
+[WARN] 2026-05-18 23:24:52    卷: mantisbt-web_1 (可能与其他实例冲突)
+[INFO] 2026-05-18 23:24:52  已加载 .env 文件: /mnt/c/Users/Tong/Desktop/DevOpsClaw/deploy/.env
+[INFO] 2026-05-18 23:24:53  使用 IP: 172.24.219.93
+=== 2026-05-18 23:24:53  开始部署: 模式=full, 服务=['jenkins', 'gitlab', 'mantisbt', 'nginx']
+[INFO] 2026-05-18 23:24:53  Nginx 绑定地址: 0.0.0.0
+=== 2026-05-18 23:24:53  部署 jenkins
+[INFO] 2026-05-18 23:24:53    卷: JENKINS_VOLUME_HOME=jenkins-home
+
+[0;34m=== 检查 Docker 环境 ===[0m
+[0;32m[INFO][0m 2026-05-18 23:24:53 - Docker 已安装: Docker version 29.1.3, build 29.1.3-0ubuntu3~24.04.2
+[0;32m[INFO][0m 2026-05-18 23:24:53 - Docker Compose (standalone) 已安装: 1.29.2
+[0;32m[INFO][0m 2026-05-18 23:24:53 - 加载环境变量: /mnt/c/Users/Tong/Desktop/DevOpsClaw/deploy/.env
+
+[0;34m=== 部署 Jenkins 服务 ===[0m
+[0;32m[INFO][0m 2026-05-18 23:24:54 - 使用 Docker 命名卷存储: jenkins-home
+[0;32m[INFO][0m 2026-05-18 23:24:54 - 创建 Jenkins 容器...
+[0;32m[INFO][0m 2026-05-18 23:24:59 - ✓ Jenkins 容器已启动
+[0;32m[INFO][0m 2026-05-18 23:24:59 - 容器: devopsagent-jenkins - 运行中 ✓
+[0;32m[INFO][0m 2026-05-18 23:24:59 - Jenkins 部署完成!
+[INFO] 2026-05-18 23:24:59  ✓ jenkins 部署完成
+=== 2026-05-18 23:24:59  部署 gitlab
+[WARN] 2026-05-18 23:24:59    [gitlab] 卷 gitlab-config 已存在 → 使用 gitlab-config_1
+[WARN] 2026-05-18 23:24:59    [gitlab] 卷 gitlab-logs 已存在 → 使用 gitlab-logs_1
+[WARN] 2026-05-18 23:24:59    [gitlab] 卷 gitlab-data 已存在 → 使用 gitlab-data_1
+[INFO] 2026-05-18 23:24:59    卷: GITLAB_VOLUME_CONFIG=gitlab-config_1, GITLAB_VOLUME_LOGS=gitlab-logs_1, GITLAB_VOLUME_DATA=gitlab-data_1
+
+[0;34m=== 检查 Docker 环境 ===[0m
+[0;32m[INFO][0m 2026-05-18 23:25:00 - Docker 已安装: Docker version 29.1.3, build 29.1.3-0ubuntu3~24.04.2
+[0;32m[INFO][0m 2026-05-18 23:25:00 - Docker Compose (standalone) 已安装: 1.29.2
+[0;32m[INFO][0m 2026-05-18 23:25:00 - 加载环境变量: /mnt/c/Users/Tong/Desktop/DevOpsClaw/deploy/.env
+
+[0;34m=== 部署 GitLab 服务 ===[0m
+[0;32m[INFO][0m 2026-05-18 23:25:00 - 使用 Docker 命名卷存储 (推荐用于 WSL/Windows)
+[0;32m[INFO][0m 2026-05-18 23:25:00 - 创建 GitLab 容器...
+[0;32m[INFO][0m 2026-05-18 23:25:11 - ✓ GitLab 容器已启动
+[1;33m[WARN][0m 2026-05-18 23:25:11 - GitLab 初始化需要 5-10 分钟，请耐心等待...
+[0;32m[INFO][0m 2026-05-18 23:25:11 - 命名卷管理命令:
+[0;32m[INFO][0m 2026-05-18 23:25:11 -   查看卷: docker volume ls
+[0;32m[INFO][0m 2026-05-18 23:25:11 -   备份数据: docker run --rm -v gitlab-data:/data -v /mnt/c/Users/Tong/Desktop/DevOpsClaw/deploy:/backup alpine tar cvzf /backup/gitlab-data-backup.tar.gz /data
+[0;32m[INFO][0m 2026-05-18 23:25:11 -   恢复数据: docker run --rm -v gitlab-data:/data -v /mnt/c/Users/Tong/Desktop/DevOpsClaw/deploy:/backup alpine tar xvzf /backup/gitlab-data-backup.tar.gz -C /
+[0;32m[INFO][0m 2026-05-18 23:25:11 - 容器: devopsagent-gitlab - 运行中 ✓
+[1;33m[WARN][0m 2026-05-18 23:25:11 - GitLab 首次初始化需要 5-10 分钟
+[0;32m[INFO][0m 2026-05-18 23:25:11 - 默认用户名: root
+[0;32m[INFO][0m 2026-05-18 23:25:11 - GitLab 部署完成!
+[INFO] 2026-05-18 23:25:11  ✓ gitlab 部署完成
+=== 2026-05-18 23:25:11  部署 mantisbt
+[WARN] 2026-05-18 23:25:11    [mantisbt] 卷 mantisbt-web 已存在 → 使用 mantisbt-web_2
+[WARN] 2026-05-18 23:25:11    [mantisbt] 卷 mantisbt-db-data 已存在 → 使用 mantisbt-db-data_3
+[INFO] 2026-05-18 23:25:11    卷: MANTISBT_VOLUME_WEB=mantisbt-web_2, MARIADB_VOLUME_DATA=mantisbt-db-data_3
+
+[0;34m=== 部署 MantisBT Bug 追踪系统 ===[0m
+
+[0;34m=== 部署 MantisBT MariaDB 数据库 ===[0m
+[0;32m[INFO][0m 2026-05-18 23:25:11 - 使用 Docker 命名卷存储 (推荐用于 WSL/Windows)
+[0;32m[INFO][0m 2026-05-18 23:25:11 - 创建 MariaDB 容器...
+[0;32m[INFO][0m 2026-05-18 23:25:16 - ✓ MariaDB 容器已启动
+[0;32m[INFO][0m 2026-05-18 23:25:16 - 等待 MariaDB 就绪...
+[0;32m[INFO][0m 2026-05-18 23:25:16 - ✓ MariaDB 已就绪
+[0;32m[INFO][0m 2026-05-18 23:25:16 - 使用 Docker 命名卷存储
+[0;32m[INFO][0m 2026-05-18 23:25:17 - MantisBT 容器已在运行，停止并删除...
+[0;32m[INFO][0m 2026-05-18 23:25:17 - 创建 MantisBT 容器...
+[0;32m[INFO][0m 2026-05-18 23:25:28 - ✓ MantisBT 容器已启动
+[0;32m[INFO][0m 2026-05-18 23:25:28 - 创建 config_inc.php（自动配置数据库连接）...
+[0;32m[INFO][0m 2026-05-18 23:25:28 - 安装 MantisBT 数据库表...
+[1;33m[WARN][0m 2026-05-18 23:25:29 -   未找到 schema 文件，尝试通过 Web 安装器...
+[0;32m[INFO][0m 2026-05-18 23:25:29 -   Web 安装器返回 HTTP 200
+[0;32m[INFO][0m 2026-05-18 23:25:29 -   响应片段: <!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<title>Administration - Installation - MantisBT</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+	<link rel="stylesheet" type="text/css" href="http://127.0.0.1:19093/css/default.css" />
+	<link rel="stylesheet" type="text/css" href="http://127.0.0.1:19093/css/status_config.php?cache_key=488de90b9cefa9083b3cf59161d9cca5" />
+	<link
+[1;33m[WARN][0m 2026-05-18 23:25:32 - 数据库表可能未完全安装，请访问 Web 界面手动完成
+[0;32m[INFO][0m 2026-05-18 23:25:32 - 验证数据库连接...
+[0;32m[INFO][0m 2026-05-18 23:25:32 -   
+Warning: Use of undefined constant ON - assumed 'ON' (this will throw an Error in a future version of PHP) in /var/www/html/config/config_inc.php on line 12
+DB_OK tables=0
+[0;32m[INFO][0m 2026-05-18 23:25:32 - 
+[0;32m[INFO][0m 2026-05-18 23:25:32 - MantisBT 部署完成
+[0;32m[INFO][0m 2026-05-18 23:25:32 - ====================
+[INFO] 2026-05-18 23:25:32  ✓ mantisbt 部署完成
+=== 2026-05-18 23:25:32  部署 nginx
+
+[0;34m=== 检查 Docker 环境 ===[0m
+[0;32m[INFO][0m 2026-05-18 23:25:32 - Docker 已安装: Docker version 29.1.3, build 29.1.3-0ubuntu3~24.04.2
+[0;32m[INFO][0m 2026-05-18 23:25:32 - Docker Compose (standalone) 已安装: 1.29.2
+[0;32m[INFO][0m 2026-05-18 23:25:32 - 加载环境变量: /mnt/c/Users/Tong/Desktop/DevOpsClaw/deploy/.env
+
+[0;34m=== 部署 Nginx 反向代理服务 ===[0m
+
+[0;34m=== 检查 Nginx SSL 证书 ===[0m
+[0;32m[INFO][0m 2026-05-18 23:25:33 - ✓ SSL 证书已存在: jenkins.crt
+[0;32m[INFO][0m 2026-05-18 23:25:33 - ✓ SSL 证书已存在: gitlab.crt
+[0;32m[INFO][0m 2026-05-18 23:25:33 - ✓ SSL 证书已存在: agent.crt
+[0;32m[INFO][0m 2026-05-18 23:25:33 - ✓ SSL 证书已存在: mantisbt.crt
+[0;32m[INFO][0m 2026-05-18 23:25:33 - ✓ SSL 证书已存在: registry.crt
+[0;32m[INFO][0m 2026-05-18 23:25:33 - ✓ SSL 证书已存在: harbor.crt
+[0;32m[INFO][0m 2026-05-18 23:25:33 - ✓ SSL 证书已存在: sonarqube.crt
+
+[0;34m=== 生成 Nginx SSL 自签名证书 ===[0m
+[0;32m[INFO][0m 2026-05-18 23:25:33 - 跳过已存在的证书: jenkins
+[0;32m[INFO][0m 2026-05-18 23:25:33 - 跳过已存在的证书: gitlab
+[0;32m[INFO][0m 2026-05-18 23:25:33 - 跳过已存在的证书: agent
+[0;32m[INFO][0m 2026-05-18 23:25:33 - 跳过已存在的证书: mantisbt
+[0;32m[INFO][0m 2026-05-18 23:25:33 - 跳过已存在的证书: registry
+[0;32m[INFO][0m 2026-05-18 23:25:33 - 跳过已存在的证书: harbor
+[0;32m[INFO][0m 2026-05-18 23:25:33 - 跳过已存在的证书: sonarqube
+[0;32m[INFO][0m 2026-05-18 23:25:33 - SSL 证书生成完成
+[0;32m[INFO][0m 2026-05-18 23:25:33 - 证书目录: /mnt/c/Users/Tong/Desktop/DevOpsClaw/deploy/deploy_nginx/nginx/ssl
+[0;32m[INFO][0m 2026-05-18 23:25:33 - 创建 Nginx 容器...
+[0;32m[INFO][0m 2026-05-18 23:25:36 - ✓ Nginx 容器已启动
+[0;32m[INFO][0m 2026-05-18 23:25:36 - 测试 Nginx 配置...
+[0;32m[INFO][0m 2026-05-18 23:25:36 - ✓ Nginx 配置语法正确
+[0;32m[INFO][0m 2026-05-18 23:25:36 - 容器: devopsagent-nginx - 运行中 ✓
+[0;32m[INFO][0m 2026-05-18 23:25:36 - 配置目录: /mnt/c/Users/Tong/Desktop/DevOpsClaw/deploy/deploy_nginx/nginx
+[0;32m[INFO][0m 2026-05-18 23:25:36 - SSL 证书目录: /mnt/c/Users/Tong/Desktop/DevOpsClaw/deploy/deploy_nginx/nginx/ssl
+[0;32m[INFO][0m 2026-05-18 23:25:36 - Nginx 部署完成!
+[INFO] 2026-05-18 23:25:36  ✓ nginx 部署完成
+=== 2026-05-18 23:25:36  配置 Nginx 反向代理
+[INFO] 2026-05-18 23:25:36  ✓ 检测到 jenkins 容器 (devopsagent-jenkins)
+[INFO] 2026-05-18 23:25:36    jenkins.conf 内容未变, 跳过
+[INFO] 2026-05-18 23:25:37  ✓ 检测到 gitlab 容器 (devopsagent-gitlab)
+[INFO] 2026-05-18 23:25:37    gitlab.conf 内容未变, 跳过
+[INFO] 2026-05-18 23:25:37  ✓ 检测到 mantisbt 容器 (devopsagent-mantisbt)
+[INFO] 2026-05-18 23:25:37    mantisbt.conf 内容未变, 跳过
+[INFO] 2026-05-18 23:25:41  ✓ Nginx 已启动
+[INFO] 2026-05-18 23:25:41  Jenkins 初始密码: 4b843b6b15504cbc95ffb9053063c8a7
+[WARN] 2026-05-18 23:25:42  无法获取 GitLab 密码 (容器可能未运行或密码文件已过期)
+[INFO] 2026-05-18 23:25:42  部署流程完成!
+[INFO] 2026-05-18 23:30:42  已选择: 仅 Jenkins (+ Nginx HTTPS)
+[INFO] 2026-05-18 23:30:42  服务: ['jenkins', 'nginx'], Nginx: True
+=== 2026-05-18 23:30:42  端口占用扫描
+[INFO] 2026-05-18 23:30:43  已占用端口: 15 个
+[WARN] 2026-05-18 23:30:43    端口 53 已被占用
+[WARN] 2026-05-18 23:30:43    端口 2222 已被占用
+[WARN] 2026-05-18 23:30:43    端口 3307 已被占用
+[WARN] 2026-05-18 23:30:43    端口 8081 已被占用
+[WARN] 2026-05-18 23:30:43    端口 8082 已被占用
+[WARN] 2026-05-18 23:30:43    端口 8443 已被占用
+[WARN] 2026-05-18 23:30:43    端口 11434 已被占用
+[WARN] 2026-05-18 23:30:43    端口 18440 已被占用
+[WARN] 2026-05-18 23:30:43    端口 18441 已被占用
+[WARN] 2026-05-18 23:30:43    端口 18443 已被占用
+[WARN] 2026-05-18 23:30:43    端口 18789 已被占用
+[WARN] 2026-05-18 23:30:43    端口 18791 已被占用
+[WARN] 2026-05-18 23:30:43    端口 19093 已被占用
+[WARN] 2026-05-18 23:30:43    端口 34213 已被占用
+[WARN] 2026-05-18 23:30:43    端口 50000 已被占用
+[WARN] 2026-05-18 23:30:43    [jenkins/agent] 50000 已被占用 → 自动分配 50001
+[WARN] 2026-05-18 23:30:43    [gitlab/ssh] 2222 已被占用 → 自动分配 2223
+[WARN] 2026-05-18 23:30:43    [mantisbt/web] 19093 已被占用 → 自动分配 19094
+[WARN] 2026-05-18 23:30:43    [mariadb/db] 3307 已被占用 → 自动分配 3308
+[WARN] 2026-05-18 23:30:43    [nginx/jenkins] 18440 已被占用 → 自动分配 18442
+[WARN] 2026-05-18 23:30:43    [nginx/gitlab] 18441 已被占用 → 自动分配 18444
+[WARN] 2026-05-18 23:30:43    [nginx/mantisbt] 18443 已被占用 → 自动分配 18445
+=== 2026-05-18 23:30:43  端口扫描完成
+=== 2026-05-18 23:30:43  Docker 网络扫描
+[INFO] 2026-05-18 23:30:43  Docker bridge 子网: 172.18.0.0/16
+[WARN] 2026-05-18 23:30:43  宿主路由表包含非 Docker 私有网段: ['172.18.0.0', '172.24.208.0', '172.24.208.1', '172.19.0.0']
+[INFO] 2026-05-18 23:30:43  物理网卡私有 IP: 172.24.219.93(eth0)
+=== 2026-05-18 23:30:43  Docker 网络扫描完成
+=== 2026-05-18 23:30:43  Docker 卷扫描
+[INFO] 2026-05-18 23:30:43  已发现 17 个卷
+[WARN] 2026-05-18 23:30:43    卷: devopsclaw_gitlab-config (可能与其他实例冲突)
+[WARN] 2026-05-18 23:30:43    卷: devopsclaw_gitlab-data (可能与其他实例冲突)
+[WARN] 2026-05-18 23:30:43    卷: devopsclaw_gitlab-logs (可能与其他实例冲突)
+[WARN] 2026-05-18 23:30:43    卷: devopsclaw_jenkins-home (可能与其他实例冲突)
+[WARN] 2026-05-18 23:30:43    卷: devopsclaw_nginx-logs (可能与其他实例冲突)
+[WARN] 2026-05-18 23:30:43    卷: devopsclaw_openclaw-data (可能与其他实例冲突)
+[WARN] 2026-05-18 23:30:43    卷: gitlab-config (可能与其他实例冲突)
+[WARN] 2026-05-18 23:30:43    卷: gitlab-data (可能与其他实例冲突)
+[WARN] 2026-05-18 23:30:43    卷: gitlab-logs (可能与其他实例冲突)
+[WARN] 2026-05-18 23:30:43    卷: jenkins-home (可能与其他实例冲突)
+[WARN] 2026-05-18 23:30:43    卷: mantisbt-db-data (可能与其他实例冲突)
+[WARN] 2026-05-18 23:30:43    卷: mantisbt-db-data_1 (可能与其他实例冲突)
+[WARN] 2026-05-18 23:30:43    卷: mantisbt-db-data_2 (可能与其他实例冲突)
+[WARN] 2026-05-18 23:30:43    卷: mantisbt-db-data_3 (可能与其他实例冲突)
+[WARN] 2026-05-18 23:30:43    卷: mantisbt-web (可能与其他实例冲突)
+[WARN] 2026-05-18 23:30:43    卷: mantisbt-web_1 (可能与其他实例冲突)
+[WARN] 2026-05-18 23:30:43    卷: mantisbt-web_2 (可能与其他实例冲突)
+[INFO] 2026-05-18 23:30:43  已加载 .env 文件: /mnt/c/Users/Tong/Desktop/DevOpsClaw/deploy/.env
+[INFO] 2026-05-18 23:30:47  使用 IP: 172.24.219.93
+=== 2026-05-18 23:30:47  开始部署: 模式=jenkins, 服务=['jenkins', 'nginx']
+[INFO] 2026-05-18 23:30:47  Nginx 绑定地址: 0.0.0.0
+=== 2026-05-18 23:30:47  部署 jenkins
+[WARN] 2026-05-18 23:30:47    [jenkins] 卷 jenkins-home 已存在 → 使用 jenkins-home_1
+[INFO] 2026-05-18 23:30:47    卷: JENKINS_VOLUME_HOME=jenkins-home_1
+
+[0;34m=== 检查 Docker 环境 ===[0m
+[0;32m[INFO][0m 2026-05-18 23:30:47 - Docker 已安装: Docker version 29.1.3, build 29.1.3-0ubuntu3~24.04.2
+[0;32m[INFO][0m 2026-05-18 23:30:47 - Docker Compose (standalone) 已安装: 1.29.2
+[0;32m[INFO][0m 2026-05-18 23:30:47 - 加载环境变量: /mnt/c/Users/Tong/Desktop/DevOpsClaw/deploy/.env
+
+[0;34m=== 部署 Jenkins 服务 ===[0m
+[0;32m[INFO][0m 2026-05-18 23:30:47 - 使用 Docker 命名卷存储: jenkins-home_1
+[0;32m[INFO][0m 2026-05-18 23:30:47 - Jenkins 容器已在运行，停止并删除...
+[0;32m[INFO][0m 2026-05-18 23:30:49 - 创建 Jenkins 容器...
+[0;32m[INFO][0m 2026-05-18 23:30:55 - ✓ Jenkins 容器已启动
+[0;32m[INFO][0m 2026-05-18 23:30:55 - 容器: devopsagent-jenkins - 运行中 ✓
+[0;32m[INFO][0m 2026-05-18 23:30:55 - Jenkins 部署完成!
+[INFO] 2026-05-18 23:30:55  ✓ jenkins 部署完成
+=== 2026-05-18 23:30:55  部署 nginx
+
+[0;34m=== 检查 Docker 环境 ===[0m
+[0;32m[INFO][0m 2026-05-18 23:30:55 - Docker 已安装: Docker version 29.1.3, build 29.1.3-0ubuntu3~24.04.2
+[0;32m[INFO][0m 2026-05-18 23:30:56 - Docker Compose (standalone) 已安装: 1.29.2
+[0;32m[INFO][0m 2026-05-18 23:30:56 - 加载环境变量: /mnt/c/Users/Tong/Desktop/DevOpsClaw/deploy/.env
+
+[0;34m=== 部署 Nginx 反向代理服务 ===[0m
+
+[0;34m=== 检查 Nginx SSL 证书 ===[0m
+[0;32m[INFO][0m 2026-05-18 23:30:56 - ✓ SSL 证书已存在: jenkins.crt
+[0;32m[INFO][0m 2026-05-18 23:30:56 - ✓ SSL 证书已存在: gitlab.crt
+[0;32m[INFO][0m 2026-05-18 23:30:56 - ✓ SSL 证书已存在: agent.crt
+[0;32m[INFO][0m 2026-05-18 23:30:56 - ✓ SSL 证书已存在: mantisbt.crt
+[0;32m[INFO][0m 2026-05-18 23:30:56 - ✓ SSL 证书已存在: registry.crt
+[0;32m[INFO][0m 2026-05-18 23:30:56 - ✓ SSL 证书已存在: harbor.crt
+[0;32m[INFO][0m 2026-05-18 23:30:56 - ✓ SSL 证书已存在: sonarqube.crt
+
+[0;34m=== 生成 Nginx SSL 自签名证书 ===[0m
+[0;32m[INFO][0m 2026-05-18 23:30:56 - 跳过已存在的证书: jenkins
+[0;32m[INFO][0m 2026-05-18 23:30:56 - 跳过已存在的证书: gitlab
+[0;32m[INFO][0m 2026-05-18 23:30:56 - 跳过已存在的证书: agent
+[0;32m[INFO][0m 2026-05-18 23:30:56 - 跳过已存在的证书: mantisbt
+[0;32m[INFO][0m 2026-05-18 23:30:56 - 跳过已存在的证书: registry
+[0;32m[INFO][0m 2026-05-18 23:30:56 - 跳过已存在的证书: harbor
+[0;32m[INFO][0m 2026-05-18 23:30:56 - 跳过已存在的证书: sonarqube
+[0;32m[INFO][0m 2026-05-18 23:30:56 - SSL 证书生成完成
+[0;32m[INFO][0m 2026-05-18 23:30:56 - 证书目录: /mnt/c/Users/Tong/Desktop/DevOpsClaw/deploy/deploy_nginx/nginx/ssl
+[0;32m[INFO][0m 2026-05-18 23:30:56 - Nginx 容器已在运行，停止并删除...
+[0;32m[INFO][0m 2026-05-18 23:30:58 - 创建 Nginx 容器...
+[0;32m[INFO][0m 2026-05-18 23:31:02 - ✓ Nginx 容器已启动
+[0;32m[INFO][0m 2026-05-18 23:31:02 - 测试 Nginx 配置...
+[0;32m[INFO][0m 2026-05-18 23:31:02 - ✓ Nginx 配置语法正确
+[0;32m[INFO][0m 2026-05-18 23:31:02 - 容器: devopsagent-nginx - 运行中 ✓
+[0;32m[INFO][0m 2026-05-18 23:31:02 - 配置目录: /mnt/c/Users/Tong/Desktop/DevOpsClaw/deploy/deploy_nginx/nginx
+[0;32m[INFO][0m 2026-05-18 23:31:02 - SSL 证书目录: /mnt/c/Users/Tong/Desktop/DevOpsClaw/deploy/deploy_nginx/nginx/ssl
+[0;32m[INFO][0m 2026-05-18 23:31:02 - Nginx 部署完成!
+[INFO] 2026-05-18 23:31:02  ✓ nginx 部署完成
+=== 2026-05-18 23:31:02  配置 Nginx 反向代理
+[INFO] 2026-05-18 23:31:02  ✓ 检测到 jenkins 容器 (devopsagent-jenkins)
+[INFO] 2026-05-18 23:31:02    jenkins.conf 内容未变, 跳过
+[INFO] 2026-05-18 23:31:02  ✓ 检测到 gitlab 容器 (devopsagent-gitlab)
+[INFO] 2026-05-18 23:31:02    gitlab.conf 内容未变, 跳过
+[INFO] 2026-05-18 23:31:02  ✓ 检测到 mantisbt 容器 (devopsagent-mantisbt)
+[INFO] 2026-05-18 23:31:02    mantisbt.conf 内容未变, 跳过
+[INFO] 2026-05-18 23:31:08  ✓ Nginx 已启动
+[INFO] 2026-05-18 23:31:09  Jenkins 初始密码: e7612e9fb08c49988999f586c28497e1
+[INFO] 2026-05-18 23:31:09  部署流程完成!
+[INFO] 2026-05-18 23:43:59  已选择: 仅 MantisBT (+ Nginx HTTPS)
+[INFO] 2026-05-18 23:43:59  服务: ['mantisbt', 'nginx'], Nginx: True
+=== 2026-05-18 23:43:59  端口占用扫描
+[INFO] 2026-05-18 23:44:00  已占用端口: 14 个
+[WARN] 2026-05-18 23:44:00    端口 53 已被占用
+[WARN] 2026-05-18 23:44:00    端口 2222 已被占用
+[WARN] 2026-05-18 23:44:00    端口 3307 已被占用
+[WARN] 2026-05-18 23:44:00    端口 8081 已被占用
+[WARN] 2026-05-18 23:44:00    端口 8082 已被占用
+[WARN] 2026-05-18 23:44:00    端口 8443 已被占用
+[WARN] 2026-05-18 23:44:00    端口 11434 已被占用
+[WARN] 2026-05-18 23:44:00    端口 18440 已被占用
+[WARN] 2026-05-18 23:44:00    端口 18441 已被占用
+[WARN] 2026-05-18 23:44:00    端口 18443 已被占用
+[WARN] 2026-05-18 23:44:00    端口 18789 已被占用
+[WARN] 2026-05-18 23:44:00    端口 18791 已被占用
+[WARN] 2026-05-18 23:44:00    端口 34213 已被占用
+[WARN] 2026-05-18 23:44:00    端口 50000 已被占用
+[WARN] 2026-05-18 23:44:00    [jenkins/agent] 50000 已被占用 → 自动分配 50001
+[WARN] 2026-05-18 23:44:00    [gitlab/ssh] 2222 已被占用 → 自动分配 2223
+[WARN] 2026-05-18 23:44:00    [mariadb/db] 3307 已被占用 → 自动分配 3308
+[WARN] 2026-05-18 23:44:00    [nginx/jenkins] 18440 已被占用 → 自动分配 18442
+[WARN] 2026-05-18 23:44:00    [nginx/gitlab] 18441 已被占用 → 自动分配 18444
+[WARN] 2026-05-18 23:44:00    [nginx/mantisbt] 18443 已被占用 → 自动分配 18445
+=== 2026-05-18 23:44:00  端口扫描完成
+=== 2026-05-18 23:44:00  Docker 网络扫描
+[INFO] 2026-05-18 23:44:00  Docker bridge 子网: 172.18.0.0/16
+[WARN] 2026-05-18 23:44:00  宿主路由表包含非 Docker 私有网段: ['172.24.208.0', '172.18.0.0', '172.24.208.1', '172.19.0.0']
+[INFO] 2026-05-18 23:44:00  物理网卡私有 IP: 172.24.219.93(eth0)
+=== 2026-05-18 23:44:00  Docker 网络扫描完成
+=== 2026-05-18 23:44:00  Docker 卷扫描
+[INFO] 2026-05-18 23:44:01  已发现 18 个卷
+[WARN] 2026-05-18 23:44:01    卷: devopsclaw_gitlab-config (可能与其他实例冲突)
+[WARN] 2026-05-18 23:44:01    卷: devopsclaw_gitlab-data (可能与其他实例冲突)
+[WARN] 2026-05-18 23:44:01    卷: devopsclaw_gitlab-logs (可能与其他实例冲突)
+[WARN] 2026-05-18 23:44:01    卷: devopsclaw_jenkins-home (可能与其他实例冲突)
+[WARN] 2026-05-18 23:44:01    卷: devopsclaw_nginx-logs (可能与其他实例冲突)
+[WARN] 2026-05-18 23:44:01    卷: devopsclaw_openclaw-data (可能与其他实例冲突)
+[WARN] 2026-05-18 23:44:01    卷: gitlab-config (可能与其他实例冲突)
+[WARN] 2026-05-18 23:44:01    卷: gitlab-data (可能与其他实例冲突)
+[WARN] 2026-05-18 23:44:01    卷: gitlab-logs (可能与其他实例冲突)
+[WARN] 2026-05-18 23:44:01    卷: jenkins-home (可能与其他实例冲突)
+[WARN] 2026-05-18 23:44:01    卷: jenkins-home_1 (可能与其他实例冲突)
+[WARN] 2026-05-18 23:44:01    卷: mantisbt-db-data (可能与其他实例冲突)
+[WARN] 2026-05-18 23:44:01    卷: mantisbt-db-data_1 (可能与其他实例冲突)
+[WARN] 2026-05-18 23:44:01    卷: mantisbt-db-data_2 (可能与其他实例冲突)
+[WARN] 2026-05-18 23:44:01    卷: mantisbt-db-data_3 (可能与其他实例冲突)
+[WARN] 2026-05-18 23:44:01    卷: mantisbt-web (可能与其他实例冲突)
+[WARN] 2026-05-18 23:44:01    卷: mantisbt-web_1 (可能与其他实例冲突)
+[WARN] 2026-05-18 23:44:01    卷: mantisbt-web_2 (可能与其他实例冲突)
+[INFO] 2026-05-18 23:44:01  已加载 .env 文件: /mnt/c/Users/Tong/Desktop/DevOpsClaw/deploy/.env
+[INFO] 2026-05-18 23:44:03  使用 IP: 172.24.219.93
+=== 2026-05-18 23:44:03  开始部署: 模式=mantisbt, 服务=['mantisbt', 'nginx']
+[INFO] 2026-05-18 23:44:03  Nginx 绑定地址: 0.0.0.0
+=== 2026-05-18 23:44:03  部署 mantisbt
+[WARN] 2026-05-18 23:44:03    [mantisbt] 卷 mantisbt-web 已存在 → 使用 mantisbt-web_3
+[WARN] 2026-05-18 23:44:03    [mantisbt] 卷 mantisbt-db-data 已存在 → 使用 mantisbt-db-data_4
+[INFO] 2026-05-18 23:44:03    卷: MANTISBT_VOLUME_WEB=mantisbt-web_3, MARIADB_VOLUME_DATA=mantisbt-db-data_4
+
+[0;34m=== 部署 MantisBT Bug 追踪系统 ===[0m
+
+[0;34m=== 部署 MantisBT MariaDB 数据库 ===[0m
+[0;32m[INFO][0m 2026-05-18 23:44:03 - 使用 Docker 命名卷存储 (推荐用于 WSL/Windows)
+[0;32m[INFO][0m 2026-05-18 23:44:03 - MantisBT DB 容器已在运行，停止并删除...
+[0;32m[INFO][0m 2026-05-18 23:44:04 - 创建 MariaDB 容器...
+[0;32m[INFO][0m 2026-05-18 23:44:10 - ✓ MariaDB 容器已启动
+[0;32m[INFO][0m 2026-05-18 23:44:10 - 等待 MariaDB 就绪...
+[0;32m[INFO][0m 2026-05-18 23:44:12 - ✓ MariaDB 已就绪
+[0;32m[INFO][0m 2026-05-18 23:44:12 - 使用 Docker 命名卷存储
+[0;32m[INFO][0m 2026-05-18 23:44:12 - MantisBT 容器已在运行，停止并删除...
+[0;32m[INFO][0m 2026-05-18 23:44:12 - 创建 MantisBT 容器...
+[0;32m[INFO][0m 2026-05-18 23:44:25 - ✓ MantisBT 容器已启动
+[0;32m[INFO][0m 2026-05-18 23:44:25 - 创建 config_inc.php（自动配置数据库连接）...
+[0;32m[INFO][0m 2026-05-18 23:44:25 - 安装 MantisBT 数据库表...
+[1;33m[WARN][0m 2026-05-18 23:44:26 -   未找到 schema 文件，尝试通过 Web 安装器...
+[0;32m[INFO][0m 2026-05-18 23:44:37 -   Web 安装器返回 HTTP 200
+[0;32m[INFO][0m 2026-05-18 23:44:37 -   安装结果: success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success success GOOD 
+[0;32m[INFO][0m 2026-05-18 23:44:40 - ✓ 数据库表安装完成 (32 张表)
+[0;32m[INFO][0m 2026-05-18 23:44:40 - 验证数据库连接...
+[0;32m[INFO][0m 2026-05-18 23:44:40 -   
+Warning: Use of undefined constant ON - assumed 'ON' (this will throw an Error in a future version of PHP) in /var/www/html/config/config_inc.php on line 12
+DB_OK tables=32
+[0;32m[INFO][0m 2026-05-18 23:44:40 - 
+[0;32m[INFO][0m 2026-05-18 23:44:40 - MantisBT 部署完成
+[0;32m[INFO][0m 2026-05-18 23:44:40 - ====================
+[INFO] 2026-05-18 23:44:40  ✓ mantisbt 部署完成
+=== 2026-05-18 23:44:40  部署 nginx
+
+[0;34m=== 检查 Docker 环境 ===[0m
+[0;32m[INFO][0m 2026-05-18 23:44:40 - Docker 已安装: Docker version 29.1.3, build 29.1.3-0ubuntu3~24.04.2
+[0;32m[INFO][0m 2026-05-18 23:44:41 - Docker Compose (standalone) 已安装: 1.29.2
+[0;32m[INFO][0m 2026-05-18 23:44:41 - 加载环境变量: /mnt/c/Users/Tong/Desktop/DevOpsClaw/deploy/.env
+
+[0;34m=== 部署 Nginx 反向代理服务 ===[0m
+
+[0;34m=== 检查 Nginx SSL 证书 ===[0m
+[0;32m[INFO][0m 2026-05-18 23:44:42 - ✓ SSL 证书已存在: jenkins.crt
+[0;32m[INFO][0m 2026-05-18 23:44:42 - ✓ SSL 证书已存在: gitlab.crt
+[0;32m[INFO][0m 2026-05-18 23:44:42 - ✓ SSL 证书已存在: agent.crt
+[0;32m[INFO][0m 2026-05-18 23:44:42 - ✓ SSL 证书已存在: mantisbt.crt
+[0;32m[INFO][0m 2026-05-18 23:44:42 - ✓ SSL 证书已存在: registry.crt
+[0;32m[INFO][0m 2026-05-18 23:44:42 - ✓ SSL 证书已存在: harbor.crt
+[0;32m[INFO][0m 2026-05-18 23:44:42 - ✓ SSL 证书已存在: sonarqube.crt
+
+[0;34m=== 生成 Nginx SSL 自签名证书 ===[0m
+[0;32m[INFO][0m 2026-05-18 23:44:42 - 跳过已存在的证书: jenkins
+[0;32m[INFO][0m 2026-05-18 23:44:42 - 跳过已存在的证书: gitlab
+[0;32m[INFO][0m 2026-05-18 23:44:42 - 跳过已存在的证书: agent
+[0;32m[INFO][0m 2026-05-18 23:44:42 - 跳过已存在的证书: mantisbt
+[0;32m[INFO][0m 2026-05-18 23:44:42 - 跳过已存在的证书: registry
+[0;32m[INFO][0m 2026-05-18 23:44:42 - 跳过已存在的证书: harbor
+[0;32m[INFO][0m 2026-05-18 23:44:42 - 跳过已存在的证书: sonarqube
+[0;32m[INFO][0m 2026-05-18 23:44:42 - SSL 证书生成完成
+[0;32m[INFO][0m 2026-05-18 23:44:42 - 证书目录: /mnt/c/Users/Tong/Desktop/DevOpsClaw/deploy/deploy_nginx/nginx/ssl
+[0;32m[INFO][0m 2026-05-18 23:44:42 - Nginx 容器已在运行，停止并删除...
+[0;32m[INFO][0m 2026-05-18 23:44:43 - 创建 Nginx 容器...
+[0;32m[INFO][0m 2026-05-18 23:44:47 - ✓ Nginx 容器已启动
+[0;32m[INFO][0m 2026-05-18 23:44:47 - 测试 Nginx 配置...
+[0;32m[INFO][0m 2026-05-18 23:44:47 - ✓ Nginx 配置语法正确
+[0;32m[INFO][0m 2026-05-18 23:44:47 - 容器: devopsagent-nginx - 运行中 ✓
+[0;32m[INFO][0m 2026-05-18 23:44:47 - 配置目录: /mnt/c/Users/Tong/Desktop/DevOpsClaw/deploy/deploy_nginx/nginx
+[0;32m[INFO][0m 2026-05-18 23:44:47 - SSL 证书目录: /mnt/c/Users/Tong/Desktop/DevOpsClaw/deploy/deploy_nginx/nginx/ssl
+[0;32m[INFO][0m 2026-05-18 23:44:47 - Nginx 部署完成!
+[INFO] 2026-05-18 23:44:47  ✓ nginx 部署完成
+=== 2026-05-18 23:44:47  配置 Nginx 反向代理
+[INFO] 2026-05-18 23:44:47  ✓ 检测到 jenkins 容器 (devopsagent-jenkins)
+[INFO] 2026-05-18 23:44:47    jenkins.conf 内容未变, 跳过
+[INFO] 2026-05-18 23:44:47  ✓ 检测到 gitlab 容器 (devopsagent-gitlab)
+[INFO] 2026-05-18 23:44:47    gitlab.conf 内容未变, 跳过
+[INFO] 2026-05-18 23:44:47  ✓ 检测到 mantisbt 容器 (devopsagent-mantisbt)
+[INFO] 2026-05-18 23:44:47    mantisbt.conf 内容未变, 跳过
+[INFO] 2026-05-18 23:44:52  ✓ Nginx 已启动
+[INFO] 2026-05-18 23:44:52  部署流程完成!
+[INFO] 2026-05-18 23:46:32  已选择: 完整部署 (Jenkins + GitLab + MantisBT + Nginx)
+[INFO] 2026-05-18 23:46:32  服务: ['jenkins', 'gitlab', 'mantisbt', 'nginx'], Nginx: True
+=== 2026-05-18 23:46:32  端口占用扫描
+[INFO] 2026-05-18 23:46:32  已占用端口: 5 个
+[WARN] 2026-05-18 23:46:32    端口 53 已被占用
+[WARN] 2026-05-18 23:46:32    端口 11434 已被占用
+[WARN] 2026-05-18 23:46:32    端口 18789 已被占用
+[WARN] 2026-05-18 23:46:32    端口 18791 已被占用
+[WARN] 2026-05-18 23:46:32    端口 34213 已被占用
+=== 2026-05-18 23:46:32  端口扫描完成
+=== 2026-05-18 23:46:32  Docker 网络扫描
+[INFO] 2026-05-18 23:46:32  Docker bridge 子网: 172.18.0.0/16
+[WARN] 2026-05-18 23:46:33  宿主路由表包含非 Docker 私有网段: ['172.24.208.1', '172.24.208.0', '172.19.0.0', '172.18.0.0']
+[INFO] 2026-05-18 23:46:33  物理网卡私有 IP: 172.24.219.93(eth0)
+=== 2026-05-18 23:46:33  Docker 网络扫描完成
+=== 2026-05-18 23:46:33  Docker 卷扫描
+[INFO] 2026-05-18 23:46:34  已发现 20 个卷
+[WARN] 2026-05-18 23:46:34    卷: devopsclaw_gitlab-config (可能与其他实例冲突)
+[WARN] 2026-05-18 23:46:34    卷: devopsclaw_gitlab-data (可能与其他实例冲突)
+[WARN] 2026-05-18 23:46:34    卷: devopsclaw_gitlab-logs (可能与其他实例冲突)
+[WARN] 2026-05-18 23:46:34    卷: devopsclaw_jenkins-home (可能与其他实例冲突)
+[WARN] 2026-05-18 23:46:34    卷: devopsclaw_nginx-logs (可能与其他实例冲突)
+[WARN] 2026-05-18 23:46:34    卷: devopsclaw_openclaw-data (可能与其他实例冲突)
+[WARN] 2026-05-18 23:46:34    卷: gitlab-config (可能与其他实例冲突)
+[WARN] 2026-05-18 23:46:34    卷: gitlab-data (可能与其他实例冲突)
+[WARN] 2026-05-18 23:46:34    卷: gitlab-logs (可能与其他实例冲突)
+[WARN] 2026-05-18 23:46:34    卷: jenkins-home (可能与其他实例冲突)
+[WARN] 2026-05-18 23:46:34    卷: jenkins-home_1 (可能与其他实例冲突)
+[WARN] 2026-05-18 23:46:34    卷: mantisbt-db-data (可能与其他实例冲突)
+[WARN] 2026-05-18 23:46:34    卷: mantisbt-db-data_1 (可能与其他实例冲突)
+[WARN] 2026-05-18 23:46:34    卷: mantisbt-db-data_2 (可能与其他实例冲突)
+[WARN] 2026-05-18 23:46:34    卷: mantisbt-db-data_3 (可能与其他实例冲突)
+[WARN] 2026-05-18 23:46:34    卷: mantisbt-db-data_4 (可能与其他实例冲突)
+[WARN] 2026-05-18 23:46:34    卷: mantisbt-web (可能与其他实例冲突)
+[WARN] 2026-05-18 23:46:34    卷: mantisbt-web_1 (可能与其他实例冲突)
+[WARN] 2026-05-18 23:46:34    卷: mantisbt-web_2 (可能与其他实例冲突)
+[WARN] 2026-05-18 23:46:34    卷: mantisbt-web_3 (可能与其他实例冲突)
+[INFO] 2026-05-18 23:46:34  已加载 .env 文件: /mnt/c/Users/Tong/Desktop/DevOpsClaw/deploy/.env
+[INFO] 2026-05-18 23:46:35  使用 IP: 172.24.219.93
+=== 2026-05-18 23:46:35  开始部署: 模式=full, 服务=['jenkins', 'gitlab', 'mantisbt', 'nginx']
+[INFO] 2026-05-18 23:46:35  Nginx 绑定地址: 0.0.0.0
+=== 2026-05-18 23:46:35  部署 jenkins
+[WARN] 2026-05-18 23:46:35    [jenkins] 卷 jenkins-home 已存在 → 使用 jenkins-home_2
+[INFO] 2026-05-18 23:46:35    卷: JENKINS_VOLUME_HOME=jenkins-home_2
+
+[0;34m=== 检查 Docker 环境 ===[0m
+[0;32m[INFO][0m 2026-05-18 23:46:35 - Docker 已安装: Docker version 29.1.3, build 29.1.3-0ubuntu3~24.04.2
+[0;32m[INFO][0m 2026-05-18 23:46:35 - Docker Compose (standalone) 已安装: 1.29.2
+[0;32m[INFO][0m 2026-05-18 23:46:36 - 加载环境变量: /mnt/c/Users/Tong/Desktop/DevOpsClaw/deploy/.env
+
+[0;34m=== 部署 Jenkins 服务 ===[0m
+[0;32m[INFO][0m 2026-05-18 23:46:36 - 使用 Docker 命名卷存储: jenkins-home_2
+[0;32m[INFO][0m 2026-05-18 23:46:36 - 创建 Jenkins 容器...
+[0;32m[INFO][0m 2026-05-18 23:46:41 - ✓ Jenkins 容器已启动
+[0;32m[INFO][0m 2026-05-18 23:46:41 - 容器: devopsagent-jenkins - 运行中 ✓
+[0;32m[INFO][0m 2026-05-18 23:46:41 - Jenkins 部署完成!
+[INFO] 2026-05-18 23:46:41  ✓ jenkins 部署完成
+=== 2026-05-18 23:46:41  部署 gitlab
+[WARN] 2026-05-18 23:46:41    [gitlab] 卷 gitlab-config 已存在 → 使用 gitlab-config_1
+[WARN] 2026-05-18 23:46:41    [gitlab] 卷 gitlab-logs 已存在 → 使用 gitlab-logs_1
+[WARN] 2026-05-18 23:46:42    [gitlab] 卷 gitlab-data 已存在 → 使用 gitlab-data_1
+[INFO] 2026-05-18 23:46:42    卷: GITLAB_VOLUME_CONFIG=gitlab-config_1, GITLAB_VOLUME_LOGS=gitlab-logs_1, GITLAB_VOLUME_DATA=gitlab-data_1
+
+[0;34m=== 检查 Docker 环境 ===[0m
+[0;32m[INFO][0m 2026-05-18 23:46:42 - Docker 已安装: Docker version 29.1.3, build 29.1.3-0ubuntu3~24.04.2
+[0;32m[INFO][0m 2026-05-18 23:46:42 - Docker Compose (standalone) 已安装: 1.29.2
+[0;32m[INFO][0m 2026-05-18 23:46:42 - 加载环境变量: /mnt/c/Users/Tong/Desktop/DevOpsClaw/deploy/.env
+
+[0;34m=== 部署 GitLab 服务 ===[0m
+[0;32m[INFO][0m 2026-05-18 23:46:43 - 使用 Docker 命名卷存储 (推荐用于 WSL/Windows)
+[0;32m[INFO][0m 2026-05-18 23:46:43 - 创建 GitLab 容器...
+[0;32m[INFO][0m 2026-05-18 23:46:54 - ✓ GitLab 容器已启动
+[1;33m[WARN][0m 2026-05-18 23:46:54 - GitLab 初始化需要 5-10 分钟，请耐心等待...
+[0;32m[INFO][0m 2026-05-18 23:46:54 - 命名卷管理命令:
+[0;32m[INFO][0m 2026-05-18 23:46:54 -   查看卷: docker volume ls
+[0;32m[INFO][0m 2026-05-18 23:46:54 -   备份数据: docker run --rm -v gitlab-data:/data -v /mnt/c/Users/Tong/Desktop/DevOpsClaw/deploy:/backup alpine tar cvzf /backup/gitlab-data-backup.tar.gz /data
+[0;32m[INFO][0m 2026-05-18 23:46:54 -   恢复数据: docker run --rm -v gitlab-data:/data -v /mnt/c/Users/Tong/Desktop/DevOpsClaw/deploy:/backup alpine tar xvzf /backup/gitlab-data-backup.tar.gz -C /
+[0;32m[INFO][0m 2026-05-18 23:46:54 - 容器: devopsagent-gitlab - 运行中 ✓
+[1;33m[WARN][0m 2026-05-18 23:46:54 - GitLab 首次初始化需要 5-10 分钟
+[0;32m[INFO][0m 2026-05-18 23:46:54 - 默认用户名: root
+[0;32m[INFO][0m 2026-05-18 23:46:54 - GitLab 部署完成!
+[INFO] 2026-05-18 23:46:54  ✓ gitlab 部署完成
+=== 2026-05-18 23:46:54  部署 mantisbt
+[WARN] 2026-05-18 23:46:54    [mantisbt] 卷 mantisbt-web 已存在 → 使用 mantisbt-web_4
+[WARN] 2026-05-18 23:46:54    [mantisbt] 卷 mantisbt-db-data 已存在 → 使用 mantisbt-db-data_5
+[INFO] 2026-05-18 23:46:54    卷: MANTISBT_VOLUME_WEB=mantisbt-web_4, MARIADB_VOLUME_DATA=mantisbt-db-data_5
+
+[0;34m=== 部署 MantisBT Bug 追踪系统 ===[0m
+
+[0;34m=== 部署 MantisBT MariaDB 数据库 ===[0m
+[0;32m[INFO][0m 2026-05-18 23:46:54 - 使用 Docker 命名卷存储 (推荐用于 WSL/Windows)
+[0;32m[INFO][0m 2026-05-18 23:46:54 - 创建 MariaDB 容器...
+[0;32m[INFO][0m 2026-05-18 23:47:00 - ✓ MariaDB 容器已启动
+[0;32m[INFO][0m 2026-05-18 23:47:00 - 等待 MariaDB 就绪...
+[0;32m[INFO][0m 2026-05-18 23:47:00 - ✓ MariaDB 已就绪
+[0;32m[INFO][0m 2026-05-18 23:47:00 - 使用 Docker 命名卷存储
+[0;32m[INFO][0m 2026-05-18 23:47:00 - MantisBT 容器已在运行，停止并删除...
+[0;32m[INFO][0m 2026-05-18 23:47:00 - 创建 MantisBT 容器...
+[0;32m[INFO][0m 2026-05-18 23:47:12 - ✓ MantisBT 容器已启动
+[0;32m[INFO][0m 2026-05-18 23:47:12 - 创建 config_inc.php（自动配置数据库连接）...
+[0;32m[INFO][0m 2026-05-18 23:47:12 - 安装 MantisBT 数据库表...
+[1;33m[WARN][0m 2026-05-18 23:47:12 -   未找到 schema 文件，尝试通过 Web 安装器...
+[0;32m[INFO][0m 2026-05-18 23:47:23 -   Web 安装器返回 HTTP 200
+[0;32m[INFO][0m 2026-05-18 23:47:23 -   安装结果: success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success success GOOD 
+[0;32m[INFO][0m 2026-05-18 23:47:26 - ✓ 数据库表安装完成 (32 张表)
+[0;32m[INFO][0m 2026-05-18 23:47:26 - 验证数据库连接...
+[0;32m[INFO][0m 2026-05-18 23:47:26 -   
+Warning: Use of undefined constant ON - assumed 'ON' (this will throw an Error in a future version of PHP) in /var/www/html/config/config_inc.php on line 12
+DB_OK tables=32
+[0;32m[INFO][0m 2026-05-18 23:47:26 - 
+[0;32m[INFO][0m 2026-05-18 23:47:26 - MantisBT 部署完成
+[0;32m[INFO][0m 2026-05-18 23:47:26 - ====================
+[INFO] 2026-05-18 23:47:26  ✓ mantisbt 部署完成
+=== 2026-05-18 23:47:26  部署 nginx
+
+[0;34m=== 检查 Docker 环境 ===[0m
+[0;32m[INFO][0m 2026-05-18 23:47:26 - Docker 已安装: Docker version 29.1.3, build 29.1.3-0ubuntu3~24.04.2
+[0;32m[INFO][0m 2026-05-18 23:47:27 - Docker Compose (standalone) 已安装: 1.29.2
+[0;32m[INFO][0m 2026-05-18 23:47:27 - 加载环境变量: /mnt/c/Users/Tong/Desktop/DevOpsClaw/deploy/.env
+
+[0;34m=== 部署 Nginx 反向代理服务 ===[0m
+
+[0;34m=== 检查 Nginx SSL 证书 ===[0m
+[0;32m[INFO][0m 2026-05-18 23:47:27 - ✓ SSL 证书已存在: jenkins.crt
+[0;32m[INFO][0m 2026-05-18 23:47:27 - ✓ SSL 证书已存在: gitlab.crt
+[0;32m[INFO][0m 2026-05-18 23:47:27 - ✓ SSL 证书已存在: agent.crt
+[0;32m[INFO][0m 2026-05-18 23:47:27 - ✓ SSL 证书已存在: mantisbt.crt
+[0;32m[INFO][0m 2026-05-18 23:47:27 - ✓ SSL 证书已存在: registry.crt
+[0;32m[INFO][0m 2026-05-18 23:47:27 - ✓ SSL 证书已存在: harbor.crt
+[0;32m[INFO][0m 2026-05-18 23:47:27 - ✓ SSL 证书已存在: sonarqube.crt
+
+[0;34m=== 生成 Nginx SSL 自签名证书 ===[0m
+[0;32m[INFO][0m 2026-05-18 23:47:27 - 跳过已存在的证书: jenkins
+[0;32m[INFO][0m 2026-05-18 23:47:27 - 跳过已存在的证书: gitlab
+[0;32m[INFO][0m 2026-05-18 23:47:27 - 跳过已存在的证书: agent
+[0;32m[INFO][0m 2026-05-18 23:47:27 - 跳过已存在的证书: mantisbt
+[0;32m[INFO][0m 2026-05-18 23:47:27 - 跳过已存在的证书: registry
+[0;32m[INFO][0m 2026-05-18 23:47:27 - 跳过已存在的证书: harbor
+[0;32m[INFO][0m 2026-05-18 23:47:27 - 跳过已存在的证书: sonarqube
+[0;32m[INFO][0m 2026-05-18 23:47:27 - SSL 证书生成完成
+[0;32m[INFO][0m 2026-05-18 23:47:27 - 证书目录: /mnt/c/Users/Tong/Desktop/DevOpsClaw/deploy/deploy_nginx/nginx/ssl
+[0;32m[INFO][0m 2026-05-18 23:47:27 - 创建 Nginx 容器...
+[0;32m[INFO][0m 2026-05-18 23:47:31 - ✓ Nginx 容器已启动
+[0;32m[INFO][0m 2026-05-18 23:47:31 - 测试 Nginx 配置...
+[0;32m[INFO][0m 2026-05-18 23:47:31 - ✓ Nginx 配置语法正确
+[0;32m[INFO][0m 2026-05-18 23:47:31 - 容器: devopsagent-nginx - 运行中 ✓
+[0;32m[INFO][0m 2026-05-18 23:47:31 - 配置目录: /mnt/c/Users/Tong/Desktop/DevOpsClaw/deploy/deploy_nginx/nginx
+[0;32m[INFO][0m 2026-05-18 23:47:31 - SSL 证书目录: /mnt/c/Users/Tong/Desktop/DevOpsClaw/deploy/deploy_nginx/nginx/ssl
+[0;32m[INFO][0m 2026-05-18 23:47:31 - Nginx 部署完成!
+[INFO] 2026-05-18 23:47:31  ✓ nginx 部署完成
+=== 2026-05-18 23:47:31  配置 Nginx 反向代理
+[INFO] 2026-05-18 23:47:31  ✓ 检测到 jenkins 容器 (devopsagent-jenkins)
+[INFO] 2026-05-18 23:47:31    jenkins.conf 内容未变, 跳过
+[INFO] 2026-05-18 23:47:31  ✓ 检测到 gitlab 容器 (devopsagent-gitlab)
+[INFO] 2026-05-18 23:47:31    gitlab.conf 内容未变, 跳过
+[INFO] 2026-05-18 23:47:31  ✓ 检测到 mantisbt 容器 (devopsagent-mantisbt)
+[INFO] 2026-05-18 23:47:31    mantisbt.conf 内容未变, 跳过
+[INFO] 2026-05-18 23:47:36  ✓ Nginx 已启动
+[INFO] 2026-05-18 23:47:37  Jenkins 初始密码: fe7e26f943524d32b8641aa101a113a8
+[WARN] 2026-05-18 23:47:37  无法获取 GitLab 密码 (容器可能未运行或密码文件已过期)
+[INFO] 2026-05-18 23:47:37  部署流程完成!
+[ERROR] 2026-05-21 19:28:31  此脚本需要 root 权限运行
+[INFO] 2026-05-21 19:28:31  请使用: sudo python3 deploy_all.py
+[INFO] 2026-05-21 19:28:44  已选择: 完整部署 (Jenkins + GitLab + MantisBT + Nginx)
+[INFO] 2026-05-21 19:28:44  服务: ['jenkins', 'gitlab', 'mantisbt', 'nginx'], Nginx: True
+=== 2026-05-21 19:28:44  端口占用扫描
+[INFO] 2026-05-21 19:28:44  已占用端口: 12 个
+[WARN] 2026-05-21 19:28:44    端口 53 已被占用
+[WARN] 2026-05-21 19:28:44    端口 2222 已被占用
+[WARN] 2026-05-21 19:28:44    端口 3307 已被占用
+[WARN] 2026-05-21 19:28:44    端口 8081 已被占用
+[WARN] 2026-05-21 19:28:44    端口 8082 已被占用
+[WARN] 2026-05-21 19:28:44    端口 8443 已被占用
+[WARN] 2026-05-21 19:28:44    端口 11434 已被占用
+[WARN] 2026-05-21 19:28:44    端口 18789 已被占用
+[WARN] 2026-05-21 19:28:44    端口 18791 已被占用
+[WARN] 2026-05-21 19:28:44    端口 19093 已被占用
+[WARN] 2026-05-21 19:28:44    端口 43831 已被占用
+[WARN] 2026-05-21 19:28:44    端口 50000 已被占用
+[WARN] 2026-05-21 19:28:44    [jenkins/agent] 50000 已被占用 → 自动分配 50001
+[WARN] 2026-05-21 19:28:44    [gitlab/ssh] 2222 已被占用 → 自动分配 2223
+[WARN] 2026-05-21 19:28:44    [mantisbt/web] 19093 已被占用 → 自动分配 19094
+[WARN] 2026-05-21 19:28:44    [mariadb/db] 3307 已被占用 → 自动分配 3308
+=== 2026-05-21 19:28:44  端口扫描完成
+[INFO] 2026-05-21 19:28:44  端口分配已写入: /mnt/c/Users/Tong/Desktop/DevOpsAgent/deploy/.env.auto
+=== 2026-05-21 19:28:44  Docker 网络扫描
+[INFO] 2026-05-21 19:28:44  Docker bridge 子网: 172.18.0.0/16
+[WARN] 2026-05-21 19:28:44  宿主路由表包含非 Docker 私有网段: ['172.18.0.0', '172.24.208.0', '172.24.208.1', '172.19.0.0']
+[INFO] 2026-05-21 19:28:44  物理网卡私有 IP: 172.24.219.93(eth0)
+=== 2026-05-21 19:28:44  Docker 网络扫描完成
+=== 2026-05-21 19:28:44  Docker 卷扫描
+[INFO] 2026-05-21 19:28:46  已发现 23 个卷
+[WARN] 2026-05-21 19:28:46    卷: devopsclaw_gitlab-config (可能与其他实例冲突)
+[WARN] 2026-05-21 19:28:46    卷: devopsclaw_gitlab-data (可能与其他实例冲突)
+[WARN] 2026-05-21 19:28:46    卷: devopsclaw_gitlab-logs (可能与其他实例冲突)
+[WARN] 2026-05-21 19:28:46    卷: devopsclaw_jenkins-home (可能与其他实例冲突)
+[WARN] 2026-05-21 19:28:46    卷: devopsclaw_nginx-logs (可能与其他实例冲突)
+[WARN] 2026-05-21 19:28:46    卷: devopsclaw_openclaw-data (可能与其他实例冲突)
+[WARN] 2026-05-21 19:28:46    卷: gitlab-config (可能与其他实例冲突)
+[WARN] 2026-05-21 19:28:46    卷: gitlab-data (可能与其他实例冲突)
+[WARN] 2026-05-21 19:28:46    卷: gitlab-logs (可能与其他实例冲突)
+[WARN] 2026-05-21 19:28:46    卷: jenkins-home (可能与其他实例冲突)
+[WARN] 2026-05-21 19:28:46    卷: jenkins-home_1 (可能与其他实例冲突)
+[WARN] 2026-05-21 19:28:46    卷: jenkins-home_2 (可能与其他实例冲突)
+[WARN] 2026-05-21 19:28:46    卷: mantisbt-db-data (可能与其他实例冲突)
+[WARN] 2026-05-21 19:28:46    卷: mantisbt-db-data_1 (可能与其他实例冲突)
+[WARN] 2026-05-21 19:28:46    卷: mantisbt-db-data_2 (可能与其他实例冲突)
+[WARN] 2026-05-21 19:28:46    卷: mantisbt-db-data_3 (可能与其他实例冲突)
+[WARN] 2026-05-21 19:28:46    卷: mantisbt-db-data_4 (可能与其他实例冲突)
+[WARN] 2026-05-21 19:28:46    卷: mantisbt-db-data_5 (可能与其他实例冲突)
+[WARN] 2026-05-21 19:28:46    卷: mantisbt-web (可能与其他实例冲突)
+[WARN] 2026-05-21 19:28:46    卷: mantisbt-web_1 (可能与其他实例冲突)
+[WARN] 2026-05-21 19:28:46    卷: mantisbt-web_2 (可能与其他实例冲突)
+[WARN] 2026-05-21 19:28:46    卷: mantisbt-web_3 (可能与其他实例冲突)
+[WARN] 2026-05-21 19:28:46    卷: mantisbt-web_4 (可能与其他实例冲突)
+[INFO] 2026-05-21 19:28:46  已加载 .env 文件: /mnt/c/Users/Tong/Desktop/DevOpsAgent/deploy/.env
+[INFO] 2026-05-21 19:28:48  使用 IP: 172.24.219.93
+[INFO] 2026-05-21 19:28:48  GitLab HTTPS 反向代理地址: https://172.24.219.93:18441
+[INFO] 2026-05-21 19:28:48  MantisBT HTTPS 反向代理地址: https://172.24.219.93:18443
+[INFO] 2026-05-21 19:28:48  Jenkins HTTPS 反向代理地址: https://172.24.219.93:18440/jenkins
+=== 2026-05-21 19:28:48  开始部署: 模式=full, 服务=['jenkins', 'gitlab', 'mantisbt', 'nginx']
+[INFO] 2026-05-21 19:28:48  Nginx 绑定地址: 0.0.0.0
+=== 2026-05-21 19:28:48  部署 jenkins
+[WARN] 2026-05-21 19:28:48    [jenkins] 卷 jenkins-home 已存在 → 使用 jenkins-home_3
+[INFO] 2026-05-21 19:28:48    卷: JENKINS_VOLUME_HOME=jenkins-home_3
+
+[0;34m=== 检查 Docker 环境 ===[0m
+[0;32m[INFO][0m 2026-05-21 19:28:48 - Docker 已安装: Docker version 29.1.3, build 29.1.3-0ubuntu3~24.04.2
+[0;32m[INFO][0m 2026-05-21 19:28:49 - Docker Compose (standalone) 已安装: 1.29.2
+[0;32m[INFO][0m 2026-05-21 19:28:49 - 加载环境变量: /mnt/c/Users/Tong/Desktop/DevOpsAgent/deploy/.env
+
+[0;34m=== 部署 Jenkins 服务 ===[0m
+[0;32m[INFO][0m 2026-05-21 19:28:49 - 使用 Docker 命名卷存储: jenkins-home_3
+[0;32m[INFO][0m 2026-05-21 19:28:49 - Jenkins 容器已在运行，停止并删除...
+[0;32m[INFO][0m 2026-05-21 19:28:51 - 创建 Jenkins 容器...
+[0;32m[INFO][0m 2026-05-21 19:28:56 - ✓ Jenkins 容器已启动
+[0;32m[INFO][0m 2026-05-21 19:28:56 - 容器: devopsagent-jenkins - 运行中 ✓
+[0;32m[INFO][0m 2026-05-21 19:28:56 - Jenkins 部署完成!
+[INFO] 2026-05-21 19:28:56  ✓ jenkins 部署完成
+=== 2026-05-21 19:28:56  部署 gitlab
+[WARN] 2026-05-21 19:28:56    [gitlab] 卷 gitlab-config 已存在 → 使用 gitlab-config_1
+[WARN] 2026-05-21 19:28:56    [gitlab] 卷 gitlab-logs 已存在 → 使用 gitlab-logs_1
+[WARN] 2026-05-21 19:28:56    [gitlab] 卷 gitlab-data 已存在 → 使用 gitlab-data_1
+[INFO] 2026-05-21 19:28:57    卷: GITLAB_VOLUME_CONFIG=gitlab-config_1, GITLAB_VOLUME_LOGS=gitlab-logs_1, GITLAB_VOLUME_DATA=gitlab-data_1
+
+[0;34m=== 检查 Docker 环境 ===[0m
+[0;32m[INFO][0m 2026-05-21 19:28:57 - Docker 已安装: Docker version 29.1.3, build 29.1.3-0ubuntu3~24.04.2
+[0;32m[INFO][0m 2026-05-21 19:28:57 - Docker Compose (standalone) 已安装: 1.29.2
+[0;32m[INFO][0m 2026-05-21 19:28:57 - 加载环境变量: /mnt/c/Users/Tong/Desktop/DevOpsAgent/deploy/.env
+
+[0;34m=== 部署 GitLab 服务 ===[0m
+[0;32m[INFO][0m 2026-05-21 19:28:57 - 使用 Docker 命名卷存储 (推荐用于 WSL/Windows)
+[0;32m[INFO][0m 2026-05-21 19:28:57 - GitLab 容器已在运行，停止并删除...
+[0;32m[INFO][0m 2026-05-21 19:29:09 - 创建 GitLab 容器...
+[0;32m[INFO][0m 2026-05-21 19:29:19 - ✓ GitLab 容器已启动
+[1;33m[WARN][0m 2026-05-21 19:29:19 - GitLab 初始化需要 5-10 分钟，请耐心等待...
+[0;32m[INFO][0m 2026-05-21 19:29:19 - 命名卷管理命令:
+[0;32m[INFO][0m 2026-05-21 19:29:19 -   查看卷: docker volume ls
+[0;32m[INFO][0m 2026-05-21 19:29:19 -   备份数据: docker run --rm -v gitlab-data_1:/data -v /mnt/c/Users/Tong/Desktop/DevOpsAgent/deploy:/backup alpine tar cvzf /backup/gitlab-data-backup.tar.gz /data
+[0;32m[INFO][0m 2026-05-21 19:29:19 -   恢复数据: docker run --rm -v gitlab-data_1:/data -v /mnt/c/Users/Tong/Desktop/DevOpsAgent/deploy:/backup alpine tar xvzf /backup/gitlab-data-backup.tar.gz -C /
+[0;32m[INFO][0m 2026-05-21 19:29:19 - 容器: devopsagent-gitlab - 运行中 ✓
+[1;33m[WARN][0m 2026-05-21 19:29:19 - GitLab 首次初始化需要 5-10 分钟
+[0;32m[INFO][0m 2026-05-21 19:29:19 - 默认用户名: root
+[0;32m[INFO][0m 2026-05-21 19:29:19 - GitLab 部署完成!
+[INFO] 2026-05-21 19:29:19  ✓ gitlab 部署完成
+=== 2026-05-21 19:29:19  部署 mantisbt
+[WARN] 2026-05-21 19:29:19    [mantisbt] 卷 mantisbt-web 已存在 → 使用 mantisbt-web_5
+[WARN] 2026-05-21 19:29:19    [mantisbt] 卷 mantisbt-db-data 已存在 → 使用 mantisbt-db-data_6
+[INFO] 2026-05-21 19:29:19    卷: MANTISBT_VOLUME_WEB=mantisbt-web_5, MARIADB_VOLUME_DATA=mantisbt-db-data_6
+
+[0;34m=== 部署 MantisBT Bug 追踪系统 ===[0m
+
+[0;34m=== 部署 MantisBT MariaDB 数据库 ===[0m
+[0;32m[INFO][0m 2026-05-21 19:29:19 - 使用 Docker 命名卷存储 (推荐用于 WSL/Windows)
+[0;32m[INFO][0m 2026-05-21 19:29:19 - MantisBT DB 容器已在运行，停止并删除...
+[0;32m[INFO][0m 2026-05-21 19:29:21 - 创建 MariaDB 容器...
+[0;32m[INFO][0m 2026-05-21 19:29:26 - ✓ MariaDB 容器已启动
+[0;32m[INFO][0m 2026-05-21 19:29:26 - 等待 MariaDB 就绪...
+[0;32m[INFO][0m 2026-05-21 19:29:29 - ✓ MariaDB 已就绪
+[0;32m[INFO][0m 2026-05-21 19:29:29 - 使用 Docker 命名卷存储
+[0;32m[INFO][0m 2026-05-21 19:29:29 - MantisBT 容器已在运行，停止并删除...
+[0;32m[INFO][0m 2026-05-21 19:29:30 - 创建 MantisBT 容器...
+[0;32m[INFO][0m 2026-05-21 19:29:42 - ✓ MantisBT 容器已启动
+[0;32m[INFO][0m 2026-05-21 19:29:42 - 创建 config_inc.php（自动配置数据库连接）...
+[0;32m[INFO][0m 2026-05-21 19:29:42 - 安装 MantisBT 数据库表...
+[1;33m[WARN][0m 2026-05-21 19:29:43 -   未找到 schema 文件，尝试通过 Web 安装器...
+[0;32m[INFO][0m 2026-05-21 19:29:43 -   Web 安装器返回 HTTP 200
+[0;32m[INFO][0m 2026-05-21 19:29:43 -   安装结果: success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD BAD fail 
+[1;33m[WARN][0m 2026-05-21 19:29:46 - 数据库表可能未完全安装，请访问 Web 界面手动完成
+[0;31m[ERROR][0m 2026-05-21 19:29:46 - 数据库初始化不完整: 缺少 MantisBT 用户表 (mantis_user_table 或 mantis_user)
+[0;31m[ERROR][0m 2026-05-21 19:29:46 - 请检查 MantisBT schema 导入或 Web 安装器输出
+[WARN] 2026-05-21 19:29:46  mantisbt 部署脚本返回 exit=1, 检查容器是否已在运行...
+[ERROR] 2026-05-21 19:29:46  mantisbt 部署脚本失败，可能是数据库初始化或管理员账号配置失败
+[INFO] 2026-05-21 19:29:46  
+[0;34m=== 部署 MantisBT Bug 追踪系统 ===[0m
+
+[0;34m=== 部署 MantisBT MariaDB 数据库 ===[0m
+[0;32m[INFO][0m 2026-05-21 19:29:19 - 使用 Docker 命名卷存储 (推荐用于 WSL/Windows)
+[0;32m[INFO][0m 2026-05-21 19:29:19 - MantisBT DB 容器已在运行，停止并删除...
+devopsagent-mantisbt-db
+devopsagent-mantisbt-db
+[0;32m[INFO][0m 2026-05-21 19:29:21 - 创建 MariaDB 容器...
+  - 端口: 127.0.0.1:3308 -> 3306
+  - 数据库: mantisbt
+  - 用户: mantisbt
+ff720bb93ddcca42689fc5f67c53b4aa79a7dc50eb6a287abc8c0a0239c4b023
+[0;32m[INFO][0m 2026-05-21 19:29:26 - ✓ MariaDB 容器已启动
+[0;32m[INFO][0m 2026-05-21 19:29:26 - 等待 MariaDB 就绪...
+[0;32m[INFO][0m 2026-05-21 19:29:29 - ✓ MariaDB 已就绪
+[0;32m[INFO][0m 2026-05-21 19:29:29 - 使用 Docker 命名卷存储
+[0;32m[INFO][0m 2026-05-21 19:29:29 - MantisBT 容器已在运行，停止并删除...
+devopsagent-mantisbt
+devopsagent-mantisbt
+[0;32m[INFO][0m 2026-05-21 19:29:30 - 创建 MantisBT 容器...
+  - 端口: 127.0.0.1:19094 -> 80
+  - 数据库主机: devopsagent-mantisbt-db
+  - 数据库端口: 3306
+  - 数据库名: mantisbt
+8485d5b98bf217345cda3af7eab22ab58aa4b5969b9c1799c64ee1ac3d04223f
+[0;32m[INFO][0m 2026-05-21 19:29:42 - ✓ MantisBT 容器已启动
+[0;32m[INFO][0m 2026-05-21 19:29:42 - 创建 config_inc.php（自动配置数据库连接）...
+[0;32m[INFO][0m 2026-05-21 19:29:42 - 安装 MantisBT 数据库表...
+[1;33m[WARN][0m 2026-05-21 19:29:43 -   未找到 schema 文件，尝试通过 Web 安装器...
+[0;32m[INFO][0m 2026-05-21 19:29:43 -   Web 安装器返回 HTTP 200
+[0;32m[INFO][0m 2026-05-21 19:29:43 -   安装结果: success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD BAD fail 
+[1;33m[WARN][0m 2026-05-21 19:29:46 - 数据库表可能未完全安装，请访问 Web 界面手动完成
+[0;31m[ERROR][0m 2026-05-21 19:29:46 - 数据库初始化不完整: 缺少 MantisBT 用户表 (mantis_user_table 或 mantis_user)
+[0;31m[ERROR][0m 2026-05-21 19:29:46 - 请检查 MantisBT schema 导入或 Web 安装器输出
+
+[ERROR] 2026-05-21 19:29:46  部署过程中出现错误, 请检查日志
+[INFO] 2026-05-21 19:48:46  已选择: 完整部署 (Jenkins + GitLab + MantisBT + Nginx)
+[INFO] 2026-05-21 19:48:46  服务: ['jenkins', 'gitlab', 'mantisbt', 'nginx'], Nginx: True
+=== 2026-05-21 19:48:46  端口占用扫描
+[INFO] 2026-05-21 19:48:46  已占用端口: 12 个
+[WARN] 2026-05-21 19:48:46    端口 53 已被占用
+[WARN] 2026-05-21 19:48:46    端口 2223 已被占用
+[WARN] 2026-05-21 19:48:46    端口 3308 已被占用
+[WARN] 2026-05-21 19:48:46    端口 11434 已被占用
+[WARN] 2026-05-21 19:48:46    端口 18081 已被占用
+[WARN] 2026-05-21 19:48:46    端口 18789 已被占用
+[WARN] 2026-05-21 19:48:46    端口 18791 已被占用
+[WARN] 2026-05-21 19:48:46    端口 19092 已被占用
+[WARN] 2026-05-21 19:48:46    端口 19094 已被占用
+[WARN] 2026-05-21 19:48:46    端口 19443 已被占用
+[WARN] 2026-05-21 19:48:46    端口 43831 已被占用
+[WARN] 2026-05-21 19:48:46    端口 50001 已被占用
+[WARN] 2026-05-21 19:48:46    [jenkins/web] 18081 已被占用 → 自动分配 18082
+[WARN] 2026-05-21 19:48:46    [gitlab/http] 19092 已被占用 → 自动分配 19093
+[WARN] 2026-05-21 19:48:46    [gitlab/https] 19443 已被占用 → 自动分配 19444
+[WARN] 2026-05-21 19:48:46    [mantisbt/web] 19093 已被占用 → 自动分配 19095
+=== 2026-05-21 19:48:46  端口扫描完成
+[INFO] 2026-05-21 19:48:46  端口分配已写入: /mnt/c/Users/Tong/Desktop/DevOpsAgent/deploy/.env.auto
+=== 2026-05-21 19:48:46  Docker 网络扫描
+[INFO] 2026-05-21 19:48:46  Docker bridge 子网: 172.18.0.0/16
+[WARN] 2026-05-21 19:48:47  宿主路由表包含非 Docker 私有网段: ['172.24.208.1', '172.19.0.0', '172.18.0.0', '172.24.208.0']
+[INFO] 2026-05-21 19:48:47  物理网卡私有 IP: 172.24.219.93(eth0)
+=== 2026-05-21 19:48:47  Docker 网络扫描完成
+=== 2026-05-21 19:48:47  Docker 卷扫描
+[INFO] 2026-05-21 19:48:49  已发现 25 个卷
+[WARN] 2026-05-21 19:48:49    卷: devopsclaw_gitlab-data (可能与其他实例冲突)
+[WARN] 2026-05-21 19:48:49    卷: devopsclaw_gitlab-logs (可能与其他实例冲突)
+[WARN] 2026-05-21 19:48:49    卷: devopsclaw_jenkins-home (可能与其他实例冲突)
+[WARN] 2026-05-21 19:48:49    卷: devopsclaw_nginx-logs (可能与其他实例冲突)
+[WARN] 2026-05-21 19:48:49    卷: devopsclaw_openclaw-data (可能与其他实例冲突)
+[WARN] 2026-05-21 19:48:49    卷: gitlab-config_1 (可能与其他实例冲突)
+[WARN] 2026-05-21 19:48:49    卷: gitlab-data (可能与其他实例冲突)
+[WARN] 2026-05-21 19:48:49    卷: gitlab-data_1 (可能与其他实例冲突)
+[WARN] 2026-05-21 19:48:49    卷: gitlab-logs (可能与其他实例冲突)
+[WARN] 2026-05-21 19:48:49    卷: gitlab-logs_1 (可能与其他实例冲突)
+[WARN] 2026-05-21 19:48:49    卷: jenkins-home (可能与其他实例冲突)
+[WARN] 2026-05-21 19:48:49    卷: jenkins-home_1 (可能与其他实例冲突)
+[WARN] 2026-05-21 19:48:49    卷: jenkins-home_2 (可能与其他实例冲突)
+[WARN] 2026-05-21 19:48:49    卷: jenkins-home_3 (可能与其他实例冲突)
+[WARN] 2026-05-21 19:48:49    卷: mantisbt-db-data (可能与其他实例冲突)
+[WARN] 2026-05-21 19:48:49    卷: mantisbt-db-data_1 (可能与其他实例冲突)
+[WARN] 2026-05-21 19:48:49    卷: mantisbt-db-data_2 (可能与其他实例冲突)
+[WARN] 2026-05-21 19:48:49    卷: mantisbt-db-data_4 (可能与其他实例冲突)
+[WARN] 2026-05-21 19:48:49    卷: mantisbt-db-data_5 (可能与其他实例冲突)
+[WARN] 2026-05-21 19:48:49    卷: mantisbt-db-data_6 (可能与其他实例冲突)
+[WARN] 2026-05-21 19:48:49    卷: mantisbt-web (可能与其他实例冲突)
+[WARN] 2026-05-21 19:48:49    卷: mantisbt-web_1 (可能与其他实例冲突)
+[WARN] 2026-05-21 19:48:49    卷: mantisbt-web_3 (可能与其他实例冲突)
+[WARN] 2026-05-21 19:48:49    卷: mantisbt-web_4 (可能与其他实例冲突)
+[WARN] 2026-05-21 19:48:49    卷: mantisbt-web_5 (可能与其他实例冲突)
+[INFO] 2026-05-21 19:48:49  已加载 .env 文件: /mnt/c/Users/Tong/Desktop/DevOpsAgent/deploy/.env
+[INFO] 2026-05-21 19:59:21  使用 IP: 172.24.219.93
+[INFO] 2026-05-21 19:59:21  GitLab HTTPS 反向代理地址: https://172.24.219.93:18441
+[INFO] 2026-05-21 19:59:21  MantisBT HTTPS 反向代理地址: https://172.24.219.93:18443
+[INFO] 2026-05-21 19:59:21  Jenkins HTTPS 反向代理地址: https://172.24.219.93:18440/jenkins
+=== 2026-05-21 19:59:21  开始部署: 模式=full, 服务=['jenkins', 'gitlab', 'mantisbt', 'nginx']
+[INFO] 2026-05-21 19:59:21  Nginx 绑定地址: 172.24.219.93
+=== 2026-05-21 19:59:21  部署 jenkins
+[WARN] 2026-05-21 19:59:21    [jenkins] 卷 jenkins-home 已存在 → 使用 jenkins-home_4
+[INFO] 2026-05-21 19:59:21    卷: JENKINS_VOLUME_HOME=jenkins-home_4
+
+[0;34m=== 检查 Docker 环境 ===[0m
+[0;32m[INFO][0m 2026-05-21 19:59:21 - Docker 已安装: Docker version 29.1.3, build 29.1.3-0ubuntu3~24.04.2
+[0;32m[INFO][0m 2026-05-21 19:59:22 - Docker Compose (standalone) 已安装: 1.29.2
+[0;32m[INFO][0m 2026-05-21 19:59:22 - 加载环境变量: /mnt/c/Users/Tong/Desktop/DevOpsAgent/deploy/.env
+
+[0;34m=== 部署 Jenkins 服务 ===[0m
+[0;32m[INFO][0m 2026-05-21 19:59:22 - 使用 Docker 命名卷存储: jenkins-home_4
+[0;32m[INFO][0m 2026-05-21 19:59:22 - Jenkins 容器已在运行，停止并删除...
+[0;32m[INFO][0m 2026-05-21 19:59:25 - 创建 Jenkins 容器...
+[0;32m[INFO][0m 2026-05-21 19:59:31 - ✓ Jenkins 容器已启动
+[0;32m[INFO][0m 2026-05-21 19:59:31 - 容器: devopsagent-jenkins - 运行中 ✓
+[0;32m[INFO][0m 2026-05-21 19:59:31 - Jenkins 部署完成!
+[INFO] 2026-05-21 19:59:31  ✓ jenkins 部署完成
+=== 2026-05-21 19:59:31  部署 gitlab
+[WARN] 2026-05-21 19:59:31    [gitlab] 卷 gitlab-logs 已存在 → 使用 gitlab-logs_2
+[WARN] 2026-05-21 19:59:32    [gitlab] 卷 gitlab-data 已存在 → 使用 gitlab-data_2
+[INFO] 2026-05-21 19:59:32    卷: GITLAB_VOLUME_CONFIG=gitlab-config, GITLAB_VOLUME_LOGS=gitlab-logs_2, GITLAB_VOLUME_DATA=gitlab-data_2
+
+[0;34m=== 检查 Docker 环境 ===[0m
+[0;32m[INFO][0m 2026-05-21 19:59:32 - Docker 已安装: Docker version 29.1.3, build 29.1.3-0ubuntu3~24.04.2
+[0;32m[INFO][0m 2026-05-21 19:59:32 - Docker Compose (standalone) 已安装: 1.29.2
+[0;32m[INFO][0m 2026-05-21 19:59:32 - 加载环境变量: /mnt/c/Users/Tong/Desktop/DevOpsAgent/deploy/.env
+
+[0;34m=== 部署 GitLab 服务 ===[0m
+[0;32m[INFO][0m 2026-05-21 19:59:33 - 使用 Docker 命名卷存储 (推荐用于 WSL/Windows)
+[0;32m[INFO][0m 2026-05-21 19:59:33 - GitLab 容器已在运行，停止并删除...
+[0;32m[INFO][0m 2026-05-21 19:59:45 - 创建 GitLab 容器...
+[0;32m[INFO][0m 2026-05-21 19:59:55 - ✓ GitLab 容器已启动
+[1;33m[WARN][0m 2026-05-21 19:59:55 - GitLab 初始化需要 5-10 分钟，请耐心等待...
+[0;32m[INFO][0m 2026-05-21 19:59:55 - 命名卷管理命令:
+[0;32m[INFO][0m 2026-05-21 19:59:55 -   查看卷: docker volume ls
+[0;32m[INFO][0m 2026-05-21 19:59:55 -   备份数据: docker run --rm -v gitlab-data_2:/data -v /mnt/c/Users/Tong/Desktop/DevOpsAgent/deploy:/backup alpine tar cvzf /backup/gitlab-data-backup.tar.gz /data
+[0;32m[INFO][0m 2026-05-21 19:59:55 -   恢复数据: docker run --rm -v gitlab-data_2:/data -v /mnt/c/Users/Tong/Desktop/DevOpsAgent/deploy:/backup alpine tar xvzf /backup/gitlab-data-backup.tar.gz -C /
+[0;32m[INFO][0m 2026-05-21 19:59:55 - 容器: devopsagent-gitlab - 运行中 ✓
+[1;33m[WARN][0m 2026-05-21 19:59:55 - GitLab 首次初始化需要 5-10 分钟
+[0;32m[INFO][0m 2026-05-21 19:59:55 - 默认用户名: root
+[0;32m[INFO][0m 2026-05-21 19:59:55 - GitLab 部署完成!
+[INFO] 2026-05-21 19:59:55  ✓ gitlab 部署完成
+=== 2026-05-21 19:59:55  部署 mantisbt
+[WARN] 2026-05-21 19:59:55    [mantisbt] 卷 mantisbt-web 已存在 → 使用 mantisbt-web_2
+[WARN] 2026-05-21 19:59:55    [mantisbt] 卷 mantisbt-db-data 已存在 → 使用 mantisbt-db-data_3
+[INFO] 2026-05-21 19:59:55    卷: MANTISBT_VOLUME_WEB=mantisbt-web_2, MARIADB_VOLUME_DATA=mantisbt-db-data_3
+
+[0;34m=== 部署 MantisBT Bug 追踪系统 ===[0m
+
+[0;34m=== 部署 MantisBT MariaDB 数据库 ===[0m
+[0;32m[INFO][0m 2026-05-21 19:59:55 - 使用 Docker 命名卷存储 (推荐用于 WSL/Windows)
+[0;32m[INFO][0m 2026-05-21 19:59:56 - MantisBT DB 容器已在运行，停止并删除...
+[0;32m[INFO][0m 2026-05-21 19:59:57 - 创建 MariaDB 容器...
+[0;32m[INFO][0m 2026-05-21 20:00:02 - ✓ MariaDB 容器已启动
+[0;32m[INFO][0m 2026-05-21 20:00:02 - 等待 MariaDB 就绪...
+[0;32m[INFO][0m 2026-05-21 20:00:02 - ✓ MariaDB 已就绪
+[0;32m[INFO][0m 2026-05-21 20:00:02 - 使用 Docker 命名卷存储
+[0;32m[INFO][0m 2026-05-21 20:00:02 - MantisBT 容器已在运行，停止并删除...
+[0;32m[INFO][0m 2026-05-21 20:00:04 - 创建 MantisBT 容器...
+[0;32m[INFO][0m 2026-05-21 20:00:16 - ✓ MantisBT 容器已启动
+[0;32m[INFO][0m 2026-05-21 20:00:16 - 创建 config_inc.php（自动配置数据库连接）...
+[0;32m[INFO][0m 2026-05-21 20:00:16 - 安装 MantisBT 数据库表...
+[1;33m[WARN][0m 2026-05-21 20:00:16 -   未找到 schema 文件，尝试通过 Web 安装器...
+[0;32m[INFO][0m 2026-05-21 20:00:16 -   Web 安装器返回 HTTP 200
+[0;32m[INFO][0m 2026-05-21 20:00:16 -   安装结果: success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD BAD fail 
+[1;33m[WARN][0m 2026-05-21 20:00:19 - 数据库表可能未完全安装，请访问 Web 界面手动完成
+[0;31m[ERROR][0m 2026-05-21 20:00:20 - 数据库初始化不完整: 缺少 MantisBT 用户表 (mantis_user_table 或 mantis_user)
+[0;31m[ERROR][0m 2026-05-21 20:00:20 - 请检查 MantisBT schema 导入或 Web 安装器输出
+[WARN] 2026-05-21 20:00:20  mantisbt 部署脚本返回 exit=1, 检查容器是否已在运行...
+[ERROR] 2026-05-21 20:00:20  mantisbt 部署脚本失败，可能是数据库初始化或管理员账号配置失败
+[INFO] 2026-05-21 20:00:20  
+[0;34m=== 部署 MantisBT Bug 追踪系统 ===[0m
+
+[0;34m=== 部署 MantisBT MariaDB 数据库 ===[0m
+[0;32m[INFO][0m 2026-05-21 19:59:55 - 使用 Docker 命名卷存储 (推荐用于 WSL/Windows)
+[0;32m[INFO][0m 2026-05-21 19:59:56 - MantisBT DB 容器已在运行，停止并删除...
+devopsagent-mantisbt-db
+devopsagent-mantisbt-db
+[0;32m[INFO][0m 2026-05-21 19:59:57 - 创建 MariaDB 容器...
+  - 端口: 127.0.0.1:3307 -> 3306
+  - 数据库: mantisbt
+  - 用户: mantisbt
+463ba19509e53542c64b86ce4e63e2d5dec1d103ccf0a65660f489c29358f286
+[0;32m[INFO][0m 2026-05-21 20:00:02 - ✓ MariaDB 容器已启动
+[0;32m[INFO][0m 2026-05-21 20:00:02 - 等待 MariaDB 就绪...
+[0;32m[INFO][0m 2026-05-21 20:00:02 - ✓ MariaDB 已就绪
+[0;32m[INFO][0m 2026-05-21 20:00:02 - 使用 Docker 命名卷存储
+[0;32m[INFO][0m 2026-05-21 20:00:02 - MantisBT 容器已在运行，停止并删除...
+devopsagent-mantisbt
+devopsagent-mantisbt
+[0;32m[INFO][0m 2026-05-21 20:00:04 - 创建 MantisBT 容器...
+  - 端口: 127.0.0.1:19095 -> 80
+  - 数据库主机: devopsagent-mantisbt-db
+  - 数据库端口: 3306
+  - 数据库名: mantisbt
+59b9fc74eac2375d14f985989924d7a404a5ec3c542f725fe116484316532212
+[0;32m[INFO][0m 2026-05-21 20:00:16 - ✓ MantisBT 容器已启动
+[0;32m[INFO][0m 2026-05-21 20:00:16 - 创建 config_inc.php（自动配置数据库连接）...
+[0;32m[INFO][0m 2026-05-21 20:00:16 - 安装 MantisBT 数据库表...
+[1;33m[WARN][0m 2026-05-21 20:00:16 -   未找到 schema 文件，尝试通过 Web 安装器...
+[0;32m[INFO][0m 2026-05-21 20:00:16 -   Web 安装器返回 HTTP 200
+[0;32m[INFO][0m 2026-05-21 20:00:16 -   安装结果: success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD success GOOD BAD fail 
+[1;33m[WARN][0m 2026-05-21 20:00:19 - 数据库表可能未完全安装，请访问 Web 界面手动完成
+[0;31m[ERROR][0m 2026-05-21 20:00:20 - 数据库初始化不完整: 缺少 MantisBT 用户表 (mantis_user_table 或 mantis_user)
+[0;31m[ERROR][0m 2026-05-21 20:00:20 - 请检查 MantisBT schema 导入或 Web 安装器输出
+
+[INFO] 2026-05-21 20:00:20  跳过独立 Nginx 子脚本，使用 deploy_all.py 内置反向代理编排
+=== 2026-05-21 20:00:20  配置 Nginx 反向代理
+[INFO] 2026-05-21 20:00:20  ✓ 检测到 jenkins 容器 (devopsagent-jenkins)
+[INFO] 2026-05-21 20:00:20  ✓ jenkins.conf 已更新 → proxy_pass http://devopsagent-jenkins:8080 (location /jenkins/)
+[INFO] 2026-05-21 20:00:20  ✓ 检测到 gitlab 容器 (devopsagent-gitlab)
+[INFO] 2026-05-21 20:00:20  ✓ gitlab.conf 已更新 → proxy_pass http://devopsagent-gitlab:80
+[INFO] 2026-05-21 20:00:20  ✓ 检测到 mantisbt 容器 (devopsagent-mantisbt)
+[INFO] 2026-05-21 20:00:20  ✓ mantisbt.conf 已更新 → proxy_pass http://devopsagent-mantisbt:80
+[ERROR] 2026-05-21 20:00:20  Nginx 容器启动失败
+[ERROR] 2026-05-21 20:00:20  docker: 'docker run' requires at least 1 argument
+
+Usage:  docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
+
+See 'docker run --help' for more information
+
+[ERROR] 2026-05-21 20:00:20  以下服务部署失败: mantisbt, nginx
+[INFO] 2026-05-21 20:00:20  已成功部署的服务仍然可用，可单独修复失败的服务
+[INFO] 2026-05-21 20:00:20  Jenkins 初始密码: 8f30ea04b74446a99047d430326b43a4
+[INFO] 2026-05-21 20:00:20  GitLab root 密码: # WARNING: This password is only valid if ALL of the following are true:
+#          • You set it manually via the GITLAB_ROOT_PASSWORD environment variable
+#            OR the gitlab_rails['initial_root_password'] setting in /etc/gitlab/gitlab.rb
+#          • You set it BEFORE the initial database setup (typically during first installation)
+#          • You have NOT changed the password since then (via web UI or command line)
+#
+#          If this password doesn't work, reset the admin password using:
+#          https://docs.gitlab.com/security/reset_user_password/#reset-the-root-password
+
+Password: YKX4JtsjGzkew2rtNJcBwSgM8UKGGiSk7kM6YuVTbAA=
+
+# NOTE: This file is automatically deleted after 24 hours on the next reconfigure run.
+[INFO] 2026-05-21 20:00:21  部署流程完成!
+[INFO] 2026-05-21 20:12:15  已选择: 完整部署 (Jenkins + GitLab + MantisBT + Nginx)
+[INFO] 2026-05-21 20:12:15  服务: ['jenkins', 'gitlab', 'mantisbt', 'nginx'], Nginx: True
+=== 2026-05-21 20:12:15  端口占用扫描
+[INFO] 2026-05-21 20:12:16  已占用端口: 12 个
+[WARN] 2026-05-21 20:12:16    端口 53 已被占用
+[WARN] 2026-05-21 20:12:16    端口 2222 已被占用
+[WARN] 2026-05-21 20:12:16    端口 3307 已被占用
+[WARN] 2026-05-21 20:12:16    端口 11434 已被占用
+[WARN] 2026-05-21 20:12:16    端口 18082 已被占用
+[WARN] 2026-05-21 20:12:16    端口 18789 已被占用
+[WARN] 2026-05-21 20:12:16    端口 18791 已被占用
+[WARN] 2026-05-21 20:12:16    端口 19093 已被占用
+[WARN] 2026-05-21 20:12:16    端口 19095 已被占用
+[WARN] 2026-05-21 20:12:16    端口 19444 已被占用
+[WARN] 2026-05-21 20:12:16    端口 43831 已被占用
+[WARN] 2026-05-21 20:12:16    端口 50000 已被占用
+[WARN] 2026-05-21 20:12:16    [jenkins/agent] 50000 已被占用 → 自动分配 50001
+[WARN] 2026-05-21 20:12:16    [gitlab/ssh] 2222 已被占用 → 自动分配 2223
+[WARN] 2026-05-21 20:12:16    [mantisbt/web] 19093 已被占用 → 自动分配 19094
+[WARN] 2026-05-21 20:12:16    [mariadb/db] 3307 已被占用 → 自动分配 3308
+=== 2026-05-21 20:12:16  端口扫描完成
+[INFO] 2026-05-21 20:12:16  端口分配已写入: /mnt/c/Users/Tong/Desktop/DevOpsAgent/deploy/.env.auto
+=== 2026-05-21 20:12:16  Docker 网络扫描
+[INFO] 2026-05-21 20:12:16  Docker bridge 子网: 172.18.0.0/16
+[WARN] 2026-05-21 20:12:16  宿主路由表包含非 Docker 私有网段: ['172.24.208.1', '172.24.208.0', '172.18.0.0', '172.19.0.0']
+[INFO] 2026-05-21 20:12:16  物理网卡私有 IP: 172.24.219.93(eth0)
+=== 2026-05-21 20:12:16  Docker 网络扫描完成
+=== 2026-05-21 20:12:16  Docker 卷扫描
+[INFO] 2026-05-21 20:12:18  已发现 31 个卷
+[WARN] 2026-05-21 20:12:18    卷: devopsclaw_gitlab-data (可能与其他实例冲突)
+[WARN] 2026-05-21 20:12:18    卷: devopsclaw_gitlab-logs (可能与其他实例冲突)
+[WARN] 2026-05-21 20:12:18    卷: devopsclaw_jenkins-home (可能与其他实例冲突)
+[WARN] 2026-05-21 20:12:18    卷: devopsclaw_nginx-logs (可能与其他实例冲突)
+[WARN] 2026-05-21 20:12:18    卷: devopsclaw_openclaw-data (可能与其他实例冲突)
+[WARN] 2026-05-21 20:12:18    卷: gitlab-config (可能与其他实例冲突)
+[WARN] 2026-05-21 20:12:18    卷: gitlab-config_1 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:12:18    卷: gitlab-data (可能与其他实例冲突)
+[WARN] 2026-05-21 20:12:18    卷: gitlab-data_1 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:12:18    卷: gitlab-data_2 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:12:18    卷: gitlab-logs (可能与其他实例冲突)
+[WARN] 2026-05-21 20:12:18    卷: gitlab-logs_1 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:12:18    卷: gitlab-logs_2 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:12:18    卷: jenkins-home (可能与其他实例冲突)
+[WARN] 2026-05-21 20:12:18    卷: jenkins-home_1 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:12:18    卷: jenkins-home_2 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:12:18    卷: jenkins-home_3 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:12:18    卷: jenkins-home_4 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:12:18    卷: mantisbt-db-data (可能与其他实例冲突)
+[WARN] 2026-05-21 20:12:18    卷: mantisbt-db-data_1 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:12:18    卷: mantisbt-db-data_2 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:12:18    卷: mantisbt-db-data_3 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:12:18    卷: mantisbt-db-data_4 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:12:18    卷: mantisbt-db-data_5 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:12:18    卷: mantisbt-db-data_6 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:12:18    卷: mantisbt-web (可能与其他实例冲突)
+[WARN] 2026-05-21 20:12:18    卷: mantisbt-web_1 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:12:18    卷: mantisbt-web_2 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:12:18    卷: mantisbt-web_3 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:12:18    卷: mantisbt-web_4 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:12:18    卷: mantisbt-web_5 (可能与其他实例冲突)
+[INFO] 2026-05-21 20:12:18  已加载 .env 文件: /mnt/c/Users/Tong/Desktop/DevOpsAgent/deploy/.env
+[INFO] 2026-05-21 20:12:19  使用 IP: 172.24.219.93
+[INFO] 2026-05-21 20:12:19  GitLab HTTPS 反向代理地址: https://172.24.219.93:18441
+[INFO] 2026-05-21 20:12:19  MantisBT HTTPS 反向代理地址: https://172.24.219.93:18443
+[INFO] 2026-05-21 20:12:19  Jenkins HTTPS 反向代理地址: https://172.24.219.93:18440/jenkins
+=== 2026-05-21 20:12:19  开始部署: 模式=full, 服务=['jenkins', 'gitlab', 'mantisbt', 'nginx']
+[INFO] 2026-05-21 20:12:19  Nginx 绑定地址: 172.24.219.93
+=== 2026-05-21 20:12:19  部署 jenkins
+[WARN] 2026-05-21 20:12:19    [jenkins] 卷 jenkins-home 已存在 → 使用 jenkins-home_5
+[INFO] 2026-05-21 20:12:19    卷: JENKINS_VOLUME_HOME=jenkins-home_5
+
+[0;34m=== 检查 Docker 环境 ===[0m
+[0;32m[INFO][0m 2026-05-21 20:12:19 - Docker 已安装: Docker version 29.1.3, build 29.1.3-0ubuntu3~24.04.2
+[0;32m[INFO][0m 2026-05-21 20:12:20 - Docker Compose (standalone) 已安装: 1.29.2
+[0;32m[INFO][0m 2026-05-21 20:12:20 - 加载环境变量: /mnt/c/Users/Tong/Desktop/DevOpsAgent/deploy/.env
+
+[0;34m=== 部署 Jenkins 服务 ===[0m
+[0;32m[INFO][0m 2026-05-21 20:12:20 - 使用 Docker 命名卷存储: jenkins-home_5
+[0;32m[INFO][0m 2026-05-21 20:12:20 - Jenkins 容器已在运行，停止并删除...
+[0;32m[INFO][0m 2026-05-21 20:12:22 - 创建 Jenkins 容器...
+[0;32m[INFO][0m 2026-05-21 20:12:29 - ✓ Jenkins 容器已启动
+[0;32m[INFO][0m 2026-05-21 20:12:29 - 容器: devopsagent-jenkins - 运行中 ✓
+[0;32m[INFO][0m 2026-05-21 20:12:29 - Jenkins 部署完成!
+[INFO] 2026-05-21 20:12:29  ✓ jenkins 部署完成
+=== 2026-05-21 20:12:29  部署 gitlab
+[WARN] 2026-05-21 20:12:29    [gitlab] 卷 gitlab-config 已存在 → 使用 gitlab-config_2
+[WARN] 2026-05-21 20:12:29    [gitlab] 卷 gitlab-logs 已存在 → 使用 gitlab-logs_3
+[WARN] 2026-05-21 20:12:29    [gitlab] 卷 gitlab-data 已存在 → 使用 gitlab-data_3
+[INFO] 2026-05-21 20:12:29    卷: GITLAB_VOLUME_CONFIG=gitlab-config_2, GITLAB_VOLUME_LOGS=gitlab-logs_3, GITLAB_VOLUME_DATA=gitlab-data_3
+
+[0;34m=== 检查 Docker 环境 ===[0m
+[0;32m[INFO][0m 2026-05-21 20:12:29 - Docker 已安装: Docker version 29.1.3, build 29.1.3-0ubuntu3~24.04.2
+[0;32m[INFO][0m 2026-05-21 20:12:30 - Docker Compose (standalone) 已安装: 1.29.2
+[0;32m[INFO][0m 2026-05-21 20:12:30 - 加载环境变量: /mnt/c/Users/Tong/Desktop/DevOpsAgent/deploy/.env
+
+[0;34m=== 部署 GitLab 服务 ===[0m
+[0;32m[INFO][0m 2026-05-21 20:12:30 - 使用 Docker 命名卷存储 (推荐用于 WSL/Windows)
+[0;32m[INFO][0m 2026-05-21 20:12:30 - GitLab 容器已在运行，停止并删除...
+[0;32m[INFO][0m 2026-05-21 20:12:42 - 创建 GitLab 容器...
+[0;32m[INFO][0m 2026-05-21 20:12:52 - ✓ GitLab 容器已启动
+[1;33m[WARN][0m 2026-05-21 20:12:52 - GitLab 初始化需要 5-10 分钟，请耐心等待...
+[0;32m[INFO][0m 2026-05-21 20:12:52 - 命名卷管理命令:
+[0;32m[INFO][0m 2026-05-21 20:12:52 -   查看卷: docker volume ls
+[0;32m[INFO][0m 2026-05-21 20:12:52 -   备份数据: docker run --rm -v gitlab-data_3:/data -v /mnt/c/Users/Tong/Desktop/DevOpsAgent/deploy:/backup alpine tar cvzf /backup/gitlab-data-backup.tar.gz /data
+[0;32m[INFO][0m 2026-05-21 20:12:52 -   恢复数据: docker run --rm -v gitlab-data_3:/data -v /mnt/c/Users/Tong/Desktop/DevOpsAgent/deploy:/backup alpine tar xvzf /backup/gitlab-data-backup.tar.gz -C /
+[0;32m[INFO][0m 2026-05-21 20:12:52 - 容器: devopsagent-gitlab - 运行中 ✓
+[1;33m[WARN][0m 2026-05-21 20:12:52 - GitLab 首次初始化需要 5-10 分钟
+[0;32m[INFO][0m 2026-05-21 20:12:52 - 默认用户名: root
+[0;32m[INFO][0m 2026-05-21 20:12:52 - GitLab 部署完成!
+[INFO] 2026-05-21 20:12:52  ✓ gitlab 部署完成
+=== 2026-05-21 20:12:52  部署 mantisbt
+[WARN] 2026-05-21 20:12:52    [mantisbt] 卷 mantisbt-web 已存在 → 使用 mantisbt-web_6
+[WARN] 2026-05-21 20:12:52    [mantisbt] 卷 mantisbt-db-data 已存在 → 使用 mantisbt-db-data_7
+[INFO] 2026-05-21 20:12:52    卷: MANTISBT_VOLUME_WEB=mantisbt-web_6, MARIADB_VOLUME_DATA=mantisbt-db-data_7
+
+[0;34m=== 部署 MantisBT Bug 追踪系统 ===[0m
+
+[0;34m=== 部署 MantisBT MariaDB 数据库 ===[0m
+[0;32m[INFO][0m 2026-05-21 20:12:52 - 使用 Docker 命名卷存储 (推荐用于 WSL/Windows)
+[0;32m[INFO][0m 2026-05-21 20:12:52 - MantisBT DB 容器已在运行，停止并删除...
+[0;32m[INFO][0m 2026-05-21 20:12:53 - 创建 MariaDB 容器...
+[0;32m[INFO][0m 2026-05-21 20:12:59 - ✓ MariaDB 容器已启动
+[0;32m[INFO][0m 2026-05-21 20:12:59 - 等待 MariaDB 就绪...
+[0;32m[INFO][0m 2026-05-21 20:12:59 - ✓ MariaDB 已就绪
+[0;32m[INFO][0m 2026-05-21 20:12:59 - 使用 Docker 命名卷存储
+[0;32m[INFO][0m 2026-05-21 20:12:59 - MantisBT 容器已在运行，停止并删除...
+[0;32m[INFO][0m 2026-05-21 20:13:00 - 创建 MantisBT 容器...
+[0;32m[INFO][0m 2026-05-21 20:13:12 - ✓ MantisBT 容器已启动
+[0;32m[INFO][0m 2026-05-21 20:13:12 - 创建 config_inc.php（自动配置数据库连接）...
+[0;32m[INFO][0m 2026-05-21 20:13:12 - 安装 MantisBT 数据库表...
+[1;33m[WARN][0m 2026-05-21 20:13:13 -   未找到 schema 文件，尝试通过 Web 安装器...
+[0;32m[INFO][0m 2026-05-21 20:13:13 -   清理数据库中的旧表...
+[0;32m[INFO][0m 2026-05-21 20:13:13 -   等待 MantisBT 容器就绪...
+[0;32m[INFO][0m 2026-05-21 20:13:13 -   执行 Web 安装器 (install=2)...
+[0;32m[INFO][0m 2026-05-21 20:13:13 -   Web 安装器返回 HTTP 200
+[0;32m[INFO][0m 2026-05-21 20:13:13 -   安装结果: GOOD=9, BAD/FAIL=2
+[1;33m[WARN][0m 2026-05-21 20:13:16 - 数据库表可能未完全安装，请访问 Web 界面手动完成
+[0;32m[INFO][0m 2026-05-21 20:13:16 -   手动安装地址: http://127.0.0.1:19094/admin/install.php
+[0;31m[ERROR][0m 2026-05-21 20:13:16 - 数据库初始化不完整: 缺少 MantisBT 用户表 (mantis_user_table 或 mantis_user)
+[0;31m[ERROR][0m 2026-05-21 20:13:16 - 请检查 MantisBT schema 导入或 Web 安装器输出
+[WARN] 2026-05-21 20:13:16  mantisbt 部署脚本返回 exit=1, 检查容器是否已在运行...
+[ERROR] 2026-05-21 20:13:16  mantisbt 部署脚本失败，可能是数据库初始化或管理员账号配置失败
+[INFO] 2026-05-21 20:13:16  
+[0;34m=== 部署 MantisBT Bug 追踪系统 ===[0m
+
+[0;34m=== 部署 MantisBT MariaDB 数据库 ===[0m
+[0;32m[INFO][0m 2026-05-21 20:12:52 - 使用 Docker 命名卷存储 (推荐用于 WSL/Windows)
+[0;32m[INFO][0m 2026-05-21 20:12:52 - MantisBT DB 容器已在运行，停止并删除...
+devopsagent-mantisbt-db
+devopsagent-mantisbt-db
+[0;32m[INFO][0m 2026-05-21 20:12:53 - 创建 MariaDB 容器...
+  - 端口: 127.0.0.1:3308 -> 3306
+  - 数据库: mantisbt
+  - 用户: mantisbt
+8240e8c3d6a805fc4f38a087461e310a618f9ead7c3782c67f8c69b2ed2c8ef8
+[0;32m[INFO][0m 2026-05-21 20:12:59 - ✓ MariaDB 容器已启动
+[0;32m[INFO][0m 2026-05-21 20:12:59 - 等待 MariaDB 就绪...
+[0;32m[INFO][0m 2026-05-21 20:12:59 - ✓ MariaDB 已就绪
+[0;32m[INFO][0m 2026-05-21 20:12:59 - 使用 Docker 命名卷存储
+[0;32m[INFO][0m 2026-05-21 20:12:59 - MantisBT 容器已在运行，停止并删除...
+devopsagent-mantisbt
+devopsagent-mantisbt
+[0;32m[INFO][0m 2026-05-21 20:13:00 - 创建 MantisBT 容器...
+  - 端口: 127.0.0.1:19094 -> 80
+  - 数据库主机: devopsagent-mantisbt-db
+  - 数据库端口: 3306
+  - 数据库名: mantisbt
+ee93bd959db297ccb6d365de2fe9292188b2a4ae1f8a461222ef166b49cfe968
+[0;32m[INFO][0m 2026-05-21 20:13:12 - ✓ MantisBT 容器已启动
+[0;32m[INFO][0m 2026-05-21 20:13:12 - 创建 config_inc.php（自动配置数据库连接）...
+[0;32m[INFO][0m 2026-05-21 20:13:12 - 安装 MantisBT 数据库表...
+[1;33m[WARN][0m 2026-05-21 20:13:13 -   未找到 schema 文件，尝试通过 Web 安装器...
+[0;32m[INFO][0m 2026-05-21 20:13:13 -   清理数据库中的旧表...
+[0;32m[INFO][0m 2026-05-21 20:13:13 -   等待 MantisBT 容器就绪...
+[0;32m[INFO][0m 2026-05-21 20:13:13 -   执行 Web 安装器 (install=2)...
+[0;32m[INFO][0m 2026-05-21 20:13:13 -   Web 安装器返回 HTTP 200
+[0;32m[INFO][0m 2026-05-21 20:13:13 -   安装结果: GOOD=9, BAD/FAIL=2
+[1;33m[WARN][0m 2026-05-21 20:13:16 - 数据库表可能未完全安装，请访问 Web 界面手动完成
+[0;32m[INFO][0m 2026-05-21 20:13:16 -   手动安装地址: http://127.0.0.1:19094/admin/install.php
+[0;31m[ERROR][0m 2026-05-21 20:13:16 - 数据库初始化不完整: 缺少 MantisBT 用户表 (mantis_user_table 或 mantis_user)
+[0;31m[ERROR][0m 2026-05-21 20:13:16 - 请检查 MantisBT schema 导入或 Web 安装器输出
+
+[INFO] 2026-05-21 20:13:16  跳过独立 Nginx 子脚本，使用 deploy_all.py 内置反向代理编排
+=== 2026-05-21 20:13:16  配置 Nginx 反向代理
+[INFO] 2026-05-21 20:13:16  ✓ 检测到 jenkins 容器 (devopsagent-jenkins)
+[INFO] 2026-05-21 20:13:16    jenkins.conf 内容未变, 跳过
+[INFO] 2026-05-21 20:13:16  ✓ 检测到 gitlab 容器 (devopsagent-gitlab)
+[INFO] 2026-05-21 20:13:17    gitlab.conf 内容未变, 跳过
+[INFO] 2026-05-21 20:13:17  ✓ 检测到 mantisbt 容器 (devopsagent-mantisbt)
+[INFO] 2026-05-21 20:13:17    mantisbt.conf 内容未变, 跳过
+[INFO] 2026-05-21 20:13:20  ✓ Nginx 已启动
+[ERROR] 2026-05-21 20:13:20  以下服务部署失败: mantisbt
+[INFO] 2026-05-21 20:13:20  已成功部署的服务仍然可用，可单独修复失败的服务
+[INFO] 2026-05-21 20:13:21  Jenkins 初始密码: 1a5f2aecbedf413ea79fe4c43939d7f3
+[INFO] 2026-05-21 20:13:21  GitLab root 密码: # WARNING: This password is only valid if ALL of the following are true:
+#          • You set it manually via the GITLAB_ROOT_PASSWORD environment variable
+#            OR the gitlab_rails['initial_root_password'] setting in /etc/gitlab/gitlab.rb
+#          • You set it BEFORE the initial database setup (typically during first installation)
+#          • You have NOT changed the password since then (via web UI or command line)
+#
+#          If this password doesn't work, reset the admin password using:
+#          https://docs.gitlab.com/security/reset_user_password/#reset-the-root-password
+
+Password: E67wPxHzsEcfJ0mMQwHso2aiCVkiBsHkUe/mo6J//v4=
+
+# NOTE: This file is automatically deleted after 24 hours on the next reconfigure run.
+[INFO] 2026-05-21 20:13:21  部署流程完成!
+[INFO] 2026-05-21 20:22:29  已选择: 完整部署 (Jenkins + GitLab + MantisBT + Nginx)
+[INFO] 2026-05-21 20:22:29  服务: ['jenkins', 'gitlab', 'mantisbt', 'nginx'], Nginx: True
+=== 2026-05-21 20:22:29  端口占用扫描
+[INFO] 2026-05-21 20:22:29  已占用端口: 17 个
+[WARN] 2026-05-21 20:22:29    端口 53 已被占用
+[WARN] 2026-05-21 20:22:29    端口 2024 已被占用
+[WARN] 2026-05-21 20:22:29    端口 2223 已被占用
+[WARN] 2026-05-21 20:22:29    端口 3308 已被占用
+[WARN] 2026-05-21 20:22:29    端口 11434 已被占用
+[WARN] 2026-05-21 20:22:29    端口 18081 已被占用
+[WARN] 2026-05-21 20:22:29    端口 18440 已被占用
+[WARN] 2026-05-21 20:22:29    端口 18441 已被占用
+[WARN] 2026-05-21 20:22:29    端口 18443 已被占用
+[WARN] 2026-05-21 20:22:29    端口 18789 已被占用
+[WARN] 2026-05-21 20:22:29    端口 18791 已被占用
+[WARN] 2026-05-21 20:22:29    端口 19092 已被占用
+[WARN] 2026-05-21 20:22:29    端口 19094 已被占用
+[WARN] 2026-05-21 20:22:29    端口 19443 已被占用
+[WARN] 2026-05-21 20:22:29    端口 37377 已被占用
+[WARN] 2026-05-21 20:22:29    端口 43831 已被占用
+[WARN] 2026-05-21 20:22:29    端口 50001 已被占用
+[WARN] 2026-05-21 20:22:29    [jenkins/web] 18081 已被占用 → 自动分配 18082
+[WARN] 2026-05-21 20:22:29    [gitlab/http] 19092 已被占用 → 自动分配 19093
+[WARN] 2026-05-21 20:22:29    [gitlab/https] 19443 已被占用 → 自动分配 19444
+[WARN] 2026-05-21 20:22:29    [mantisbt/web] 19093 已被占用 → 自动分配 19095
+[WARN] 2026-05-21 20:22:29    [nginx/jenkins] 18440 已被占用 → 自动分配 18442
+[WARN] 2026-05-21 20:22:29    [nginx/gitlab] 18441 已被占用 → 自动分配 18444
+[WARN] 2026-05-21 20:22:29    [nginx/mantisbt] 18443 已被占用 → 自动分配 18445
+=== 2026-05-21 20:22:29  端口扫描完成
+[INFO] 2026-05-21 20:22:29  端口分配已写入: /mnt/c/Users/Tong/Desktop/DevOpsAgent/deploy/.env.auto
+=== 2026-05-21 20:22:29  Docker 网络扫描
+[INFO] 2026-05-21 20:22:29  Docker bridge 子网: 172.18.0.0/16
+[WARN] 2026-05-21 20:22:29  宿主路由表包含非 Docker 私有网段: ['172.18.0.0', '172.19.0.0', '172.24.208.0', '172.24.208.1']
+[INFO] 2026-05-21 20:22:29  物理网卡私有 IP: 172.24.219.93(eth0)
+=== 2026-05-21 20:22:29  Docker 网络扫描完成
+=== 2026-05-21 20:22:29  Docker 卷扫描
+[INFO] 2026-05-21 20:22:31  已发现 37 个卷
+[WARN] 2026-05-21 20:22:31    卷: devopsclaw_gitlab-data (可能与其他实例冲突)
+[WARN] 2026-05-21 20:22:31    卷: devopsclaw_gitlab-logs (可能与其他实例冲突)
+[WARN] 2026-05-21 20:22:31    卷: devopsclaw_jenkins-home (可能与其他实例冲突)
+[WARN] 2026-05-21 20:22:31    卷: devopsclaw_nginx-logs (可能与其他实例冲突)
+[WARN] 2026-05-21 20:22:31    卷: devopsclaw_openclaw-data (可能与其他实例冲突)
+[WARN] 2026-05-21 20:22:31    卷: gitlab-config (可能与其他实例冲突)
+[WARN] 2026-05-21 20:22:31    卷: gitlab-config_1 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:22:31    卷: gitlab-config_2 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:22:31    卷: gitlab-data (可能与其他实例冲突)
+[WARN] 2026-05-21 20:22:31    卷: gitlab-data_1 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:22:31    卷: gitlab-data_2 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:22:31    卷: gitlab-data_3 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:22:31    卷: gitlab-logs (可能与其他实例冲突)
+[WARN] 2026-05-21 20:22:31    卷: gitlab-logs_1 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:22:31    卷: gitlab-logs_2 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:22:31    卷: gitlab-logs_3 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:22:31    卷: jenkins-home (可能与其他实例冲突)
+[WARN] 2026-05-21 20:22:32    卷: jenkins-home_1 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:22:32    卷: jenkins-home_2 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:22:32    卷: jenkins-home_3 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:22:32    卷: jenkins-home_4 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:22:32    卷: jenkins-home_5 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:22:32    卷: mantisbt-db-data (可能与其他实例冲突)
+[WARN] 2026-05-21 20:22:32    卷: mantisbt-db-data_1 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:22:32    卷: mantisbt-db-data_2 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:22:32    卷: mantisbt-db-data_3 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:22:32    卷: mantisbt-db-data_4 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:22:32    卷: mantisbt-db-data_5 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:22:32    卷: mantisbt-db-data_6 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:22:32    卷: mantisbt-db-data_7 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:22:32    卷: mantisbt-web (可能与其他实例冲突)
+[WARN] 2026-05-21 20:22:32    卷: mantisbt-web_1 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:22:32    卷: mantisbt-web_2 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:22:32    卷: mantisbt-web_3 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:22:32    卷: mantisbt-web_4 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:22:32    卷: mantisbt-web_5 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:22:32    卷: mantisbt-web_6 (可能与其他实例冲突)
+[INFO] 2026-05-21 20:22:32  已加载 .env 文件: /mnt/c/Users/Tong/Desktop/DevOpsAgent/deploy/.env
+[INFO] 2026-05-21 20:22:40  使用 IP: 172.24.219.93
+[INFO] 2026-05-21 20:22:40  GitLab HTTPS 反向代理地址: https://172.24.219.93:18444
+[INFO] 2026-05-21 20:22:40  MantisBT HTTPS 反向代理地址: https://172.24.219.93:18445
+[INFO] 2026-05-21 20:22:40  Jenkins HTTPS 反向代理地址: https://172.24.219.93:18442/jenkins
+=== 2026-05-21 20:22:40  开始部署: 模式=full, 服务=['jenkins', 'gitlab', 'mantisbt', 'nginx']
+[INFO] 2026-05-21 20:22:40  Nginx 绑定地址: 172.24.219.93
+=== 2026-05-21 20:22:40  部署 jenkins
+[WARN] 2026-05-21 20:22:40    [jenkins] 卷 jenkins-home 已存在 → 使用 jenkins-home_6
+[INFO] 2026-05-21 20:22:40    卷: JENKINS_VOLUME_HOME=jenkins-home_6
+
+[0;34m=== 检查 Docker 环境 ===[0m
+[0;32m[INFO][0m 2026-05-21 20:22:40 - Docker 已安装: Docker version 29.1.3, build 29.1.3-0ubuntu3~24.04.2
+[0;32m[INFO][0m 2026-05-21 20:22:41 - Docker Compose (standalone) 已安装: 1.29.2
+[0;32m[INFO][0m 2026-05-21 20:22:41 - 加载环境变量: /mnt/c/Users/Tong/Desktop/DevOpsAgent/deploy/.env
+
+[0;34m=== 部署 Jenkins 服务 ===[0m
+[0;32m[INFO][0m 2026-05-21 20:22:41 - 使用 Docker 命名卷存储: jenkins-home_6
+[0;32m[INFO][0m 2026-05-21 20:22:41 - Jenkins 容器已在运行，停止并删除...
+[0;32m[INFO][0m 2026-05-21 20:22:43 - 创建 Jenkins 容器...
+[0;32m[INFO][0m 2026-05-21 20:22:49 - ✓ Jenkins 容器已启动
+[0;32m[INFO][0m 2026-05-21 20:22:49 - 容器: devopsagent-jenkins - 运行中 ✓
+[0;32m[INFO][0m 2026-05-21 20:22:49 - Jenkins 部署完成!
+[INFO] 2026-05-21 20:22:49  ✓ jenkins 部署完成
+=== 2026-05-21 20:22:49  部署 gitlab
+[WARN] 2026-05-21 20:22:49    [gitlab] 卷 gitlab-config 已存在 → 使用 gitlab-config_3
+[WARN] 2026-05-21 20:22:49    [gitlab] 卷 gitlab-logs 已存在 → 使用 gitlab-logs_4
+[WARN] 2026-05-21 20:22:49    [gitlab] 卷 gitlab-data 已存在 → 使用 gitlab-data_4
+[INFO] 2026-05-21 20:22:49    卷: GITLAB_VOLUME_CONFIG=gitlab-config_3, GITLAB_VOLUME_LOGS=gitlab-logs_4, GITLAB_VOLUME_DATA=gitlab-data_4
+
+[0;34m=== 检查 Docker 环境 ===[0m
+[0;32m[INFO][0m 2026-05-21 20:22:49 - Docker 已安装: Docker version 29.1.3, build 29.1.3-0ubuntu3~24.04.2
+[0;32m[INFO][0m 2026-05-21 20:22:50 - Docker Compose (standalone) 已安装: 1.29.2
+[0;32m[INFO][0m 2026-05-21 20:22:50 - 加载环境变量: /mnt/c/Users/Tong/Desktop/DevOpsAgent/deploy/.env
+
+[0;34m=== 部署 GitLab 服务 ===[0m
+[0;32m[INFO][0m 2026-05-21 20:22:50 - 使用 Docker 命名卷存储 (推荐用于 WSL/Windows)
+[0;32m[INFO][0m 2026-05-21 20:22:50 - GitLab 容器已在运行，停止并删除...
+[0;32m[INFO][0m 2026-05-21 20:23:02 - 创建 GitLab 容器...
+[0;32m[INFO][0m 2026-05-21 20:23:12 - ✓ GitLab 容器已启动
+[1;33m[WARN][0m 2026-05-21 20:23:12 - GitLab 初始化需要 5-10 分钟，请耐心等待...
+[0;32m[INFO][0m 2026-05-21 20:23:12 - 命名卷管理命令:
+[0;32m[INFO][0m 2026-05-21 20:23:12 -   查看卷: docker volume ls
+[0;32m[INFO][0m 2026-05-21 20:23:12 -   备份数据: docker run --rm -v gitlab-data_4:/data -v /mnt/c/Users/Tong/Desktop/DevOpsAgent/deploy:/backup alpine tar cvzf /backup/gitlab-data-backup.tar.gz /data
+[0;32m[INFO][0m 2026-05-21 20:23:12 -   恢复数据: docker run --rm -v gitlab-data_4:/data -v /mnt/c/Users/Tong/Desktop/DevOpsAgent/deploy:/backup alpine tar xvzf /backup/gitlab-data-backup.tar.gz -C /
+[0;32m[INFO][0m 2026-05-21 20:23:12 - 容器: devopsagent-gitlab - 运行中 ✓
+[1;33m[WARN][0m 2026-05-21 20:23:12 - GitLab 首次初始化需要 5-10 分钟
+[0;32m[INFO][0m 2026-05-21 20:23:12 - 默认用户名: root
+[0;32m[INFO][0m 2026-05-21 20:23:12 - GitLab 部署完成!
+[INFO] 2026-05-21 20:23:12  ✓ gitlab 部署完成
+=== 2026-05-21 20:23:12  部署 mantisbt
+[WARN] 2026-05-21 20:23:12    [mantisbt] 卷 mantisbt-web 已存在 → 使用 mantisbt-web_7
+[WARN] 2026-05-21 20:23:12    [mantisbt] 卷 mantisbt-db-data 已存在 → 使用 mantisbt-db-data_8
+[INFO] 2026-05-21 20:23:12    卷: MANTISBT_VOLUME_WEB=mantisbt-web_7, MARIADB_VOLUME_DATA=mantisbt-db-data_8
+
+[0;34m=== 部署 MantisBT Bug 追踪系统 ===[0m
+
+[0;34m=== 部署 MantisBT MariaDB 数据库 ===[0m
+[0;32m[INFO][0m 2026-05-21 20:23:12 - 使用 Docker 命名卷存储 (推荐用于 WSL/Windows)
+[0;32m[INFO][0m 2026-05-21 20:23:12 - MantisBT DB 容器已在运行，停止并删除...
+[0;32m[INFO][0m 2026-05-21 20:23:13 - 创建 MariaDB 容器...
+[0;32m[INFO][0m 2026-05-21 20:23:19 - ✓ MariaDB 容器已启动
+[0;32m[INFO][0m 2026-05-21 20:23:19 - 等待 MariaDB 就绪...
+[0;32m[INFO][0m 2026-05-21 20:23:19 - ✓ MariaDB 已就绪
+[0;32m[INFO][0m 2026-05-21 20:23:19 - 使用 Docker 命名卷存储
+[0;32m[INFO][0m 2026-05-21 20:23:19 - MantisBT 容器已在运行，停止并删除...
+[0;32m[INFO][0m 2026-05-21 20:23:21 - 创建 MantisBT 容器...
+[0;32m[INFO][0m 2026-05-21 20:23:32 - ✓ MantisBT 容器已启动
+[0;32m[INFO][0m 2026-05-21 20:23:32 - 创建 config_inc.php（自动配置数据库连接）...
+[0;32m[INFO][0m 2026-05-21 20:23:32 - 安装 MantisBT 数据库表...
+[0;32m[INFO][0m 2026-05-21 20:23:33 -     schema 检查: /var/www/html/admin/sql/mantisbt.mysqli.sql → 不存在
+[0;32m[INFO][0m 2026-05-21 20:23:33 -     schema 检查: /var/www/html/admin/sql/mantisbt.mysql.sql → 不存在
+[0;32m[INFO][0m 2026-05-21 20:23:33 -     schema 检查: /var/www/html/admin/sql/mantisbt.mssql.sql → 不存在
+[0;32m[INFO][0m 2026-05-21 20:23:33 -     schema 检查: /var/www/html/sql/mantisbt.sql → 不存在
+[0;32m[INFO][0m 2026-05-21 20:23:33 -     schema 检查: /var/www/html/sql/mantis.sql → 不存在
+[0;32m[INFO][0m 2026-05-21 20:23:34 -     schema 检查: /var/www/html/admin/schema.php → 存在
+[0;32m[INFO][0m 2026-05-21 20:23:34 -     schema 检查: /var/www/html/admin/install.php → 存在
+[0;32m[INFO][0m 2026-05-21 20:23:34 -   发现 schema 文件: /var/www/html/admin/schema.php
+[0;31m[ERROR][0m 2026-05-21 20:23:34 -   SQL schema 导入失败
+[0;31m[ERROR][0m 2026-05-21 20:23:34 -   --------------
+<?php
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+require_api( 'install_helper_functions_api.php' )
+--------------
+
+ERROR 1064 (42000) at line 1: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '<?php
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+require_api( 'install_helper_functions_api.php' )' at line 1
+[WARN] 2026-05-21 20:23:34  mantisbt 部署脚本返回 exit=1, 检查容器是否已在运行...
+[ERROR] 2026-05-21 20:23:34  mantisbt 部署脚本失败，可能是数据库初始化或管理员账号配置失败
+[INFO] 2026-05-21 20:23:34  
+[0;34m=== 部署 MantisBT Bug 追踪系统 ===[0m
+
+[0;34m=== 部署 MantisBT MariaDB 数据库 ===[0m
+[0;32m[INFO][0m 2026-05-21 20:23:12 - 使用 Docker 命名卷存储 (推荐用于 WSL/Windows)
+[0;32m[INFO][0m 2026-05-21 20:23:12 - MantisBT DB 容器已在运行，停止并删除...
+devopsagent-mantisbt-db
+devopsagent-mantisbt-db
+[0;32m[INFO][0m 2026-05-21 20:23:13 - 创建 MariaDB 容器...
+  - 端口: 127.0.0.1:3307 -> 3306
+  - 数据库: mantisbt
+  - 用户: mantisbt
+3683fc0b0f58acc33a46e2a96f913faf3b209936fd9614adba2e2e1ac512a479
+[0;32m[INFO][0m 2026-05-21 20:23:19 - ✓ MariaDB 容器已启动
+[0;32m[INFO][0m 2026-05-21 20:23:19 - 等待 MariaDB 就绪...
+[0;32m[INFO][0m 2026-05-21 20:23:19 - ✓ MariaDB 已就绪
+[0;32m[INFO][0m 2026-05-21 20:23:19 - 使用 Docker 命名卷存储
+[0;32m[INFO][0m 2026-05-21 20:23:19 - MantisBT 容器已在运行，停止并删除...
+devopsagent-mantisbt
+devopsagent-mantisbt
+[0;32m[INFO][0m 2026-05-21 20:23:21 - 创建 MantisBT 容器...
+  - 端口: 127.0.0.1:19095 -> 80
+  - 数据库主机: devopsagent-mantisbt-db
+  - 数据库端口: 3306
+  - 数据库名: mantisbt
+97edaba359730de672c385acdf361f6cd9090d381c9689041d8adfc9cfbe33ce
+[0;32m[INFO][0m 2026-05-21 20:23:32 - ✓ MantisBT 容器已启动
+[0;32m[INFO][0m 2026-05-21 20:23:32 - 创建 config_inc.php（自动配置数据库连接）...
+[0;32m[INFO][0m 2026-05-21 20:23:32 - 安装 MantisBT 数据库表...
+[0;32m[INFO][0m 2026-05-21 20:23:33 -     schema 检查: /var/www/html/admin/sql/mantisbt.mysqli.sql → 不存在
+[0;32m[INFO][0m 2026-05-21 20:23:33 -     schema 检查: /var/www/html/admin/sql/mantisbt.mysql.sql → 不存在
+[0;32m[INFO][0m 2026-05-21 20:23:33 -     schema 检查: /var/www/html/admin/sql/mantisbt.mssql.sql → 不存在
+[0;32m[INFO][0m 2026-05-21 20:23:33 -     schema 检查: /var/www/html/sql/mantisbt.sql → 不存在
+[0;32m[INFO][0m 2026-05-21 20:23:33 -     schema 检查: /var/www/html/sql/mantis.sql → 不存在
+[0;32m[INFO][0m 2026-05-21 20:23:34 -     schema 检查: /var/www/html/admin/schema.php → 存在
+[0;32m[INFO][0m 2026-05-21 20:23:34 -     schema 检查: /var/www/html/admin/install.php → 存在
+[0;32m[INFO][0m 2026-05-21 20:23:34 -   发现 schema 文件: /var/www/html/admin/schema.php
+[0;31m[ERROR][0m 2026-05-21 20:23:34 -   SQL schema 导入失败
+[0;31m[ERROR][0m 2026-05-21 20:23:34 -   --------------
+<?php
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+require_api( 'install_helper_functions_api.php' )
+--------------
+
+ERROR 1064 (42000) at line 1: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '<?php
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+require_api( 'install_helper_functions_api.php' )' at line 1
+
+[INFO] 2026-05-21 20:23:34  跳过独立 Nginx 子脚本，使用 deploy_all.py 内置反向代理编排
+=== 2026-05-21 20:23:34  配置 Nginx 反向代理
+[INFO] 2026-05-21 20:23:34  ✓ 检测到 jenkins 容器 (devopsagent-jenkins)
+[INFO] 2026-05-21 20:23:34    jenkins.conf 内容未变, 跳过
+[INFO] 2026-05-21 20:23:34  ✓ 检测到 gitlab 容器 (devopsagent-gitlab)
+[INFO] 2026-05-21 20:23:34    gitlab.conf 内容未变, 跳过
+[INFO] 2026-05-21 20:23:34  ✓ 检测到 mantisbt 容器 (devopsagent-mantisbt)
+[INFO] 2026-05-21 20:23:34    mantisbt.conf 内容未变, 跳过
+[INFO] 2026-05-21 20:23:38  ✓ Nginx 已启动
+[ERROR] 2026-05-21 20:23:38  以下服务部署失败: mantisbt
+[INFO] 2026-05-21 20:23:38  已成功部署的服务仍然可用，可单独修复失败的服务
+[INFO] 2026-05-21 20:23:38  Jenkins 初始密码: e4151af44c9c4c9484eec3fa2a66e4dc
+[INFO] 2026-05-21 20:23:39  GitLab root 密码: # WARNING: This password is only valid if ALL of the following are true:
+#          • You set it manually via the GITLAB_ROOT_PASSWORD environment variable
+#            OR the gitlab_rails['initial_root_password'] setting in /etc/gitlab/gitlab.rb
+#          • You set it BEFORE the initial database setup (typically during first installation)
+#          • You have NOT changed the password since then (via web UI or command line)
+#
+#          If this password doesn't work, reset the admin password using:
+#          https://docs.gitlab.com/security/reset_user_password/#reset-the-root-password
+
+Password: R+HheyRqjpNN06qXBH7qoviXBrbRgg5GXomduweWDYg=
+
+# NOTE: This file is automatically deleted after 24 hours on the next reconfigure run.
+[INFO] 2026-05-21 20:23:39  部署流程完成!
+[INFO] 2026-05-21 20:33:12  已选择: 仅 MantisBT (+ Nginx HTTPS)
+[INFO] 2026-05-21 20:33:12  服务: ['mantisbt', 'nginx'], Nginx: True
+=== 2026-05-21 20:33:12  端口占用扫描
+[INFO] 2026-05-21 20:33:12  已占用端口: 17 个
+[WARN] 2026-05-21 20:33:12    端口 53 已被占用
+[WARN] 2026-05-21 20:33:12    端口 2024 已被占用
+[WARN] 2026-05-21 20:33:12    端口 2222 已被占用
+[WARN] 2026-05-21 20:33:12    端口 3307 已被占用
+[WARN] 2026-05-21 20:33:12    端口 11434 已被占用
+[WARN] 2026-05-21 20:33:12    端口 18082 已被占用
+[WARN] 2026-05-21 20:33:12    端口 18442 已被占用
+[WARN] 2026-05-21 20:33:12    端口 18444 已被占用
+[WARN] 2026-05-21 20:33:12    端口 18445 已被占用
+[WARN] 2026-05-21 20:33:12    端口 18789 已被占用
+[WARN] 2026-05-21 20:33:12    端口 18791 已被占用
+[WARN] 2026-05-21 20:33:12    端口 19093 已被占用
+[WARN] 2026-05-21 20:33:12    端口 19095 已被占用
+[WARN] 2026-05-21 20:33:12    端口 19444 已被占用
+[WARN] 2026-05-21 20:33:12    端口 37377 已被占用
+[WARN] 2026-05-21 20:33:12    端口 43831 已被占用
+[WARN] 2026-05-21 20:33:12    端口 50000 已被占用
+[WARN] 2026-05-21 20:33:12    [jenkins/agent] 50000 已被占用 → 自动分配 50001
+[WARN] 2026-05-21 20:33:12    [gitlab/ssh] 2222 已被占用 → 自动分配 2223
+[WARN] 2026-05-21 20:33:12    [mantisbt/web] 19093 已被占用 → 自动分配 19094
+[WARN] 2026-05-21 20:33:12    [mariadb/db] 3307 已被占用 → 自动分配 3308
+=== 2026-05-21 20:33:12  端口扫描完成
+[INFO] 2026-05-21 20:33:12  端口分配已写入: /mnt/c/Users/Tong/Desktop/DevOpsAgent/deploy/.env.auto
+=== 2026-05-21 20:33:12  Docker 网络扫描
+[INFO] 2026-05-21 20:33:12  Docker bridge 子网: 172.18.0.0/16
+[WARN] 2026-05-21 20:33:12  宿主路由表包含非 Docker 私有网段: ['172.18.0.0', '172.24.208.0', '172.19.0.0', '172.24.208.1']
+[INFO] 2026-05-21 20:33:12  物理网卡私有 IP: 172.24.219.93(eth0)
+=== 2026-05-21 20:33:12  Docker 网络扫描完成
+=== 2026-05-21 20:33:12  Docker 卷扫描
+[INFO] 2026-05-21 20:33:13  已发现 6 个卷
+[WARN] 2026-05-21 20:33:13    卷: gitlab-config_3 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:33:13    卷: gitlab-data_4 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:33:13    卷: gitlab-logs_4 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:33:13    卷: jenkins-home_6 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:33:13    卷: mantisbt-db-data_8 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:33:13    卷: mantisbt-web_7 (可能与其他实例冲突)
+[INFO] 2026-05-21 20:33:13  已加载 .env 文件: /mnt/c/Users/Tong/Desktop/DevOpsAgent/deploy/.env
+[INFO] 2026-05-21 20:34:03  使用 IP: 172.24.219.93
+[INFO] 2026-05-21 20:34:03  MantisBT HTTPS 反向代理地址: https://172.24.219.93:18443
+=== 2026-05-21 20:34:03  开始部署: 模式=mantisbt, 服务=['mantisbt', 'nginx']
+[INFO] 2026-05-21 20:34:03  Nginx 绑定地址: 172.24.219.93
+=== 2026-05-21 20:34:03  部署 mantisbt
+[INFO] 2026-05-21 20:34:03    卷: MANTISBT_VOLUME_WEB=mantisbt-web, MARIADB_VOLUME_DATA=mantisbt-db-data
+
+[0;34m=== 部署 MantisBT Bug 追踪系统 ===[0m
+
+[0;34m=== 部署 MantisBT MariaDB 数据库 ===[0m
+[0;32m[INFO][0m 2026-05-21 20:34:03 - 使用 Docker 命名卷存储 (推荐用于 WSL/Windows)
+[0;32m[INFO][0m 2026-05-21 20:34:03 - MantisBT DB 容器已在运行，停止并删除...
+[0;32m[INFO][0m 2026-05-21 20:34:04 - 创建 MariaDB 容器...
+[0;32m[INFO][0m 2026-05-21 20:34:10 - ✓ MariaDB 容器已启动
+[0;32m[INFO][0m 2026-05-21 20:34:10 - 等待 MariaDB 就绪...
+[0;32m[INFO][0m 2026-05-21 20:34:12 - ✓ MariaDB 已就绪
+[0;32m[INFO][0m 2026-05-21 20:34:12 - 使用 Docker 命名卷存储
+[0;32m[INFO][0m 2026-05-21 20:34:12 - MantisBT 容器已在运行，停止并删除...
+[0;32m[INFO][0m 2026-05-21 20:34:13 - 创建 MantisBT 容器...
+[0;32m[INFO][0m 2026-05-21 20:34:25 - ✓ MantisBT 容器已启动
+[0;32m[INFO][0m 2026-05-21 20:34:25 - 创建 config_inc.php（自动配置数据库连接）...
+[0;32m[INFO][0m 2026-05-21 20:34:25 - 安装 MantisBT 数据库表...
+[0;32m[INFO][0m 2026-05-21 20:34:26 -     SQL检查: /var/www/html/admin/sql/mantisbt.mysqli.sql → 不存在
+[0;32m[INFO][0m 2026-05-21 20:34:26 -     SQL检查: /var/www/html/admin/sql/mantisbt.mysql.sql → 不存在
+[0;32m[INFO][0m 2026-05-21 20:34:26 -     SQL检查: /var/www/html/admin/sql/mantisbt.mssql.sql → 不存在
+[0;32m[INFO][0m 2026-05-21 20:34:26 -     SQL检查: /var/www/html/sql/mantisbt.sql → 不存在
+[0;32m[INFO][0m 2026-05-21 20:34:26 -     SQL检查: /var/www/html/sql/mantis.sql → 不存在
+[0;32m[INFO][0m 2026-05-21 20:34:26 -     PHP检查: /var/www/html/admin/schema.php → 存在
+[0;32m[INFO][0m 2026-05-21 20:34:26 -   尝试 PHP CLI 方式安装数据库表...
+[0;32m[INFO][0m 2026-05-21 20:34:26 -   PHP schema 输出: PHP_EXCEPTION: Call to undefined function require_api()
+[1;33m[WARN][0m 2026-05-21 20:34:30 -   数据库表未安装，尝试 Web 安装器...
+[0;32m[INFO][0m 2026-05-21 20:34:30 -   执行 Web 安装器...
+[0;32m[INFO][0m 2026-05-21 20:34:30 -   Web 安装结果: GOOD=9, BAD/FAIL=2
+[1;33m[WARN][0m 2026-05-21 20:34:32 - 数据库表可能未完全安装，请访问 Web 界面手动完成
+[0;32m[INFO][0m 2026-05-21 20:34:32 -   手动安装地址: http://127.0.0.1:19094/admin/install.php
+[0;31m[ERROR][0m 2026-05-21 20:34:32 - 数据库初始化不完整: 缺少 MantisBT 用户表 (mantis_user_table 或 mantis_user)
+[0;31m[ERROR][0m 2026-05-21 20:34:32 - 请检查 MantisBT schema 导入或 Web 安装器输出
+[WARN] 2026-05-21 20:34:32  mantisbt 部署脚本返回 exit=1, 检查容器是否已在运行...
+[ERROR] 2026-05-21 20:34:32  mantisbt 部署脚本失败，可能是数据库初始化或管理员账号配置失败
+[INFO] 2026-05-21 20:34:32  
+[0;34m=== 部署 MantisBT Bug 追踪系统 ===[0m
+
+[0;34m=== 部署 MantisBT MariaDB 数据库 ===[0m
+[0;32m[INFO][0m 2026-05-21 20:34:03 - 使用 Docker 命名卷存储 (推荐用于 WSL/Windows)
+[0;32m[INFO][0m 2026-05-21 20:34:03 - MantisBT DB 容器已在运行，停止并删除...
+devopsagent-mantisbt-db
+devopsagent-mantisbt-db
+[0;32m[INFO][0m 2026-05-21 20:34:04 - 创建 MariaDB 容器...
+  - 端口: 127.0.0.1:3308 -> 3306
+  - 数据库: mantisbt
+  - 用户: mantisbt
+bcbefd742849739e0425180a92db30f66589a5517afa4156ba2af0c788339f82
+[0;32m[INFO][0m 2026-05-21 20:34:10 - ✓ MariaDB 容器已启动
+[0;32m[INFO][0m 2026-05-21 20:34:10 - 等待 MariaDB 就绪...
+[0;32m[INFO][0m 2026-05-21 20:34:12 - ✓ MariaDB 已就绪
+[0;32m[INFO][0m 2026-05-21 20:34:12 - 使用 Docker 命名卷存储
+[0;32m[INFO][0m 2026-05-21 20:34:12 - MantisBT 容器已在运行，停止并删除...
+devopsagent-mantisbt
+devopsagent-mantisbt
+[0;32m[INFO][0m 2026-05-21 20:34:13 - 创建 MantisBT 容器...
+  - 端口: 127.0.0.1:19094 -> 80
+  - 数据库主机: devopsagent-mantisbt-db
+  - 数据库端口: 3306
+  - 数据库名: mantisbt
+0dda2c115b3de75427ab5c0638440d47eae66b69d4c2d3537fea8ffb27d01647
+[0;32m[INFO][0m 2026-05-21 20:34:25 - ✓ MantisBT 容器已启动
+[0;32m[INFO][0m 2026-05-21 20:34:25 - 创建 config_inc.php（自动配置数据库连接）...
+[0;32m[INFO][0m 2026-05-21 20:34:25 - 安装 MantisBT 数据库表...
+[0;32m[INFO][0m 2026-05-21 20:34:26 -     SQL检查: /var/www/html/admin/sql/mantisbt.mysqli.sql → 不存在
+[0;32m[INFO][0m 2026-05-21 20:34:26 -     SQL检查: /var/www/html/admin/sql/mantisbt.mysql.sql → 不存在
+[0;32m[INFO][0m 2026-05-21 20:34:26 -     SQL检查: /var/www/html/admin/sql/mantisbt.mssql.sql → 不存在
+[0;32m[INFO][0m 2026-05-21 20:34:26 -     SQL检查: /var/www/html/sql/mantisbt.sql → 不存在
+[0;32m[INFO][0m 2026-05-21 20:34:26 -     SQL检查: /var/www/html/sql/mantis.sql → 不存在
+[0;32m[INFO][0m 2026-05-21 20:34:26 -     PHP检查: /var/www/html/admin/schema.php → 存在
+[0;32m[INFO][0m 2026-05-21 20:34:26 -   尝试 PHP CLI 方式安装数据库表...
+[0;32m[INFO][0m 2026-05-21 20:34:26 -   PHP schema 输出: PHP_EXCEPTION: Call to undefined function require_api()
+[1;33m[WARN][0m 2026-05-21 20:34:30 -   数据库表未安装，尝试 Web 安装器...
+[0;32m[INFO][0m 2026-05-21 20:34:30 -   执行 Web 安装器...
+
+200[0;32m[INFO][0m 2026-05-21 20:34:30 -   Web 安装结果: GOOD=9, BAD/FAIL=2
+[1;33m[WARN][0m 2026-05-21 20:34:32 - 数据库表可能未完全安装，请访问 Web 界面手动完成
+[0;32m[INFO][0m 2026-05-21 20:34:32 -   手动安装地址: http://127.0.0.1:19094/admin/install.php
+[0;31m[ERROR][0m 2026-05-21 20:34:32 - 数据库初始化不完整: 缺少 MantisBT 用户表 (mantis_user_table 或 mantis_user)
+[0;31m[ERROR][0m 2026-05-21 20:34:32 - 请检查 MantisBT schema 导入或 Web 安装器输出
+
+[INFO] 2026-05-21 20:34:32  跳过独立 Nginx 子脚本，使用 deploy_all.py 内置反向代理编排
+=== 2026-05-21 20:34:32  配置 Nginx 反向代理
+[INFO] 2026-05-21 20:34:32  ✓ 检测到 jenkins 容器 (devopsagent-jenkins)
+[INFO] 2026-05-21 20:34:32    jenkins.conf 内容未变, 跳过
+[INFO] 2026-05-21 20:34:32  ✓ 检测到 gitlab 容器 (devopsagent-gitlab)
+[INFO] 2026-05-21 20:34:32    gitlab.conf 内容未变, 跳过
+[INFO] 2026-05-21 20:34:32  ✓ 检测到 mantisbt 容器 (devopsagent-mantisbt)
+[INFO] 2026-05-21 20:34:32    mantisbt.conf 内容未变, 跳过
+[INFO] 2026-05-21 20:34:37  ✓ Nginx 已启动
+[ERROR] 2026-05-21 20:34:37  以下服务部署失败: mantisbt
+[INFO] 2026-05-21 20:34:37  已成功部署的服务仍然可用，可单独修复失败的服务
+[INFO] 2026-05-21 20:34:37  部署流程完成!
+[INFO] 2026-05-21 20:45:42  已选择: 仅 MantisBT (+ Nginx HTTPS)
+[INFO] 2026-05-21 20:45:42  服务: ['mantisbt', 'nginx'], Nginx: True
+=== 2026-05-21 20:45:42  端口占用扫描
+[INFO] 2026-05-21 20:45:43  已占用端口: 16 个
+[WARN] 2026-05-21 20:45:43    端口 53 已被占用
+[WARN] 2026-05-21 20:45:43    端口 2024 已被占用
+[WARN] 2026-05-21 20:45:43    端口 2222 已被占用
+[WARN] 2026-05-21 20:45:43    端口 3308 已被占用
+[WARN] 2026-05-21 20:45:43    端口 11434 已被占用
+[WARN] 2026-05-21 20:45:43    端口 18082 已被占用
+[WARN] 2026-05-21 20:45:43    端口 18440 已被占用
+[WARN] 2026-05-21 20:45:43    端口 18441 已被占用
+[WARN] 2026-05-21 20:45:43    端口 18443 已被占用
+[WARN] 2026-05-21 20:45:43    端口 18789 已被占用
+[WARN] 2026-05-21 20:45:43    端口 18791 已被占用
+[WARN] 2026-05-21 20:45:43    端口 19093 已被占用
+[WARN] 2026-05-21 20:45:43    端口 19094 已被占用
+[WARN] 2026-05-21 20:45:43    端口 19444 已被占用
+[WARN] 2026-05-21 20:45:43    端口 43831 已被占用
+[WARN] 2026-05-21 20:45:43    端口 50000 已被占用
+[WARN] 2026-05-21 20:45:43    [jenkins/agent] 50000 已被占用 → 自动分配 50001
+[WARN] 2026-05-21 20:45:43    [gitlab/ssh] 2222 已被占用 → 自动分配 2223
+[WARN] 2026-05-21 20:45:43    [mantisbt/web] 19093 已被占用 → 自动分配 19095
+[WARN] 2026-05-21 20:45:43    [nginx/jenkins] 18440 已被占用 → 自动分配 18442
+[WARN] 2026-05-21 20:45:43    [nginx/gitlab] 18441 已被占用 → 自动分配 18444
+[WARN] 2026-05-21 20:45:43    [nginx/mantisbt] 18443 已被占用 → 自动分配 18445
+=== 2026-05-21 20:45:43  端口扫描完成
+[INFO] 2026-05-21 20:45:43  端口分配已写入: /mnt/c/Users/Tong/Desktop/DevOpsAgent/deploy/.env.auto
+=== 2026-05-21 20:45:43  Docker 网络扫描
+[INFO] 2026-05-21 20:45:43  Docker bridge 子网: 172.18.0.0/16
+[WARN] 2026-05-21 20:45:43  宿主路由表包含非 Docker 私有网段: ['172.18.0.0', '172.19.0.0', '172.24.208.1', '172.24.208.0']
+[INFO] 2026-05-21 20:45:43  物理网卡私有 IP: 172.24.219.93(eth0)
+=== 2026-05-21 20:45:43  Docker 网络扫描完成
+=== 2026-05-21 20:45:43  Docker 卷扫描
+[INFO] 2026-05-21 20:45:45  已发现 8 个卷
+[WARN] 2026-05-21 20:45:45    卷: gitlab-config_3 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:45:45    卷: gitlab-data_4 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:45:45    卷: gitlab-logs_4 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:45:45    卷: jenkins-home_6 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:45:45    卷: mantisbt-db-data (可能与其他实例冲突)
+[WARN] 2026-05-21 20:45:45    卷: mantisbt-db-data_8 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:45:45    卷: mantisbt-web (可能与其他实例冲突)
+[WARN] 2026-05-21 20:45:45    卷: mantisbt-web_7 (可能与其他实例冲突)
+[INFO] 2026-05-21 20:45:45  已加载 .env 文件: /mnt/c/Users/Tong/Desktop/DevOpsAgent/deploy/.env
+[INFO] 2026-05-21 20:45:45  使用 IP: 172.24.219.93
+[INFO] 2026-05-21 20:45:45  MantisBT HTTPS 反向代理地址: https://172.24.219.93:18445
+=== 2026-05-21 20:45:45  开始部署: 模式=mantisbt, 服务=['mantisbt', 'nginx']
+[INFO] 2026-05-21 20:45:45  Nginx 绑定地址: 172.24.219.93
+=== 2026-05-21 20:45:45  部署 mantisbt
+[WARN] 2026-05-21 20:45:46    [mantisbt] 卷 mantisbt-web 已存在 → 使用 mantisbt-web_1
+[WARN] 2026-05-21 20:45:46    [mantisbt] 卷 mantisbt-db-data 已存在 → 使用 mantisbt-db-data_1
+[INFO] 2026-05-21 20:45:46    卷: MANTISBT_VOLUME_WEB=mantisbt-web_1, MARIADB_VOLUME_DATA=mantisbt-db-data_1
+
+[0;34m=== 部署 MantisBT Bug 追踪系统 ===[0m
+
+[0;34m=== 部署 MantisBT MariaDB 数据库 ===[0m
+[0;32m[INFO][0m 2026-05-21 20:45:46 - 使用 Docker 命名卷存储 (推荐用于 WSL/Windows)
+[0;32m[INFO][0m 2026-05-21 20:45:46 - MantisBT DB 容器已在运行，停止并删除...
+[0;32m[INFO][0m 2026-05-21 20:45:47 - 创建 MariaDB 容器...
+[0;32m[INFO][0m 2026-05-21 20:45:52 - ✓ MariaDB 容器已启动
+[0;32m[INFO][0m 2026-05-21 20:45:52 - 等待 MariaDB 就绪...
+[0;32m[INFO][0m 2026-05-21 20:45:55 - ✓ MariaDB 已就绪
+[0;32m[INFO][0m 2026-05-21 20:45:55 - 使用 Docker 命名卷存储
+[0;32m[INFO][0m 2026-05-21 20:45:55 - MantisBT 容器已在运行，停止并删除...
+[0;32m[INFO][0m 2026-05-21 20:45:56 - 创建 MantisBT 容器...
+[0;32m[INFO][0m 2026-05-21 20:46:08 - ✓ MantisBT 容器已启动
+[0;32m[INFO][0m 2026-05-21 20:46:08 - 创建 config_inc.php（自动配置数据库连接）...
+[0;32m[INFO][0m 2026-05-21 20:46:09 - 安装 MantisBT 数据库表...
+[0;32m[INFO][0m 2026-05-21 20:46:09 -     SQL检查: /var/www/html/admin/sql/mantisbt.mysqli.sql → 不存在
+[0;32m[INFO][0m 2026-05-21 20:46:09 -     SQL检查: /var/www/html/admin/sql/mantisbt.mysql.sql → 不存在
+[0;32m[INFO][0m 2026-05-21 20:46:09 -     SQL检查: /var/www/html/admin/sql/mantisbt.mssql.sql → 不存在
+[0;32m[INFO][0m 2026-05-21 20:46:09 -     SQL检查: /var/www/html/sql/mantisbt.sql → 不存在
+[0;32m[INFO][0m 2026-05-21 20:46:10 -     SQL检查: /var/www/html/sql/mantis.sql → 不存在
+[0;32m[INFO][0m 2026-05-21 20:46:10 -     PHP检查: /var/www/html/admin/schema.php → 存在
+[0;32m[INFO][0m 2026-05-21 20:46:10 -   尝试 PHP CLI 方式安装数据库表...
+[0;32m[INFO][0m 2026-05-21 20:46:10 -   PHP schema 输出: PHP_EXCEPTION: Call to undefined function require_api()
+[1;33m[WARN][0m 2026-05-21 20:46:13 -   数据库表未安装，尝试 Web 安装器...
+[0;32m[INFO][0m 2026-05-21 20:46:13 -   执行 Web 安装器...
+[0;32m[INFO][0m 2026-05-21 20:46:13 -   Web 安装结果: GOOD=9, BAD/FAIL=2
+[1;33m[WARN][0m 2026-05-21 20:46:15 - 数据库表可能未完全安装，请访问 Web 界面手动完成
+[0;32m[INFO][0m 2026-05-21 20:46:16 -   手动安装地址: http://127.0.0.1:19095/admin/install.php
+[0;31m[ERROR][0m 2026-05-21 20:46:16 - 数据库初始化不完整: 缺少 MantisBT 用户表 (mantis_user_table 或 mantis_user)
+[0;31m[ERROR][0m 2026-05-21 20:46:16 - 请检查 MantisBT schema 导入或 Web 安装器输出
+[WARN] 2026-05-21 20:46:16  mantisbt 部署脚本返回 exit=1, 检查容器是否已在运行...
+[ERROR] 2026-05-21 20:46:16  mantisbt 部署脚本失败，可能是数据库初始化或管理员账号配置失败
+[INFO] 2026-05-21 20:46:16  
+[0;34m=== 部署 MantisBT Bug 追踪系统 ===[0m
+
+[0;34m=== 部署 MantisBT MariaDB 数据库 ===[0m
+[0;32m[INFO][0m 2026-05-21 20:45:46 - 使用 Docker 命名卷存储 (推荐用于 WSL/Windows)
+[0;32m[INFO][0m 2026-05-21 20:45:46 - MantisBT DB 容器已在运行，停止并删除...
+devopsagent-mantisbt-db
+devopsagent-mantisbt-db
+[0;32m[INFO][0m 2026-05-21 20:45:47 - 创建 MariaDB 容器...
+  - 端口: 127.0.0.1:3307 -> 3306
+  - 数据库: mantisbt
+  - 用户: mantisbt
+f0dbb966d2b625312cc1a734ebe5bad0ecad7eefc338da56a0b953481be8e9b0
+[0;32m[INFO][0m 2026-05-21 20:45:52 - ✓ MariaDB 容器已启动
+[0;32m[INFO][0m 2026-05-21 20:45:52 - 等待 MariaDB 就绪...
+[0;32m[INFO][0m 2026-05-21 20:45:55 - ✓ MariaDB 已就绪
+[0;32m[INFO][0m 2026-05-21 20:45:55 - 使用 Docker 命名卷存储
+[0;32m[INFO][0m 2026-05-21 20:45:55 - MantisBT 容器已在运行，停止并删除...
+devopsagent-mantisbt
+devopsagent-mantisbt
+[0;32m[INFO][0m 2026-05-21 20:45:56 - 创建 MantisBT 容器...
+  - 端口: 127.0.0.1:19095 -> 80
+  - 数据库主机: devopsagent-mantisbt-db
+  - 数据库端口: 3306
+  - 数据库名: mantisbt
+1742ad12f0fc2e389c61c3977fe0f0a06b8213d748f0b7c3b537c1ad4293a2eb
+[0;32m[INFO][0m 2026-05-21 20:46:08 - ✓ MantisBT 容器已启动
+[0;32m[INFO][0m 2026-05-21 20:46:08 - 创建 config_inc.php（自动配置数据库连接）...
+[0;32m[INFO][0m 2026-05-21 20:46:09 - 安装 MantisBT 数据库表...
+[0;32m[INFO][0m 2026-05-21 20:46:09 -     SQL检查: /var/www/html/admin/sql/mantisbt.mysqli.sql → 不存在
+[0;32m[INFO][0m 2026-05-21 20:46:09 -     SQL检查: /var/www/html/admin/sql/mantisbt.mysql.sql → 不存在
+[0;32m[INFO][0m 2026-05-21 20:46:09 -     SQL检查: /var/www/html/admin/sql/mantisbt.mssql.sql → 不存在
+[0;32m[INFO][0m 2026-05-21 20:46:09 -     SQL检查: /var/www/html/sql/mantisbt.sql → 不存在
+[0;32m[INFO][0m 2026-05-21 20:46:10 -     SQL检查: /var/www/html/sql/mantis.sql → 不存在
+[0;32m[INFO][0m 2026-05-21 20:46:10 -     PHP检查: /var/www/html/admin/schema.php → 存在
+[0;32m[INFO][0m 2026-05-21 20:46:10 -   尝试 PHP CLI 方式安装数据库表...
+[0;32m[INFO][0m 2026-05-21 20:46:10 -   PHP schema 输出: PHP_EXCEPTION: Call to undefined function require_api()
+[1;33m[WARN][0m 2026-05-21 20:46:13 -   数据库表未安装，尝试 Web 安装器...
+[0;32m[INFO][0m 2026-05-21 20:46:13 -   执行 Web 安装器...
+
+200[0;32m[INFO][0m 2026-05-21 20:46:13 -   Web 安装结果: GOOD=9, BAD/FAIL=2
+[1;33m[WARN][0m 2026-05-21 20:46:15 - 数据库表可能未完全安装，请访问 Web 界面手动完成
+[0;32m[INFO][0m 2026-05-21 20:46:16 -   手动安装地址: http://127.0.0.1:19095/admin/install.php
+[0;31m[ERROR][0m 2026-05-21 20:46:16 - 数据库初始化不完整: 缺少 MantisBT 用户表 (mantis_user_table 或 mantis_user)
+[0;31m[ERROR][0m 2026-05-21 20:46:16 - 请检查 MantisBT schema 导入或 Web 安装器输出
+
+[INFO] 2026-05-21 20:46:16  跳过独立 Nginx 子脚本，使用 deploy_all.py 内置反向代理编排
+=== 2026-05-21 20:46:16  配置 Nginx 反向代理
+[INFO] 2026-05-21 20:46:16  ✓ 检测到 jenkins 容器 (devopsagent-jenkins)
+[INFO] 2026-05-21 20:46:16    jenkins.conf 内容未变, 跳过
+[INFO] 2026-05-21 20:46:16  ✓ 检测到 gitlab 容器 (devopsagent-gitlab)
+[INFO] 2026-05-21 20:46:16    gitlab.conf 内容未变, 跳过
+[INFO] 2026-05-21 20:46:16  ✓ 检测到 mantisbt 容器 (devopsagent-mantisbt)
+[INFO] 2026-05-21 20:46:16    mantisbt.conf 内容未变, 跳过
+[INFO] 2026-05-21 20:46:16  - langfuse 容器未运行, 跳过
+[INFO] 2026-05-21 20:46:21  ✓ Nginx 已启动
+[ERROR] 2026-05-21 20:46:21  以下服务部署失败: mantisbt
+[INFO] 2026-05-21 20:46:21  已成功部署的服务仍然可用，可单独修复失败的服务
+[INFO] 2026-05-21 20:46:21  部署流程完成!
+[INFO] 2026-05-21 20:49:48  已选择: 仅 Langfuse (+ Nginx HTTPS)
+[INFO] 2026-05-21 20:49:48  服务: ['langfuse', 'nginx'], Nginx: True
+=== 2026-05-21 20:49:48  端口占用扫描
+[INFO] 2026-05-21 20:49:48  已占用端口: 16 个
+[WARN] 2026-05-21 20:49:48    端口 53 已被占用
+[WARN] 2026-05-21 20:49:48    端口 2024 已被占用
+[WARN] 2026-05-21 20:49:48    端口 2222 已被占用
+[WARN] 2026-05-21 20:49:48    端口 3307 已被占用
+[WARN] 2026-05-21 20:49:48    端口 11434 已被占用
+[WARN] 2026-05-21 20:49:48    端口 18082 已被占用
+[WARN] 2026-05-21 20:49:48    端口 18442 已被占用
+[WARN] 2026-05-21 20:49:48    端口 18444 已被占用
+[WARN] 2026-05-21 20:49:48    端口 18445 已被占用
+[WARN] 2026-05-21 20:49:48    端口 18789 已被占用
+[WARN] 2026-05-21 20:49:49    端口 18791 已被占用
+[WARN] 2026-05-21 20:49:49    端口 19093 已被占用
+[WARN] 2026-05-21 20:49:49    端口 19095 已被占用
+[WARN] 2026-05-21 20:49:49    端口 19444 已被占用
+[WARN] 2026-05-21 20:49:49    端口 43831 已被占用
+[WARN] 2026-05-21 20:49:49    端口 50000 已被占用
+[WARN] 2026-05-21 20:49:49    [jenkins/agent] 50000 已被占用 → 自动分配 50001
+[WARN] 2026-05-21 20:49:49    [gitlab/ssh] 2222 已被占用 → 自动分配 2223
+[WARN] 2026-05-21 20:49:49    [mantisbt/web] 19093 已被占用 → 自动分配 19094
+[WARN] 2026-05-21 20:49:49    [mariadb/db] 3307 已被占用 → 自动分配 3308
+=== 2026-05-21 20:49:49  端口扫描完成
+[INFO] 2026-05-21 20:49:49  端口分配已写入: /mnt/c/Users/Tong/Desktop/DevOpsAgent/deploy/.env.auto
+=== 2026-05-21 20:49:49  Docker 网络扫描
+[INFO] 2026-05-21 20:49:49  Docker bridge 子网: 172.18.0.0/16
+[WARN] 2026-05-21 20:49:49  宿主路由表包含非 Docker 私有网段: ['172.19.0.0', '172.24.208.0', '172.24.208.1', '172.18.0.0']
+[INFO] 2026-05-21 20:49:49  物理网卡私有 IP: 172.24.219.93(eth0)
+=== 2026-05-21 20:49:49  Docker 网络扫描完成
+=== 2026-05-21 20:49:49  Docker 卷扫描
+[INFO] 2026-05-21 20:49:49  已发现 10 个卷
+[WARN] 2026-05-21 20:49:49    卷: gitlab-config_3 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:49:49    卷: gitlab-data_4 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:49:49    卷: gitlab-logs_4 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:49:49    卷: jenkins-home_6 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:49:49    卷: mantisbt-db-data (可能与其他实例冲突)
+[WARN] 2026-05-21 20:49:49    卷: mantisbt-db-data_1 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:49:49    卷: mantisbt-db-data_8 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:49:49    卷: mantisbt-web (可能与其他实例冲突)
+[WARN] 2026-05-21 20:49:49    卷: mantisbt-web_1 (可能与其他实例冲突)
+[WARN] 2026-05-21 20:49:49    卷: mantisbt-web_7 (可能与其他实例冲突)
+[INFO] 2026-05-21 20:49:49  已加载 .env 文件: /mnt/c/Users/Tong/Desktop/DevOpsAgent/deploy/.env
+[INFO] 2026-05-21 20:50:17  使用 IP: 172.24.219.93
+[INFO] 2026-05-21 20:50:17  Langfuse HTTPS 反向代理地址: https://172.24.219.93:18447
+=== 2026-05-21 20:50:17  开始部署: 模式=langfuse, 服务=['langfuse', 'nginx']
+[INFO] 2026-05-21 20:50:17  Nginx 绑定地址: 172.24.219.93
+=== 2026-05-21 20:50:17  部署 langfuse
+[INFO] 2026-05-21 20:50:17    卷: LANGFUSE_VOLUME_DATA=langfuse-data
