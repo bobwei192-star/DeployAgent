@@ -43,10 +43,14 @@ PORT_REGISTRY = {
     "mantisbt":   {"web": 19093},
     "mariadb":    {"db": 3307},
     "langfuse":   {"web": 3000},
+    "nexus":      {"web": 8081},
+    "harbor":     {"http": 8082, "https": 8445, "registry": 5002},
     "nginx": {
         "jenkins":   18440,
         "gitlab":    18441,
+        "nexus":     18442,
         "mantisbt":  18443,
+        "harbor":    18446,
         "langfuse":  18447,
     },
     "webhook":    5000,
@@ -71,6 +75,15 @@ SERVICE_CONFIG = {
         "backend_port": 80,
         "nginx_location": "/",
     },
+    "nexus": {
+        "deploy_script": PROJECT_ROOT / "deploy_nexus" / "deploy_nexus.sh",
+        "container": "devopsagent-nexus",
+        "nginx_port_key": ("nginx", "nexus"),
+        "nginx_container_port": 8442,
+        "backend_host": "devopsagent-nexus",
+        "backend_port": 8081,
+        "nginx_location": "/",
+    },
     "mantisbt": {
         "deploy_script": PROJECT_ROOT / "deploy_MantisBT" / "deploy_mantisbt.sh",
         "container": "devopsagent-mantisbt",
@@ -78,6 +91,15 @@ SERVICE_CONFIG = {
         "nginx_container_port": 8443,
         "backend_host": "devopsagent-mantisbt",
         "backend_port": 80,
+        "nginx_location": "/",
+    },
+    "harbor": {
+        "deploy_script": PROJECT_ROOT / "deploy_harbor" / "deploy_harbor.sh",
+        "container": "harbor-portal",
+        "nginx_port_key": ("nginx", "harbor"),
+        "nginx_container_port": 8446,
+        "backend_host": "harbor-portal",
+        "backend_port": 8082,
         "nginx_location": "/",
     },
     "nginx": {
@@ -103,6 +125,8 @@ DEPLOY_MODES = {
     5: ("mantisbt",  "仅 MantisBT (+ Nginx HTTPS)",                               ["mantisbt", "nginx"],                                  True),
     6: ("langfuse",  "仅 Langfuse (+ Nginx HTTPS)",                               ["langfuse", "nginx"],                                  True),
     7: ("nginx",     "仅 Nginx 反向代理",                                          ["nginx"],                                              True),
+    8: ("nexus",      "仅 Sonatype Nexus3 制品仓库 (+ Nginx HTTPS)",             ["nexus", "nginx"],                                     True),
+    9: ("harbor",    "仅 Harbor 镜像仓库 (+ Nginx HTTPS)",                        ["harbor", "nginx"],                                    True),
 }
 
 COLORS = {
@@ -691,6 +715,18 @@ def configure_reverse_proxy_env(services, use_nginx, public_host):
             os.environ["JENKINS_URL"] = f"https://{public_host}:{jenkins_port}/jenkins"
             info(f"Jenkins HTTPS 反向代理地址: {os.environ['JENKINS_URL']}")
 
+    if "nexus" in services and isinstance(nginx_ports, dict):
+        nexus_port = nginx_ports.get("nexus")
+        if nexus_port:
+            os.environ["NEXUS_URL"] = f"https://{public_host}:{nexus_port}"
+            info(f"Nexus3 HTTPS 反向代理地址: {os.environ['NEXUS_URL']}")
+
+    if "harbor" in services and isinstance(nginx_ports, dict):
+        harbor_port = nginx_ports.get("harbor")
+        if harbor_port:
+            os.environ["HARBOR_URL"] = f"https://{public_host}:{harbor_port}"
+            info(f"Harbor HTTPS 反向代理地址: {os.environ['HARBOR_URL']}")
+
     if "langfuse" in services and isinstance(nginx_ports, dict):
         langfuse_port = nginx_ports.get("langfuse")
         if langfuse_port:
@@ -740,7 +776,9 @@ def ensure_nginx_proxy(nginx_bind="0.0.0.0"):
     nginx_confs = {
         "jenkins": ("devopsagent-jenkins", "8080", 8440, "/jenkins/"),
         "gitlab": ("devopsagent-gitlab", "80", 8441, "/"),
+        "nexus": ("devopsagent-nexus", "8081", 8442, "/"),
         "mantisbt": ("devopsagent-mantisbt", "80", 8443, "/"),
+        "harbor": ("harbor-portal", "8082", 8446, "/"),
         "langfuse": ("langfuse-web", "3000", 8447, "/"),
     }
 
@@ -1056,6 +1094,45 @@ def _interactive_env_setup():
 # 主入口
 # ═══════════════════════════════════════════════════════════════
 
+def check_and_install_docker():
+    """检测 Docker 是否安装，如未安装则自动安装"""
+    import shutil as _shutil
+    if _shutil.which("docker"):
+        return True
+
+    warn("Docker 未安装，正在尝试自动安装...")
+    info("请等待安装完成，如需手动安装请运行: sudo bash deploy_docker/install_docker.sh")
+
+    install_script = PROJECT_ROOT / "deploy_docker" / "install_docker.sh"
+    if not install_script.exists():
+        error(f"Docker 安装脚本不存在: {install_script}")
+        info("请手动安装 Docker: https://docs.docker.com/engine/install/")
+        return False
+
+    try:
+        result = subprocess.run(
+            ["bash", str(install_script)],
+            timeout=600,
+            capture_output=True,
+            text=True,
+        )
+        if result.returncode == 0 and _shutil.which("docker"):
+            info("✓ Docker 安装成功")
+            return True
+        else:
+            error("Docker 安装失败")
+            if result.stdout:
+                print(result.stdout[-2000:])
+            if result.stderr:
+                print(result.stderr[-1000:])
+            return False
+    except subprocess.TimeoutExpired:
+        error("Docker 安装超时 (10分钟)")
+        return False
+    except Exception as e:
+        error(f"安装过程异常: {e}")
+        return False
+
 def check_sudo():
     if os.name == "nt":
         return
@@ -1083,6 +1160,8 @@ def main():
     parser.add_argument("--deploy-gitlab-standalone", action="store_true")
     parser.add_argument("--deploy-mantisbt-standalone", action="store_true")
     parser.add_argument("--deploy-langfuse-standalone", action="store_true")
+    parser.add_argument("--deploy-nexus-standalone", action="store_true")
+    parser.add_argument("--deploy-harbor-standalone", action="store_true")
     parser.add_argument("--deploy-nginx-standalone", action="store_true")
     parser.add_argument("--nginx-bind", type=str, default=None, help="Nginx 绑定地址 (默认使用交互式输入的 IP)")
     parser.add_argument("--auto-ip", action="store_true", help="自动检测 IP 地址，跳过手动输入确认 (适用于脚本化调用)")
@@ -1092,6 +1171,11 @@ def main():
     print(f"\n{COLORS['CYAN']}DevOpsAgent 一键部署脚本 v5.1.0 (Python){COLORS['NC']}\n")
 
     check_sudo()
+
+    # 自动检测并安装 Docker（如未安装）
+    if not check_and_install_docker():
+        error("Docker 未安装且自动安装失败，请手动安装后重试")
+        sys.exit(1)
 
     # 快捷命令 (不部署)
     if args.get_jenkins_password:
@@ -1123,6 +1207,8 @@ def main():
         "gitlab": args.deploy_gitlab_standalone,
         "mantisbt": args.deploy_mantisbt_standalone,
         "langfuse": args.deploy_langfuse_standalone,
+        "nexus": args.deploy_nexus_standalone,
+        "harbor": args.deploy_harbor_standalone,
         "nginx": args.deploy_nginx_standalone,
     }
 

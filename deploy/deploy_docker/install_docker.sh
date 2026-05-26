@@ -132,80 +132,244 @@ detect_os() {
     log_info "检测到操作系统: $OS_NAME"
 }
 
+# =============================================================================
+# Docker 安装方法（按优先级排序，失败后自动尝试下一种）
+# =============================================================================
+
+install_docker_method_1_ubuntu() {
+    # 方法1: 官方 Docker 仓库 (download.docker.com)
+    log_info "[方法1/5] 尝试官方 Docker 仓库 (download.docker.com)..."
+
+    apt-get update -y
+    apt-get install -y apt-transport-https ca-certificates curl gnupg lsb-release
+
+    local arch=$(dpkg --print-architecture)
+    local codename=$(lsb_release -cs)
+
+    # 尝试添加 GPG 密钥
+    curl -fsSL "https://download.docker.com/linux/ubuntu/gpg" | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg 2>/dev/null || \
+    curl -fsSL "https://download.docker.com/linux/ubuntu/gpg" | apt-key add - 2>/dev/null
+
+    # 设置仓库
+    echo "deb [arch=$arch signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $codename stable" \
+        > /etc/apt/sources.list.d/docker.list
+
+    apt-get update -y
+    apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+    return 0
+}
+
+install_docker_method_2_ubuntu() {
+    # 方法2: Docker 官方便捷脚本 (get.docker.com)
+    log_info "[方法2/5] 尝试 Docker 便捷安装脚本 (get.docker.com)..."
+
+    curl -fsSL https://get.docker.com -o /tmp/get-docker.sh && \
+    sh /tmp/get-docker.sh --mirror Azure-China-Cloud && \
+    rm -f /tmp/get-docker.sh
+
+    return 0
+}
+
+install_docker_method_3_ubuntu() {
+    # 方法3: 阿里云镜像
+    log_info "[方法3/5] 尝试阿里云 Docker 镜像..."
+
+    apt-get update -y
+    apt-get install -y apt-transport-https ca-certificates curl gnupg
+
+    local arch=$(dpkg --print-architecture)
+    local codename=$(lsb_release -cs)
+
+    # 阿里云 Docker GPG 密钥
+    curl -fsSL https://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+
+    # 阿里云 Docker 仓库
+    echo "deb [arch=$arch signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://mirrors.aliyun.com/docker-ce/linux/ubuntu $codename stable" \
+        > /etc/apt/sources.list.d/docker.list
+
+    apt-get update -y
+    apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+    return 0
+}
+
+install_docker_method_4_ubuntu() {
+    # 方法4: 清华大学镜像
+    log_info "[方法4/5] 尝试清华大学 Docker 镜像..."
+
+    apt-get update -y
+    apt-get install -y apt-transport-https ca-certificates curl gnupg lsb-release
+
+    local arch=$(dpkg --print-architecture)
+    local codename=$(lsb_release -cs)
+
+    # 清华大学 Docker GPG 密钥
+    curl -fsSL https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+
+    # 清华大学 Docker 仓库
+    echo "deb [arch=$arch signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/ubuntu $codename stable" \
+        > /etc/apt/sources.list.d/docker.list
+
+    apt-get update -y
+    apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+    return 0
+}
+
+install_docker_method_5_ubuntu() {
+    # 方法5: 使用 Ubuntu 默认仓库的 docker.io 包（最后手段）
+    log_info "[方法5/5] 尝试 Ubuntu 默认仓库 docker.io..."
+
+    apt-get update -y
+    apt-get install -y docker.io docker-compose
+
+    return 0
+}
+
 install_docker_ubuntu() {
-    log_step "在 Ubuntu/Debian 上安装 Docker"
-    
-    log_info "更新软件包列表..."
-    apt-get update -y
-    
-    log_info "安装依赖包..."
-    apt-get install -y \
-        apt-transport-https \
-        ca-certificates \
-        curl \
-        gnupg \
-        lsb-release
-    
-    log_info "添加 Docker GPG 密钥..."
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg 2>/dev/null || {
-        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
-    }
-    
-    log_info "设置 Docker 仓库..."
-    if [[ -d /usr/share/keyrings ]]; then
-        echo \
-            "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
-            $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
-    else
-        add-apt-repository \
-            "deb [arch=$(dpkg --print-architecture)] https://download.docker.com/linux/ubuntu \
-            $(lsb_release -cs) stable"
+    log_step "在 Ubuntu/Debian 上安装 Docker (多方法自动回退)"
+
+    local methods=(
+        "install_docker_method_1_ubuntu"
+        "install_docker_method_2_ubuntu"
+        "install_docker_method_3_ubuntu"
+        "install_docker_method_4_ubuntu"
+        "install_docker_method_5_ubuntu"
+    )
+
+    local success=false
+
+    for method in "${methods[@]}"; do
+        log_info "-------------------------------------------"
+        # 清理之前的安装残留
+        apt-get remove -y docker docker-engine docker.io containerd runc 2>/dev/null || true
+        rm -f /etc/apt/sources.list.d/docker.list
+        rm -f /usr/share/keyrings/docker-archive-keyring.gpg
+
+        if $method; then
+            if command -v docker &>/dev/null; then
+                log_info "✓ Docker 安装成功 via $method"
+                success=true
+                break
+            fi
+        fi
+        log_warn "$method 失败，尝试下一个方法..."
+        sleep 2
+    done
+
+    if [[ "$success" == false ]]; then
+        log_error "所有 Docker 安装方法均失败"
+        return 1
     fi
-    
-    log_info "更新软件包列表并安装 Docker CE..."
-    apt-get update -y
-    apt-get install -y \
-        docker-ce \
-        docker-ce-cli \
-        containerd.io \
-        docker-buildx-plugin \
-        docker-compose-plugin
+
+    return 0
+}
+
+install_docker_method_1_centos() {
+    # 方法1: 官方 Docker 仓库
+    log_info "[方法1/4] 尝试官方 Docker 仓库..."
+
+    yum install -y yum-utils device-mapper-persistent-data lvm2
+    yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+    yum-config-manager --enable docker-ce-nightly 2>/dev/null || true
+    yum install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+    systemctl start docker
+    systemctl enable docker
+
+    return 0
+}
+
+install_docker_method_2_centos() {
+    # 方法2: 阿里云镜像
+    log_info "[方法2/4] 尝试阿里云 Docker 镜像..."
+
+    yum install -y yum-utils device-mapper-persistent-data lvm2
+    yum-config-manager --add-repo https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+    yum install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+    systemctl start docker
+    systemctl enable docker
+
+    return 0
+}
+
+install_docker_method_3_centos() {
+    # 方法3: 清华大学镜像
+    log_info "[方法3/4] 尝试清华大学 Docker 镜像..."
+
+    yum install -y yum-utils device-mapper-persistent-data lvm2
+    yum-config-manager --add-repo https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/centos/docker-ce.repo
+    yum install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+    systemctl start docker
+    systemctl enable docker
+
+    return 0
+}
+
+install_docker_method_4_centos() {
+    # 方法4: 使用 Docker 便捷脚本
+    log_info "[方法4/4] 尝试 Docker 便捷脚本..."
+
+    curl -fsSL https://get.docker.com -o /tmp/get-docker.sh && \
+    sh /tmp/get-docker.sh && \
+    rm -f /tmp/get-docker.sh
+    systemctl start docker
+    systemctl enable docker
+
+    return 0
 }
 
 install_docker_centos() {
-    log_step "在 CentOS/RHEL 上安装 Docker"
-    
-    log_info "安装依赖包..."
-    yum install -y yum-utils device-mapper-persistent-data lvm2
-    
-    log_info "设置 Docker 仓库..."
-    yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-    
-    log_info "启用 nightly 仓库（可选）..."
-    yum-config-manager --enable docker-ce-nightly 2>/dev/null || true
-    
-    log_info "安装 Docker CE..."
-    yum install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-    
-    log_info "启动 Docker 服务..."
-    systemctl start docker
-    systemctl enable docker
+    log_step "在 CentOS/RHEL 上安装 Docker (多方法自动回退)"
+
+    local methods=(
+        "install_docker_method_2_centos"
+        "install_docker_method_1_centos"
+        "install_docker_method_3_centos"
+        "install_docker_method_4_centos"
+    )
+
+    local success=false
+
+    for method in "${methods[@]}"; do
+        log_info "-------------------------------------------"
+        # 清理之前的安装残留
+        yum remove -y docker docker-client docker-client-latest docker-common docker-latest docker-latest-logrotate docker-logrotate docker-engine 2>/dev/null || true
+        rm -f /etc/yum.repos.d/docker*.repo
+
+        if $method; then
+            if command -v docker &>/dev/null; then
+                log_info "✓ Docker 安装成功 via $method"
+                success=true
+                break
+            fi
+        fi
+        log_warn "$method 失败，尝试下一个方法..."
+        sleep 2
+    done
+
+    if [[ "$success" == false ]]; then
+        log_error "所有 Docker 安装方法均失败"
+        return 1
+    fi
+
+    return 0
 }
 
 install_docker() {
     detect_os
-    
+
     if command -v docker &>/dev/null; then
         log_info "Docker 已安装: $(docker --version)"
-        
+
         local docker_version=$(docker --version | grep -oP '\d+\.\d+\.\d+' | head -1)
         local major_version=$(echo "$docker_version" | cut -d. -f1)
         local minor_version=$(echo "$docker_version" | cut -d. -f2)
-        
+
         if [[ $major_version -lt 20 || ($major_version -eq 20 && $minor_version -lt 10) ]]; then
             log_warn "Docker 版本较旧 ($docker_version)，建议升级到 20.10+"
         fi
-        
+
         if ! docker info &>/dev/null; then
             log_warn "Docker 已安装但无法运行，尝试启动..."
             if command -v systemctl &>/dev/null; then
@@ -214,18 +378,24 @@ install_docker() {
                 service docker start
             fi
         fi
-        
+
         return 0
     fi
-    
+
     log_step "安装 Docker CE"
-    
+
+    local install_success=false
+
     case "$OS_ID" in
         ubuntu|debian|linuxmint)
-            install_docker_ubuntu
+            if install_docker_ubuntu; then
+                install_success=true
+            fi
             ;;
         centos|rhel|fedora)
-            install_docker_centos
+            if install_docker_centos; then
+                install_success=true
+            fi
             ;;
         *)
             log_error "不支持的操作系统: $OS_ID"
@@ -233,40 +403,76 @@ install_docker() {
             exit 1
             ;;
     esac
-    
+
+    if [[ "$install_success" == false ]]; then
+        log_error "Docker 安装失败"
+        exit 1
+    fi
+
     log_info "验证 Docker 安装..."
-    docker run hello-world
-    
-    log_info "Docker 安装完成: $(docker --version)"
+    if docker info &>/dev/null; then
+        log_info "✓ Docker 安装完成: $(docker --version)"
+    else
+        log_warn "Docker 安装后无法正常运行，尝试启动服务..."
+        if command -v systemctl &>/dev/null; then
+            systemctl start docker
+            systemctl enable docker
+        elif command -v service &>/dev/null; then
+            service docker start
+        fi
+        sleep 3
+        if docker info &>/dev/null; then
+            log_info "✓ Docker 启动成功: $(docker --version)"
+        fi
+    fi
 }
 
 install_docker_compose() {
-    log_step "安装 Docker Compose"
-    
+    log_step "安装 Docker Compose (多源自动回退)"
+
     if docker compose version &>/dev/null; then
         log_info "Docker Compose (plugin) 已安装: $(docker compose version --short 2>/dev/null || echo "可用")"
         return 0
     fi
-    
+
     if command -v docker-compose &>/dev/null; then
         log_info "Docker Compose (standalone) 已安装: $(docker-compose version --short 2>/dev/null || echo "可用")"
         return 0
     fi
-    
+
     log_warn "Docker Compose 未安装，正在安装..."
-    
+
     local COMPOSE_VERSION="2.23.3"
-    local COMPOSE_URL="https://github.com/docker/compose/releases/download/v${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)"
-    
-    log_info "下载 Docker Compose $COMPOSE_VERSION..."
-    if curl -SL "$COMPOSE_URL" -o /usr/local/bin/docker-compose; then
-        chmod +x /usr/local/bin/docker-compose
-        log_info "Docker Compose 安装完成: $(docker-compose --version)"
-    else
-        log_error "Docker Compose 下载失败"
+
+    # 多源下载链接（按优先级排序）
+    local -a compose_urls=(
+        "https://mirrors.aliyun.com/docker-toolbox/linux/compose/docker-compose-$(uname -s)-$(uname -m)"
+        "https://get.daocloud.io/dockerpt/docker/compose/releases/download/v${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)"
+        "https://github.com/docker/compose/releases/download/v${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)"
+    )
+
+    local download_success=false
+
+    for url in "${compose_urls[@]}"; do
+        log_info "尝试下载 Docker Compose: $url"
+        if curl -SL "$url" -o /usr/local/bin/docker-compose 2>/dev/null; then
+            chmod +x /usr/local/bin/docker-compose
+            if docker-compose --version &>/dev/null; then
+                log_info "✓ Docker Compose 安装完成: $(docker-compose --version)"
+                download_success=true
+                break
+            fi
+        fi
+        log_warn "下载失败，尝试下一个源..."
+    done
+
+    if [[ "$download_success" == false ]]; then
+        log_error "Docker Compose 所有下载源均失败"
         log_info "请手动安装: https://docs.docker.com/compose/install/"
-        exit 1
+        return 1
     fi
+
+    return 0
 }
 
 configure_docker_mirrors() {
@@ -292,6 +498,10 @@ configure_docker_mirrors() {
     fi
     
     local new_mirrors=(
+        "https://registry.docker-cn.com"
+        "https://mirror.aliyuncs.com"
+        "https://hub-mirror.c.163.com"
+        "https://mirror.ccs.tencentyun.com"
         "https://docker.xuanyuan.me"
         "https://docker.1ms.run"
         "https://xuanyuan.cloud"

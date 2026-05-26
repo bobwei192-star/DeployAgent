@@ -1930,3 +1930,1185 @@ devopsagent-mantisbt
 [INFO] 2026-05-21 20:50:17  Nginx 绑定地址: 172.24.219.93
 === 2026-05-21 20:50:17  部署 langfuse
 [INFO] 2026-05-21 20:50:17    卷: LANGFUSE_VOLUME_DATA=langfuse-data
+[INFO] 2026-05-26 12:39:50  已选择: 完整部署 (Jenkins + GitLab + MantisBT + Langfuse + Nginx)
+[INFO] 2026-05-26 12:39:50  服务: ['jenkins', 'gitlab', 'mantisbt', 'langfuse', 'nginx'], Nginx: True
+=== 2026-05-26 12:39:50  端口占用扫描
+[INFO] 2026-05-26 12:39:50  已占用端口: 1 个
+[WARN] 2026-05-26 12:39:50    端口 53 已被占用
+=== 2026-05-26 12:39:50  端口扫描完成
+[INFO] 2026-05-26 12:39:50  端口分配已写入: /home/zs/DeployAgent/deploy/.env.auto
+=== 2026-05-26 12:39:50  Docker 网络扫描
+[INFO] 2026-05-26 12:39:50  devopsagent-network 尚未创建, 跳过子网检测
+=== 2026-05-26 12:39:50  Docker 卷扫描
+[INFO] 2026-05-26 12:39:50  已加载 .env 文件: /home/zs/DeployAgent/deploy/.env
+[INFO] 2026-05-26 12:39:52  使用 IP: 172.21.201.77
+[INFO] 2026-05-26 12:39:52  GitLab HTTPS 反向代理地址: https://172.21.201.77:18441
+[INFO] 2026-05-26 12:39:52  MantisBT HTTPS 反向代理地址: https://172.21.201.77:18443
+[INFO] 2026-05-26 12:39:52  Jenkins HTTPS 反向代理地址: https://172.21.201.77:18440/jenkins
+[INFO] 2026-05-26 12:39:52  Langfuse HTTPS 反向代理地址: https://172.21.201.77:18447
+=== 2026-05-26 12:39:52  开始部署: 模式=full, 服务=['jenkins', 'gitlab', 'mantisbt', 'langfuse', 'nginx']
+[INFO] 2026-05-26 12:39:52  Nginx 绑定地址: 172.21.201.77
+[INFO] 2026-05-26 12:52:07  已选择: 完整部署 (Jenkins + GitLab + MantisBT + Langfuse + Nginx)
+[INFO] 2026-05-26 12:52:07  服务: ['jenkins', 'gitlab', 'mantisbt', 'langfuse', 'nginx'], Nginx: True
+=== 2026-05-26 12:52:07  端口占用扫描
+[INFO] 2026-05-26 12:52:07  已占用端口: 5 个
+[WARN] 2026-05-26 12:52:07    端口 53 已被占用
+[WARN] 2026-05-26 12:52:07    端口 34399 已被占用
+[WARN] 2026-05-26 12:52:07    端口 41769 已被占用
+[WARN] 2026-05-26 12:52:07    端口 51000 已被占用
+[WARN] 2026-05-26 12:52:07    端口 51001 已被占用
+=== 2026-05-26 12:52:07  端口扫描完成
+[INFO] 2026-05-26 12:52:07  端口分配已写入: /home/zs/DeployAgent/deploy/.env.auto
+=== 2026-05-26 12:52:07  Docker 网络扫描
+[INFO] 2026-05-26 12:52:07  devopsagent-network 尚未创建, 跳过子网检测
+=== 2026-05-26 12:52:07  Docker 卷扫描
+[INFO] 2026-05-26 12:52:07  已加载 .env 文件: /home/zs/DeployAgent/deploy/.env
+[INFO] 2026-05-26 12:52:08  使用 IP: 172.21.201.77
+[INFO] 2026-05-26 12:52:08  GitLab HTTPS 反向代理地址: https://172.21.201.77:18441
+[INFO] 2026-05-26 12:52:08  MantisBT HTTPS 反向代理地址: https://172.21.201.77:18443
+[INFO] 2026-05-26 12:52:08  Jenkins HTTPS 反向代理地址: https://172.21.201.77:18440/jenkins
+[INFO] 2026-05-26 12:52:08  Langfuse HTTPS 反向代理地址: https://172.21.201.77:18447
+=== 2026-05-26 12:52:08  开始部署: 模式=full, 服务=['jenkins', 'gitlab', 'mantisbt', 'langfuse', 'nginx']
+[INFO] 2026-05-26 12:52:08  Nginx 绑定地址: 172.21.201.77
+[WARN] 2026-05-26 12:54:27  Docker 未安装，正在尝试自动安装...
+[INFO] 2026-05-26 12:54:27  请等待安装完成，如需手动安装请运行: sudo bash deploy_docker/install_docker.sh
+[0;32m[INFO][0m 2026-05-26 12:54:27 - 检测到操作系统: Ubuntu 24.04.4 LTS
+[0;32m[INFO][0m 2026-05-26 12:54:27 - 更新软件包列表...
+[0;32m[INFO][0m 2026-05-26 12:54:45 - 安装依赖包...
+[0;32m[INFO][0m 2026-05-26 12:54:48 - 添加 Docker GPG 密钥...
+[0;32m[INFO][0m 2026-05-26 12:54:48 - 设置 Docker 仓库...
+[0;32m[INFO][0m 2026-05-26 12:54:48 - 更新软件包列表并安装 Docker CE...
+[0;32m[INFO][0m 2026-05-26 12:55:37 - 验证 Docker 安装...
+[0;32m[INFO][0m 2026-05-26 12:55:46 - Docker 安装完成: Docker version 29.5.2, build 79eb04c
+[0;32m[INFO][0m 2026-05-26 12:55:46 - Docker Compose (plugin) 已安装: 5.1.4
+[0;32m[INFO][0m 2026-05-26 12:55:46 - 准备应用以下镜像加速器配置:
+[0;32m[INFO][0m 2026-05-26 12:55:46 - 正在应用配置...
+[0;32m[INFO][0m 2026-05-26 12:55:46 - 重启 Docker 服务以应用配置...
+[0;32m[INFO][0m 2026-05-26 12:55:50 - ✓ Docker 配置已生效
+[0;32m[INFO][0m 2026-05-26 12:55:50 - 镜像源说明:
+[0;32m[INFO][0m 2026-05-26 12:55:50 -   - docker.1ms.run      (国内高速镜像)
+[0;32m[INFO][0m 2026-05-26 12:55:50 -   - docker.xuanyuan.me   (轩辕镜像)
+[0;32m[INFO][0m 2026-05-26 12:55:50 -   - docker.chenby.cn     (陈冰宇镜像)
+[0;32m[INFO][0m 2026-05-26 12:55:50 -   - hub.rat.dev          (Rat 镜像)
+[0;32m[INFO][0m 2026-05-26 12:55:50 - 如果仍然无法拉取镜像，请考虑:
+[0;32m[INFO][0m 2026-05-26 12:55:50 -   1. 检查网络连接
+[0;32m[INFO][0m 2026-05-26 12:55:50 -   2. 尝试使用代理: export HTTP_PROXY=http://127.0.0.1:7890
+[0;32m[INFO][0m 2026-05-26 12:55:50 -   3. 手动拉取镜像: docker pull <镜像名>
+[0;32m[INFO][0m 2026-05-26 12:55:50 - Docker 安装和配置完成!
+[INFO] 2026-05-26 12:55:50  ✓ Docker 安装成功
+[INFO] 2026-05-26 12:56:29  已选择: 完整部署 (Jenkins + GitLab + MantisBT + Langfuse + Nginx)
+[INFO] 2026-05-26 12:56:29  服务: ['jenkins', 'gitlab', 'mantisbt', 'langfuse', 'nginx'], Nginx: True
+=== 2026-05-26 12:56:29  端口占用扫描
+[INFO] 2026-05-26 12:56:29  已占用端口: 7 个
+[WARN] 2026-05-26 12:56:29    端口 53 已被占用
+[WARN] 2026-05-26 12:56:29    端口 34399 已被占用
+[WARN] 2026-05-26 12:56:29    端口 38867 已被占用
+[WARN] 2026-05-26 12:56:29    端口 41769 已被占用
+[WARN] 2026-05-26 12:56:29    端口 51000 已被占用
+[WARN] 2026-05-26 12:56:29    端口 51001 已被占用
+[WARN] 2026-05-26 12:56:29    端口 51002 已被占用
+=== 2026-05-26 12:56:29  端口扫描完成
+[INFO] 2026-05-26 12:56:29  端口分配已写入: /home/zs/DeployAgent/deploy/.env.auto
+=== 2026-05-26 12:56:29  Docker 网络扫描
+[WARN] 2026-05-26 12:56:29  宿主路由表包含非 Docker 私有网段: ['172.21.192.0', '172.21.192.1']
+[INFO] 2026-05-26 12:56:29  物理网卡私有 IP: 172.21.201.77(eth0)
+=== 2026-05-26 12:56:29  Docker 网络扫描完成
+=== 2026-05-26 12:56:29  Docker 卷扫描
+[INFO] 2026-05-26 12:56:30  已加载 .env 文件: /home/zs/DeployAgent/deploy/.env
+[INFO] 2026-05-26 12:56:31  使用 IP: 172.21.201.77
+[INFO] 2026-05-26 12:56:31  GitLab HTTPS 反向代理地址: https://172.21.201.77:18441
+[INFO] 2026-05-26 12:56:31  MantisBT HTTPS 反向代理地址: https://172.21.201.77:18443
+[INFO] 2026-05-26 12:56:31  Jenkins HTTPS 反向代理地址: https://172.21.201.77:18440/jenkins
+[INFO] 2026-05-26 12:56:31  Langfuse HTTPS 反向代理地址: https://172.21.201.77:18447
+=== 2026-05-26 12:56:31  开始部署: 模式=full, 服务=['jenkins', 'gitlab', 'mantisbt', 'langfuse', 'nginx']
+[INFO] 2026-05-26 12:56:31  Nginx 绑定地址: 172.21.201.77
+[INFO] 2026-05-26 12:56:31  ✓ 创建网络: devopsagent-network
+=== 2026-05-26 12:56:31  部署 jenkins
+[INFO] 2026-05-26 12:56:31    卷: JENKINS_VOLUME_HOME=jenkins-home
+
+[0;34m=== 检查 Docker 环境 ===[0m
+[0;32m[INFO][0m 2026-05-26 12:56:31 - Docker 已安装: Docker version 29.5.2, build 79eb04c
+[0;32m[INFO][0m 2026-05-26 12:56:31 - Docker Compose (plugin) 已安装: 5.1.4
+[0;32m[INFO][0m 2026-05-26 12:56:31 - 加载环境变量: /home/zs/DeployAgent/deploy/.env
+
+[0;34m=== 部署 Jenkins 服务 ===[0m
+[0;32m[INFO][0m 2026-05-26 12:56:31 - 使用 Docker 命名卷存储: jenkins-home
+[0;32m[INFO][0m 2026-05-26 12:56:31 - 创建 Jenkins 容器...
+[0;32m[INFO][0m 2026-05-26 12:58:39 - ✓ Jenkins 容器已启动
+[0;32m[INFO][0m 2026-05-26 12:58:39 - 容器: devopsagent-jenkins - 运行中 ✓
+[0;32m[INFO][0m 2026-05-26 12:58:39 - Jenkins 部署完成!
+[INFO] 2026-05-26 12:58:39  ✓ jenkins 部署完成
+=== 2026-05-26 12:58:39  部署 gitlab
+[INFO] 2026-05-26 12:58:39    卷: GITLAB_VOLUME_CONFIG=gitlab-config, GITLAB_VOLUME_LOGS=gitlab-logs, GITLAB_VOLUME_DATA=gitlab-data
+
+[0;34m=== 检查 Docker 环境 ===[0m
+[0;32m[INFO][0m 2026-05-26 12:58:39 - Docker 已安装: Docker version 29.5.2, build 79eb04c
+[0;32m[INFO][0m 2026-05-26 12:58:39 - Docker Compose (plugin) 已安装: 5.1.4
+[0;32m[INFO][0m 2026-05-26 12:58:39 - 加载环境变量: /home/zs/DeployAgent/deploy/.env
+
+[0;34m=== 部署 GitLab 服务 ===[0m
+[0;32m[INFO][0m 2026-05-26 12:58:39 - 使用 Docker 命名卷存储 (推荐用于 WSL/Windows)
+[0;32m[INFO][0m 2026-05-26 12:58:39 - 创建 GitLab 容器...
+[0;32m[INFO][0m 2026-05-26 13:11:31 - ✓ GitLab 容器已启动
+[1;33m[WARN][0m 2026-05-26 13:11:31 - GitLab 初始化需要 5-10 分钟，请耐心等待...
+[0;32m[INFO][0m 2026-05-26 13:11:31 - 命名卷管理命令:
+[0;32m[INFO][0m 2026-05-26 13:11:31 -   查看卷: docker volume ls
+[0;32m[INFO][0m 2026-05-26 13:11:31 -   备份数据: docker run --rm -v gitlab-data:/data -v /home/zs/DeployAgent/deploy:/backup alpine tar cvzf /backup/gitlab-data-backup.tar.gz /data
+[0;32m[INFO][0m 2026-05-26 13:11:31 -   恢复数据: docker run --rm -v gitlab-data:/data -v /home/zs/DeployAgent/deploy:/backup alpine tar xvzf /backup/gitlab-data-backup.tar.gz -C /
+[0;32m[INFO][0m 2026-05-26 13:11:31 - 容器: devopsagent-gitlab - 运行中 ✓
+[1;33m[WARN][0m 2026-05-26 13:11:31 - GitLab 首次初始化需要 5-10 分钟
+[0;32m[INFO][0m 2026-05-26 13:11:31 - 默认用户名: root
+[0;32m[INFO][0m 2026-05-26 13:11:31 - GitLab 部署完成!
+[INFO] 2026-05-26 13:11:31  ✓ gitlab 部署完成
+=== 2026-05-26 13:11:31  部署 mantisbt
+[INFO] 2026-05-26 13:11:31    卷: MANTISBT_VOLUME_WEB=mantisbt-web, MARIADB_VOLUME_DATA=mantisbt-db-data
+
+[0;34m=== 部署 MantisBT Bug 追踪系统 ===[0m
+
+[0;34m=== 部署 MantisBT MariaDB 数据库 ===[0m
+[0;32m[INFO][0m 2026-05-26 13:11:31 - 使用 Docker 命名卷存储 (推荐用于 WSL/Windows)
+[0;32m[INFO][0m 2026-05-26 13:11:31 - 创建 MariaDB 容器...
+[0;32m[INFO][0m 2026-05-26 13:12:42 - ✓ MariaDB 容器已启动
+[0;32m[INFO][0m 2026-05-26 13:12:42 - 等待 MariaDB 就绪...
+[0;32m[INFO][0m 2026-05-26 13:12:42 - ✓ MariaDB 已就绪
+[0;32m[INFO][0m 2026-05-26 13:12:42 - 使用 Docker 命名卷存储
+[0;32m[INFO][0m 2026-05-26 13:12:42 - MantisBT 容器已在运行，停止并删除...
+[0;32m[INFO][0m 2026-05-26 13:12:42 - 创建 MantisBT 容器...
+[0;32m[INFO][0m 2026-05-26 13:14:25 - ✓ MantisBT 容器已启动
+[0;32m[INFO][0m 2026-05-26 13:14:25 - 创建 config_inc.php（自动配置数据库连接）...
+[0;32m[INFO][0m 2026-05-26 13:14:25 - 安装 MantisBT 数据库表...
+[0;32m[INFO][0m 2026-05-26 13:14:26 -     SQL检查: /var/www/html/admin/sql/mantisbt.mysqli.sql → 不存在
+[0;32m[INFO][0m 2026-05-26 13:14:26 -     SQL检查: /var/www/html/admin/sql/mantisbt.mysql.sql → 不存在
+[0;32m[INFO][0m 2026-05-26 13:14:26 -     SQL检查: /var/www/html/admin/sql/mantisbt.mssql.sql → 不存在
+[0;32m[INFO][0m 2026-05-26 13:14:26 -     SQL检查: /var/www/html/sql/mantisbt.sql → 不存在
+[0;32m[INFO][0m 2026-05-26 13:14:26 -     SQL检查: /var/www/html/sql/mantis.sql → 不存在
+[0;32m[INFO][0m 2026-05-26 13:14:26 -     PHP检查: /var/www/html/admin/schema.php → 存在
+[0;32m[INFO][0m 2026-05-26 13:14:26 -   尝试 PHP CLI 方式安装数据库表...
+[0;32m[INFO][0m 2026-05-26 13:14:26 -   PHP schema 输出: PHP_EXCEPTION: Call to undefined function require_api()
+[1;33m[WARN][0m 2026-05-26 13:14:29 -   数据库表未安装，尝试 Web 安装器...
+[0;32m[INFO][0m 2026-05-26 13:14:29 -   执行 Web 安装器...
+[0;32m[INFO][0m 2026-05-26 13:14:30 -   Web 安装结果: GOOD=9, BAD/FAIL=2
+[1;33m[WARN][0m 2026-05-26 13:14:32 - 数据库表可能未完全安装，请访问 Web 界面手动完成
+[0;32m[INFO][0m 2026-05-26 13:14:32 -   手动安装地址: http://127.0.0.1:19093/admin/install.php
+[0;31m[ERROR][0m 2026-05-26 13:14:32 - 数据库初始化不完整: 缺少 MantisBT 用户表 (mantis_user_table 或 mantis_user)
+[0;31m[ERROR][0m 2026-05-26 13:14:32 - 请检查 MantisBT schema 导入或 Web 安装器输出
+[WARN] 2026-05-26 13:14:32  mantisbt 部署脚本返回 exit=1, 检查容器是否已在运行...
+[ERROR] 2026-05-26 13:14:32  mantisbt 部署脚本失败，可能是数据库初始化或管理员账号配置失败
+[INFO] 2026-05-26 13:14:32  ayer
+a519397e5ed9: Pulling fs layer
+0646ad7c6e95: Pulling fs layer
+0cdd27911de4: Pulling fs layer
+b8f262c62ec6: Pulling fs layer
+a98660e7def6: Pulling fs layer
+4d75689ceb37: Pulling fs layer
+639eb0368afa: Pulling fs layer
+99e337926e9c: Pulling fs layer
+431d44b3ce98: Pulling fs layer
+beb665ea0e0e: Pulling fs layer
+f4b07eea6ece: Download complete
+a98660e7def6: Download complete
+bdc3bccbe145: Download complete
+0646ad7c6e95: Download complete
+cd0a2124b76a: Download complete
+db58789790bd: Download complete
+639eb0368afa: Download complete
+638370de0271: Download complete
+beb665ea0e0e: Download complete
+431d44b3ce98: Download complete
+0cdd27911de4: Download complete
+c381ca3cdb49: Download complete
+a519397e5ed9: Download complete
+86d505fbe5b2: Download complete
+99e337926e9c: Download complete
+b8f262c62ec6: Download complete
+a98660e7def6: Pull complete
+b8f262c62ec6: Pull complete
+4d75689ceb37: Download complete
+639eb0368afa: Pull complete
+4d75689ceb37: Pull complete
+99e337926e9c: Pull complete
+beb665ea0e0e: Pull complete
+431d44b3ce98: Pull complete
+f4b07eea6ece: Pull complete
+0cdd27911de4: Pull complete
+bdc3bccbe145: Pull complete
+cd0a2124b76a: Pull complete
+a519397e5ed9: Pull complete
+db58789790bd: Pull complete
+638370de0271: Pull complete
+0646ad7c6e95: Pull complete
+86d505fbe5b2: Pull complete
+c381ca3cdb49: Pull complete
+Digest: sha256:127bbf58ff6d685cc7ee7aa8d9ed84e39b0bf77c89c389cd8c32032bdba61c9f
+Status: Downloaded newer image for rainflood/mantisbt:latest
+9da2aebd75e6bd84aa3c611bfc38ed22601b26e23692d7f77d5112aa7ca5fc7f
+[0;32m[INFO][0m 2026-05-26 13:14:25 - ✓ MantisBT 容器已启动
+[0;32m[INFO][0m 2026-05-26 13:14:25 - 创建 config_inc.php（自动配置数据库连接）...
+[0;32m[INFO][0m 2026-05-26 13:14:25 - 安装 MantisBT 数据库表...
+[0;32m[INFO][0m 2026-05-26 13:14:26 -     SQL检查: /var/www/html/admin/sql/mantisbt.mysqli.sql → 不存在
+[0;32m[INFO][0m 2026-05-26 13:14:26 -     SQL检查: /var/www/html/admin/sql/mantisbt.mysql.sql → 不存在
+[0;32m[INFO][0m 2026-05-26 13:14:26 -     SQL检查: /var/www/html/admin/sql/mantisbt.mssql.sql → 不存在
+[0;32m[INFO][0m 2026-05-26 13:14:26 -     SQL检查: /var/www/html/sql/mantisbt.sql → 不存在
+[0;32m[INFO][0m 2026-05-26 13:14:26 -     SQL检查: /var/www/html/sql/mantis.sql → 不存在
+[0;32m[INFO][0m 2026-05-26 13:14:26 -     PHP检查: /var/www/html/admin/schema.php → 存在
+[0;32m[INFO][0m 2026-05-26 13:14:26 -   尝试 PHP CLI 方式安装数据库表...
+[0;32m[INFO][0m 2026-05-26 13:14:26 -   PHP schema 输出: PHP_EXCEPTION: Call to undefined function require_api()
+[1;33m[WARN][0m 2026-05-26 13:14:29 -   数据库表未安装，尝试 Web 安装器...
+[0;32m[INFO][0m 2026-05-26 13:14:29 -   执行 Web 安装器...
+
+200[0;32m[INFO][0m 2026-05-26 13:14:30 -   Web 安装结果: GOOD=9, BAD/FAIL=2
+[1;33m[WARN][0m 2026-05-26 13:14:32 - 数据库表可能未完全安装，请访问 Web 界面手动完成
+[0;32m[INFO][0m 2026-05-26 13:14:32 -   手动安装地址: http://127.0.0.1:19093/admin/install.php
+[0;31m[ERROR][0m 2026-05-26 13:14:32 - 数据库初始化不完整: 缺少 MantisBT 用户表 (mantis_user_table 或 mantis_user)
+[0;31m[ERROR][0m 2026-05-26 13:14:32 - 请检查 MantisBT schema 导入或 Web 安装器输出
+
+=== 2026-05-26 13:14:32  部署 langfuse
+[INFO] 2026-05-26 13:14:32    卷: LANGFUSE_VOLUME_DATA=langfuse-data
+
+[0;34m=== 部署 Langfuse LLM 可观测性平台 ===[0m
+[0;32m[INFO][0m 2026-05-26 13:14:32 - 克隆 Langfuse 仓库...
+[0;32m[INFO][0m 2026-05-26 13:14:38 - 配置 Langfuse 环境变量...
+[0;32m[INFO][0m 2026-05-26 13:14:38 -   ✓ .env 已生成
+[0;32m[INFO][0m 2026-05-26 13:14:38 - 停止旧服务...
+[0;32m[INFO][0m 2026-05-26 13:14:38 - 拉取镜像并启动服务...
+[1;33m[WARN][0m 2026-05-26 13:15:10 - docker compose --wait 失败, 尝试无 --wait 模式...
+[0;31m[ERROR][0m 2026-05-26 13:15:33 - docker compose up 失败
+[WARN] 2026-05-26 13:15:33  langfuse 部署脚本返回 exit=1, 检查容器是否已在运行...
+[ERROR] 2026-05-26 13:15:33  langfuse 部署失败 (exit=1)
+[INFO] 2026-05-26 13:15:33  oading 6.291MB
+ 889a0a850923 Downloading 1.049MB
+ b91723a96af4 Downloading 32.51MB
+ 1b5b26434127 Downloading 6.291MB
+ d7319775d025 Downloading 6.291MB
+ d7319775d025 Downloading 6.291MB
+ 889a0a850923 Downloading 1.049MB
+ 645ea3279853 Downloading 2.097MB
+ b78ff397569c Downloading 1.049MB
+ 2db2bc264074 Downloading 2.097MB
+ b91723a96af4 Downloading 32.51MB
+ d7319775d025 Downloading 6.291MB
+ 1b5b26434127 Downloading 6.291MB
+ d7319775d025 Downloading 6.291MB
+ 889a0a850923 Downloading 1.049MB
+ 645ea3279853 Downloading 2.097MB
+ b78ff397569c Downloading 1.049MB
+ 2db2bc264074 Downloading 2.097MB
+ b91723a96af4 Downloading 33.55MB
+ d7319775d025 Downloading 6.291MB
+ 1b5b26434127 Downloading 6.291MB
+ 645ea3279853 Downloading 2.097MB
+ b78ff397569c Downloading 1.049MB
+ 2db2bc264074 Downloading 2.097MB
+ d7319775d025 Downloading 6.291MB
+ 889a0a850923 Downloading 1.049MB
+ b91723a96af4 Downloading 33.55MB
+ d7319775d025 Downloading 6.291MB
+ 1b5b26434127 Downloading 6.291MB
+ d7319775d025 Downloading 6.291MB
+ 889a0a850923 Downloading 1.049MB
+ 645ea3279853 Downloading 2.097MB
+ b78ff397569c Downloading 1.049MB
+ 2db2bc264074 Downloading 2.097MB
+ b91723a96af4 Downloading 33.55MB
+ d7319775d025 Downloading 6.291MB
+ 1b5b26434127 Downloading 6.291MB
+ 645ea3279853 Downloading 2.097MB
+ b78ff397569c Downloading 1.049MB
+ 2db2bc264074 Downloading 2.097MB
+ d7319775d025 Downloading 6.291MB
+ 889a0a850923 Downloading 1.049MB
+ b41e5bda03ca Downloading 53.23kB
+ b41e5bda03ca Downloading 53.23kB
+ 645ea3279853 Downloading 2.097MB
+ b78ff397569c Downloading 1.049MB
+ 2db2bc264074 Downloading 2.097MB
+ d7319775d025 Downloading 6.291MB
+ 889a0a850923 Downloading 1.049MB
+ b91723a96af4 Downloading 33.55MB
+failed commit on ref "layer-sha256:b41e5bda03ca41daf2a5a06517ed96bc638eb0c2c845856689720e1c1b4bd398": commit failed: "layer-sha256:b41e5bda03ca41daf2a5a06517ed96bc638eb0c2c845856689720e1c1b4bd398" failed size validation: 53226 != 19800: failed precondition
+[0;31m[ERROR][0m 2026-05-26 13:15:33 - docker compose up 失败
+
+[ERROR] 2026-05-26 13:15:33  Cloning into '/home/zs/DeployAgent/deploy/data/langfuse/repo'...
+
+[INFO] 2026-05-26 13:15:33  跳过独立 Nginx 子脚本，使用 deploy_all.py 内置反向代理编排
+=== 2026-05-26 13:15:33  配置 Nginx 反向代理
+[INFO] 2026-05-26 13:15:33  ✓ 检测到 jenkins 容器 (devopsagent-jenkins)
+[INFO] 2026-05-26 13:15:33    jenkins.conf 内容未变, 跳过
+[INFO] 2026-05-26 13:15:33  ✓ 检测到 gitlab 容器 (devopsagent-gitlab)
+[INFO] 2026-05-26 13:15:33    gitlab.conf 内容未变, 跳过
+[INFO] 2026-05-26 13:15:33  ✓ 检测到 mantisbt 容器 (devopsagent-mantisbt)
+[INFO] 2026-05-26 13:15:33    mantisbt.conf 内容未变, 跳过
+[INFO] 2026-05-26 13:15:33  - langfuse 容器未运行, 跳过
+[INFO] 2026-05-26 13:16:02  ✓ Nginx 已启动
+[ERROR] 2026-05-26 13:16:02  以下服务部署失败: mantisbt, langfuse
+[INFO] 2026-05-26 13:16:02  已成功部署的服务仍然可用，可单独修复失败的服务
+[INFO] 2026-05-26 13:16:02  Jenkins 初始密码: ec68cfaf00a74f0b94d3d758acd048c0
+[INFO] 2026-05-26 13:16:02  GitLab root 密码: # WARNING: This password is only valid if ALL of the following are true:
+#          • You set it manually via the GITLAB_ROOT_PASSWORD environment variable
+#            OR the gitlab_rails['initial_root_password'] setting in /etc/gitlab/gitlab.rb
+#          • You set it BEFORE the initial database setup (typically during first installation)
+#          • You have NOT changed the password since then (via web UI or command line)
+#
+#          If this password doesn't work, reset the admin password using:
+#          https://docs.gitlab.com/security/reset_user_password/#reset-the-root-password
+
+Password: VyUzegm2IXQF0dOKLJ/XxgNp6LRMzigwDAV5s5izRp4=
+
+# NOTE: This file is automatically deleted after 24 hours on the next reconfigure run.
+[INFO] 2026-05-26 13:16:02  部署流程完成!
+[INFO] 2026-05-26 13:35:09  已选择: 仅 JFrog Artifactory (+ Nginx HTTPS)
+[INFO] 2026-05-26 13:35:09  服务: ['artifactory', 'nginx'], Nginx: True
+=== 2026-05-26 13:35:09  端口占用扫描
+[INFO] 2026-05-26 13:35:10  已占用端口: 21 个
+[WARN] 2026-05-26 13:35:10    端口 53 已被占用
+[WARN] 2026-05-26 13:35:10    端口 2222 已被占用
+[WARN] 2026-05-26 13:35:10    端口 3307 已被占用
+[WARN] 2026-05-26 13:35:10    端口 18081 已被占用
+[WARN] 2026-05-26 13:35:10    端口 18440 已被占用
+[WARN] 2026-05-26 13:35:10    端口 18441 已被占用
+[WARN] 2026-05-26 13:35:10    端口 18443 已被占用
+[WARN] 2026-05-26 13:35:10    端口 19092 已被占用
+[WARN] 2026-05-26 13:35:10    端口 19093 已被占用
+[WARN] 2026-05-26 13:35:10    端口 19443 已被占用
+[WARN] 2026-05-26 13:35:10    端口 33307 已被占用
+[WARN] 2026-05-26 13:35:10    端口 34399 已被占用
+[WARN] 2026-05-26 13:35:10    端口 34409 已被占用
+[WARN] 2026-05-26 13:35:10    端口 41769 已被占用
+[WARN] 2026-05-26 13:35:10    端口 43559 已被占用
+[WARN] 2026-05-26 13:35:10    端口 50000 已被占用
+[WARN] 2026-05-26 13:35:10    端口 51000 已被占用
+[WARN] 2026-05-26 13:35:10    端口 51001 已被占用
+[WARN] 2026-05-26 13:35:10    端口 51002 已被占用
+[WARN] 2026-05-26 13:35:10    端口 51003 已被占用
+[WARN] 2026-05-26 13:35:10    端口 51004 已被占用
+[WARN] 2026-05-26 13:35:10    [jenkins/web] 18081 已被占用 → 自动分配 18082
+[WARN] 2026-05-26 13:35:10    [jenkins/agent] 50000 已被占用 → 自动分配 50001
+[WARN] 2026-05-26 13:35:10    [gitlab/http] 19092 已被占用 → 自动分配 19094
+[WARN] 2026-05-26 13:35:10    [gitlab/https] 19443 已被占用 → 自动分配 19444
+[WARN] 2026-05-26 13:35:10    [gitlab/ssh] 2222 已被占用 → 自动分配 2223
+[WARN] 2026-05-26 13:35:10    [mantisbt/web] 19093 已被占用 → 自动分配 19095
+[WARN] 2026-05-26 13:35:10    [mariadb/db] 3307 已被占用 → 自动分配 3308
+[WARN] 2026-05-26 13:35:10    [nginx/jenkins] 18440 已被占用 → 自动分配 18442
+[WARN] 2026-05-26 13:35:10    [nginx/gitlab] 18441 已被占用 → 自动分配 18444
+[WARN] 2026-05-26 13:35:10    [nginx/artifactory] 18442 已被占用 → 自动分配 18445
+[WARN] 2026-05-26 13:35:10    [nginx/mantisbt] 18443 已被占用 → 自动分配 18446
+[WARN] 2026-05-26 13:35:10    [nginx/harbor] 18446 已被占用 → 自动分配 18447
+[WARN] 2026-05-26 13:35:10    [nginx/langfuse] 18447 已被占用 → 自动分配 18448
+=== 2026-05-26 13:35:10  端口扫描完成
+[INFO] 2026-05-26 13:35:10  端口分配已写入: /home/zs/DeployAgent/deploy/.env.auto
+=== 2026-05-26 13:35:10  Docker 网络扫描
+[INFO] 2026-05-26 13:35:10  Docker bridge 子网: 172.18.0.0/16
+[WARN] 2026-05-26 13:35:10  宿主路由表包含非 Docker 私有网段: ['172.21.192.1', '172.21.192.0', '172.18.0.0']
+[INFO] 2026-05-26 13:35:10  物理网卡私有 IP: 172.21.201.77(eth0)
+=== 2026-05-26 13:35:10  Docker 网络扫描完成
+=== 2026-05-26 13:35:10  Docker 卷扫描
+[INFO] 2026-05-26 13:35:10  已发现 6 个卷
+[WARN] 2026-05-26 13:35:10    卷: gitlab-config (可能与其他实例冲突)
+[WARN] 2026-05-26 13:35:10    卷: gitlab-data (可能与其他实例冲突)
+[WARN] 2026-05-26 13:35:10    卷: gitlab-logs (可能与其他实例冲突)
+[WARN] 2026-05-26 13:35:10    卷: jenkins-home (可能与其他实例冲突)
+[WARN] 2026-05-26 13:35:10    卷: mantisbt-db-data (可能与其他实例冲突)
+[WARN] 2026-05-26 13:35:10    卷: mantisbt-web (可能与其他实例冲突)
+[INFO] 2026-05-26 13:35:10  已加载 .env 文件: /home/zs/DeployAgent/deploy/.env
+[INFO] 2026-05-26 13:35:12  使用 IP: 172.21.201.77
+[INFO] 2026-05-26 13:35:12  JFrog Artifactory HTTPS 反向代理地址: https://172.21.201.77:18445
+=== 2026-05-26 13:35:12  开始部署: 模式=artifactory, 服务=['artifactory', 'nginx']
+[INFO] 2026-05-26 13:35:12  Nginx 绑定地址: 172.21.201.77
+=== 2026-05-26 13:35:12  部署 artifactory
+
+[0;34m=== 部署 JFrog Artifactory 服务 ===[0m
+[0;32m[INFO][0m 2026-05-26 13:35:12 - 使用 Docker 命名卷存储: artifactory-home
+[0;32m[INFO][0m 2026-05-26 13:35:12 - 创建 Artifactory 容器...
+[WARN] 2026-05-26 13:35:15  artifactory 部署脚本返回 exit=125, 检查容器是否已在运行...
+[ERROR] 2026-05-26 13:35:15  artifactory 部署失败 (exit=125)
+[INFO] 2026-05-26 13:35:15  
+[0;34m=== 部署 JFrog Artifactory 服务 ===[0m
+[0;32m[INFO][0m 2026-05-26 13:35:12 - 使用 Docker 命名卷存储: artifactory-home
+[0;32m[INFO][0m 2026-05-26 13:35:12 - 创建 Artifactory 容器...
+  - 存储: artifactory-home (命名卷)
+
+[ERROR] 2026-05-26 13:35:15  Unable to find image 'docker.bintray.io/jfrog/artifactory-oss:7.67.3' locally
+docker: Error response from daemon: failed to resolve reference "docker.bintray.io/jfrog/artifactory-oss:7.67.3": docker.bintray.io/jfrog/artifactory-oss:7.67.3: not found
+
+Run 'docker run --help' for more information
+
+[INFO] 2026-05-26 13:35:15  跳过独立 Nginx 子脚本，使用 deploy_all.py 内置反向代理编排
+=== 2026-05-26 13:35:15  配置 Nginx 反向代理
+[INFO] 2026-05-26 13:35:15  ✓ 检测到 jenkins 容器 (devopsagent-jenkins)
+[INFO] 2026-05-26 13:35:15    jenkins.conf 内容未变, 跳过
+[INFO] 2026-05-26 13:35:15  ✓ 检测到 gitlab 容器 (devopsagent-gitlab)
+[INFO] 2026-05-26 13:35:15    gitlab.conf 内容未变, 跳过
+[INFO] 2026-05-26 13:35:15  - artifactory 容器未运行, 跳过
+[INFO] 2026-05-26 13:35:15  ✓ 检测到 mantisbt 容器 (devopsagent-mantisbt)
+[INFO] 2026-05-26 13:35:15    mantisbt.conf 内容未变, 跳过
+[INFO] 2026-05-26 13:35:15  - harbor 容器未运行, 跳过
+[INFO] 2026-05-26 13:35:15  - langfuse 容器未运行, 跳过
+[INFO] 2026-05-26 13:35:19  ✓ Nginx 已启动
+[ERROR] 2026-05-26 13:35:19  以下服务部署失败: artifactory
+[INFO] 2026-05-26 13:35:19  已成功部署的服务仍然可用，可单独修复失败的服务
+[INFO] 2026-05-26 13:35:19  部署流程完成!
+[INFO] 2026-05-26 13:53:47  已选择: 仅 JFrog Artifactory (+ Nginx HTTPS)
+[INFO] 2026-05-26 13:53:47  服务: ['artifactory', 'nginx'], Nginx: True
+=== 2026-05-26 13:53:47  端口占用扫描
+[INFO] 2026-05-26 13:53:47  已占用端口: 21 个
+[WARN] 2026-05-26 13:53:47    端口 53 已被占用
+[WARN] 2026-05-26 13:53:47    端口 2222 已被占用
+[WARN] 2026-05-26 13:53:47    端口 3307 已被占用
+[WARN] 2026-05-26 13:53:47    端口 18081 已被占用
+[WARN] 2026-05-26 13:53:47    端口 18442 已被占用
+[WARN] 2026-05-26 13:53:47    端口 18444 已被占用
+[WARN] 2026-05-26 13:53:47    端口 18446 已被占用
+[WARN] 2026-05-26 13:53:47    端口 19092 已被占用
+[WARN] 2026-05-26 13:53:47    端口 19093 已被占用
+[WARN] 2026-05-26 13:53:47    端口 19443 已被占用
+[WARN] 2026-05-26 13:53:47    端口 37095 已被占用
+[WARN] 2026-05-26 13:53:47    端口 41509 已被占用
+[WARN] 2026-05-26 13:53:47    端口 42493 已被占用
+[WARN] 2026-05-26 13:53:47    端口 42861 已被占用
+[WARN] 2026-05-26 13:53:47    端口 43827 已被占用
+[WARN] 2026-05-26 13:53:47    端口 50000 已被占用
+[WARN] 2026-05-26 13:53:47    端口 51000 已被占用
+[WARN] 2026-05-26 13:53:47    端口 51002 已被占用
+[WARN] 2026-05-26 13:53:47    端口 51007 已被占用
+[WARN] 2026-05-26 13:53:47    端口 51008 已被占用
+[WARN] 2026-05-26 13:53:47    端口 51009 已被占用
+[WARN] 2026-05-26 13:53:47    [jenkins/web] 18081 已被占用 → 自动分配 18082
+[WARN] 2026-05-26 13:53:47    [jenkins/agent] 50000 已被占用 → 自动分配 50001
+[WARN] 2026-05-26 13:53:47    [gitlab/http] 19092 已被占用 → 自动分配 19094
+[WARN] 2026-05-26 13:53:47    [gitlab/https] 19443 已被占用 → 自动分配 19444
+[WARN] 2026-05-26 13:53:47    [gitlab/ssh] 2222 已被占用 → 自动分配 2223
+[WARN] 2026-05-26 13:53:47    [mantisbt/web] 19093 已被占用 → 自动分配 19095
+[WARN] 2026-05-26 13:53:47    [mariadb/db] 3307 已被占用 → 自动分配 3308
+[WARN] 2026-05-26 13:53:47    [nginx/artifactory] 18442 已被占用 → 自动分配 18443
+[WARN] 2026-05-26 13:53:47    [nginx/mantisbt] 18443 已被占用 → 自动分配 18445
+[WARN] 2026-05-26 13:53:47    [nginx/harbor] 18446 已被占用 → 自动分配 18447
+[WARN] 2026-05-26 13:53:47    [nginx/langfuse] 18447 已被占用 → 自动分配 18448
+=== 2026-05-26 13:53:47  端口扫描完成
+[INFO] 2026-05-26 13:53:47  端口分配已写入: /home/zs/DeployAgent/deploy/.env.auto
+=== 2026-05-26 13:53:47  Docker 网络扫描
+[INFO] 2026-05-26 13:53:47  Docker bridge 子网: 172.18.0.0/16
+[WARN] 2026-05-26 13:53:47  宿主路由表包含非 Docker 私有网段: ['172.18.0.0', '172.21.192.0', '172.21.192.1']
+[INFO] 2026-05-26 13:53:47  物理网卡私有 IP: 172.21.201.77(eth0)
+=== 2026-05-26 13:53:47  Docker 网络扫描完成
+=== 2026-05-26 13:53:47  Docker 卷扫描
+[INFO] 2026-05-26 13:53:47  已发现 6 个卷
+[WARN] 2026-05-26 13:53:47    卷: gitlab-config (可能与其他实例冲突)
+[WARN] 2026-05-26 13:53:47    卷: gitlab-data (可能与其他实例冲突)
+[WARN] 2026-05-26 13:53:47    卷: gitlab-logs (可能与其他实例冲突)
+[WARN] 2026-05-26 13:53:47    卷: jenkins-home (可能与其他实例冲突)
+[WARN] 2026-05-26 13:53:47    卷: mantisbt-db-data (可能与其他实例冲突)
+[WARN] 2026-05-26 13:53:47    卷: mantisbt-web (可能与其他实例冲突)
+[INFO] 2026-05-26 13:53:47  已加载 .env 文件: /home/zs/DeployAgent/deploy/.env
+[INFO] 2026-05-26 13:53:49  使用 IP: 172.21.201.77
+[INFO] 2026-05-26 13:53:49  JFrog Artifactory HTTPS 反向代理地址: https://172.21.201.77:18443
+=== 2026-05-26 13:53:49  开始部署: 模式=artifactory, 服务=['artifactory', 'nginx']
+[INFO] 2026-05-26 13:53:49  Nginx 绑定地址: 172.21.201.77
+=== 2026-05-26 13:53:49  部署 artifactory
+
+[0;34m=== 部署 JFrog Artifactory 服务 ===[0m
+[0;32m[INFO][0m 2026-05-26 13:53:49 - 使用 Docker 命名卷存储: artifactory-home
+[0;32m[INFO][0m 2026-05-26 13:53:49 - 创建 Artifactory 容器...
+[WARN] 2026-05-26 13:53:50  artifactory 部署脚本返回 exit=125, 检查容器是否已在运行...
+[ERROR] 2026-05-26 13:53:50  artifactory 部署失败 (exit=125)
+[INFO] 2026-05-26 13:53:50  
+[0;34m=== 部署 JFrog Artifactory 服务 ===[0m
+[0;32m[INFO][0m 2026-05-26 13:53:49 - 使用 Docker 命名卷存储: artifactory-home
+[0;32m[INFO][0m 2026-05-26 13:53:49 - 创建 Artifactory 容器...
+  - 存储: artifactory-home (命名卷)
+
+[ERROR] 2026-05-26 13:53:50  Unable to find image 'releases.jfrog.io/jfrog/artifactory-oss:7.67.3' locally
+docker: Error response from daemon: error from registry: Not Found
+
+Run 'docker run --help' for more information
+
+[INFO] 2026-05-26 13:53:50  跳过独立 Nginx 子脚本，使用 deploy_all.py 内置反向代理编排
+=== 2026-05-26 13:53:50  配置 Nginx 反向代理
+[INFO] 2026-05-26 13:53:50  ✓ 检测到 jenkins 容器 (devopsagent-jenkins)
+[INFO] 2026-05-26 13:53:50    jenkins.conf 内容未变, 跳过
+[INFO] 2026-05-26 13:53:50  ✓ 检测到 gitlab 容器 (devopsagent-gitlab)
+[INFO] 2026-05-26 13:53:50    gitlab.conf 内容未变, 跳过
+[INFO] 2026-05-26 13:53:50  - artifactory 容器未运行, 跳过
+[INFO] 2026-05-26 13:53:50  ✓ 检测到 mantisbt 容器 (devopsagent-mantisbt)
+[INFO] 2026-05-26 13:53:50    mantisbt.conf 内容未变, 跳过
+[INFO] 2026-05-26 13:53:50  - harbor 容器未运行, 跳过
+[INFO] 2026-05-26 13:53:50  - langfuse 容器未运行, 跳过
+[INFO] 2026-05-26 13:53:55  ✓ Nginx 已启动
+[ERROR] 2026-05-26 13:53:55  以下服务部署失败: artifactory
+[INFO] 2026-05-26 13:53:55  已成功部署的服务仍然可用，可单独修复失败的服务
+[INFO] 2026-05-26 13:53:55  部署流程完成!
+[INFO] 2026-05-26 14:10:57  已选择: 仅 JFrog Artifactory (+ Nginx HTTPS)
+[INFO] 2026-05-26 14:10:57  服务: ['artifactory', 'nginx'], Nginx: True
+=== 2026-05-26 14:10:57  端口占用扫描
+[INFO] 2026-05-26 14:10:58  已占用端口: 21 个
+[WARN] 2026-05-26 14:10:58    端口 53 已被占用
+[WARN] 2026-05-26 14:10:58    端口 2222 已被占用
+[WARN] 2026-05-26 14:10:58    端口 3307 已被占用
+[WARN] 2026-05-26 14:10:58    端口 18081 已被占用
+[WARN] 2026-05-26 14:10:58    端口 18440 已被占用
+[WARN] 2026-05-26 14:10:58    端口 18441 已被占用
+[WARN] 2026-05-26 14:10:58    端口 18445 已被占用
+[WARN] 2026-05-26 14:10:58    端口 19092 已被占用
+[WARN] 2026-05-26 14:10:58    端口 19093 已被占用
+[WARN] 2026-05-26 14:10:58    端口 19443 已被占用
+[WARN] 2026-05-26 14:10:58    端口 34889 已被占用
+[WARN] 2026-05-26 14:10:58    端口 38117 已被占用
+[WARN] 2026-05-26 14:10:58    端口 40627 已被占用
+[WARN] 2026-05-26 14:10:58    端口 43479 已被占用
+[WARN] 2026-05-26 14:10:58    端口 44161 已被占用
+[WARN] 2026-05-26 14:10:58    端口 50000 已被占用
+[WARN] 2026-05-26 14:10:58    端口 51000 已被占用
+[WARN] 2026-05-26 14:10:58    端口 51001 已被占用
+[WARN] 2026-05-26 14:10:58    端口 51002 已被占用
+[WARN] 2026-05-26 14:10:58    端口 51003 已被占用
+[WARN] 2026-05-26 14:10:58    端口 51005 已被占用
+[WARN] 2026-05-26 14:10:58    [jenkins/web] 18081 已被占用 → 自动分配 18082
+[WARN] 2026-05-26 14:10:58    [jenkins/agent] 50000 已被占用 → 自动分配 50001
+[WARN] 2026-05-26 14:10:58    [gitlab/http] 19092 已被占用 → 自动分配 19094
+[WARN] 2026-05-26 14:10:58    [gitlab/https] 19443 已被占用 → 自动分配 19444
+[WARN] 2026-05-26 14:10:58    [gitlab/ssh] 2222 已被占用 → 自动分配 2223
+[WARN] 2026-05-26 14:10:58    [mantisbt/web] 19093 已被占用 → 自动分配 19095
+[WARN] 2026-05-26 14:10:58    [mariadb/db] 3307 已被占用 → 自动分配 3308
+[WARN] 2026-05-26 14:10:58    [nginx/jenkins] 18440 已被占用 → 自动分配 18442
+[WARN] 2026-05-26 14:10:58    [nginx/gitlab] 18441 已被占用 → 自动分配 18443
+[WARN] 2026-05-26 14:10:58    [nginx/artifactory] 18442 已被占用 → 自动分配 18444
+[WARN] 2026-05-26 14:10:58    [nginx/mantisbt] 18443 已被占用 → 自动分配 18446
+[WARN] 2026-05-26 14:10:58    [nginx/harbor] 18446 已被占用 → 自动分配 18447
+[WARN] 2026-05-26 14:10:58    [nginx/langfuse] 18447 已被占用 → 自动分配 18448
+=== 2026-05-26 14:10:58  端口扫描完成
+[INFO] 2026-05-26 14:10:58  端口分配已写入: /home/zs/DeployAgent/deploy/.env.auto
+=== 2026-05-26 14:10:58  Docker 网络扫描
+[INFO] 2026-05-26 14:10:58  Docker bridge 子网: 172.18.0.0/16
+[WARN] 2026-05-26 14:10:58  宿主路由表包含非 Docker 私有网段: ['172.18.0.0', '172.21.192.0', '172.21.192.1']
+[INFO] 2026-05-26 14:10:58  物理网卡私有 IP: 172.21.201.77(eth0)
+=== 2026-05-26 14:10:58  Docker 网络扫描完成
+=== 2026-05-26 14:10:58  Docker 卷扫描
+[INFO] 2026-05-26 14:10:58  已发现 6 个卷
+[WARN] 2026-05-26 14:10:58    卷: gitlab-config (可能与其他实例冲突)
+[WARN] 2026-05-26 14:10:58    卷: gitlab-data (可能与其他实例冲突)
+[WARN] 2026-05-26 14:10:58    卷: gitlab-logs (可能与其他实例冲突)
+[WARN] 2026-05-26 14:10:58    卷: jenkins-home (可能与其他实例冲突)
+[WARN] 2026-05-26 14:10:58    卷: mantisbt-db-data (可能与其他实例冲突)
+[WARN] 2026-05-26 14:10:58    卷: mantisbt-web (可能与其他实例冲突)
+[INFO] 2026-05-26 14:10:58  已加载 .env 文件: /home/zs/DeployAgent/deploy/.env
+[INFO] 2026-05-26 14:10:59  使用 IP: 172.21.201.77
+[INFO] 2026-05-26 14:10:59  JFrog Artifactory HTTPS 反向代理地址: https://172.21.201.77:18444
+=== 2026-05-26 14:10:59  开始部署: 模式=artifactory, 服务=['artifactory', 'nginx']
+[INFO] 2026-05-26 14:10:59  Nginx 绑定地址: 172.21.201.77
+=== 2026-05-26 14:10:59  部署 artifactory
+
+[0;34m=== 部署 JFrog Artifactory 服务 ===[0m
+[0;32m[INFO][0m 2026-05-26 14:10:59 - 使用 Docker 命名卷存储: artifactory-home
+[0;32m[INFO][0m 2026-05-26 14:10:59 - 创建 Artifactory 容器...
+[WARN] 2026-05-26 14:11:01  artifactory 部署脚本返回 exit=125, 检查容器是否已在运行...
+[ERROR] 2026-05-26 14:11:01  artifactory 部署失败 (exit=125)
+[INFO] 2026-05-26 14:11:01  
+[0;34m=== 部署 JFrog Artifactory 服务 ===[0m
+[0;32m[INFO][0m 2026-05-26 14:10:59 - 使用 Docker 命名卷存储: artifactory-home
+[0;32m[INFO][0m 2026-05-26 14:10:59 - 创建 Artifactory 容器...
+  - 存储: artifactory-home (命名卷)
+
+[ERROR] 2026-05-26 14:11:01  Unable to find image 'releases.jfrog.io/jfrog/artifactory-oss:7.67.3' locally
+docker: Error response from daemon: error from registry: Not Found
+
+Run 'docker run --help' for more information
+
+[INFO] 2026-05-26 14:11:01  跳过独立 Nginx 子脚本，使用 deploy_all.py 内置反向代理编排
+=== 2026-05-26 14:11:01  配置 Nginx 反向代理
+[INFO] 2026-05-26 14:11:01  ✓ 检测到 jenkins 容器 (devopsagent-jenkins)
+[INFO] 2026-05-26 14:11:01    jenkins.conf 内容未变, 跳过
+[INFO] 2026-05-26 14:11:01  ✓ 检测到 gitlab 容器 (devopsagent-gitlab)
+[INFO] 2026-05-26 14:11:01    gitlab.conf 内容未变, 跳过
+[INFO] 2026-05-26 14:11:01  - artifactory 容器未运行, 跳过
+[INFO] 2026-05-26 14:11:01  ✓ 检测到 mantisbt 容器 (devopsagent-mantisbt)
+[INFO] 2026-05-26 14:11:01    mantisbt.conf 内容未变, 跳过
+[INFO] 2026-05-26 14:11:01  - harbor 容器未运行, 跳过
+[INFO] 2026-05-26 14:11:01  - langfuse 容器未运行, 跳过
+[INFO] 2026-05-26 14:11:05  ✓ Nginx 已启动
+[ERROR] 2026-05-26 14:11:05  以下服务部署失败: artifactory
+[INFO] 2026-05-26 14:11:05  已成功部署的服务仍然可用，可单独修复失败的服务
+[INFO] 2026-05-26 14:11:05  部署流程完成!
+[INFO] 2026-05-26 14:14:48  已选择: 仅 JFrog Artifactory (+ Nginx HTTPS)
+[INFO] 2026-05-26 14:14:48  服务: ['artifactory', 'nginx'], Nginx: True
+=== 2026-05-26 14:14:48  端口占用扫描
+[INFO] 2026-05-26 14:14:48  已占用端口: 21 个
+[WARN] 2026-05-26 14:14:48    端口 53 已被占用
+[WARN] 2026-05-26 14:14:48    端口 2222 已被占用
+[WARN] 2026-05-26 14:14:48    端口 3307 已被占用
+[WARN] 2026-05-26 14:14:48    端口 18081 已被占用
+[WARN] 2026-05-26 14:14:48    端口 18442 已被占用
+[WARN] 2026-05-26 14:14:48    端口 18443 已被占用
+[WARN] 2026-05-26 14:14:48    端口 18446 已被占用
+[WARN] 2026-05-26 14:14:48    端口 19092 已被占用
+[WARN] 2026-05-26 14:14:48    端口 19093 已被占用
+[WARN] 2026-05-26 14:14:48    端口 19443 已被占用
+[WARN] 2026-05-26 14:14:48    端口 34889 已被占用
+[WARN] 2026-05-26 14:14:48    端口 38117 已被占用
+[WARN] 2026-05-26 14:14:48    端口 40627 已被占用
+[WARN] 2026-05-26 14:14:48    端口 43479 已被占用
+[WARN] 2026-05-26 14:14:48    端口 44161 已被占用
+[WARN] 2026-05-26 14:14:48    端口 50000 已被占用
+[WARN] 2026-05-26 14:14:48    端口 51000 已被占用
+[WARN] 2026-05-26 14:14:48    端口 51001 已被占用
+[WARN] 2026-05-26 14:14:48    端口 51002 已被占用
+[WARN] 2026-05-26 14:14:48    端口 51003 已被占用
+[WARN] 2026-05-26 14:14:48    端口 51005 已被占用
+[WARN] 2026-05-26 14:14:48    [jenkins/web] 18081 已被占用 → 自动分配 18082
+[WARN] 2026-05-26 14:14:48    [jenkins/agent] 50000 已被占用 → 自动分配 50001
+[WARN] 2026-05-26 14:14:48    [gitlab/http] 19092 已被占用 → 自动分配 19094
+[WARN] 2026-05-26 14:14:48    [gitlab/https] 19443 已被占用 → 自动分配 19444
+[WARN] 2026-05-26 14:14:48    [gitlab/ssh] 2222 已被占用 → 自动分配 2223
+[WARN] 2026-05-26 14:14:48    [mantisbt/web] 19093 已被占用 → 自动分配 19095
+[WARN] 2026-05-26 14:14:48    [mariadb/db] 3307 已被占用 → 自动分配 3308
+[WARN] 2026-05-26 14:14:48    [nginx/artifactory] 18442 已被占用 → 自动分配 18444
+[WARN] 2026-05-26 14:14:48    [nginx/mantisbt] 18443 已被占用 → 自动分配 18445
+[WARN] 2026-05-26 14:14:48    [nginx/harbor] 18446 已被占用 → 自动分配 18447
+[WARN] 2026-05-26 14:14:48    [nginx/langfuse] 18447 已被占用 → 自动分配 18448
+=== 2026-05-26 14:14:48  端口扫描完成
+[INFO] 2026-05-26 14:14:48  端口分配已写入: /home/zs/DeployAgent/deploy/.env.auto
+=== 2026-05-26 14:14:48  Docker 网络扫描
+[INFO] 2026-05-26 14:14:48  Docker bridge 子网: 172.18.0.0/16
+[WARN] 2026-05-26 14:14:48  宿主路由表包含非 Docker 私有网段: ['172.21.192.0', '172.21.192.1', '172.18.0.0']
+[INFO] 2026-05-26 14:14:48  物理网卡私有 IP: 172.21.201.77(eth0)
+=== 2026-05-26 14:14:48  Docker 网络扫描完成
+=== 2026-05-26 14:14:48  Docker 卷扫描
+[INFO] 2026-05-26 14:14:48  已发现 6 个卷
+[WARN] 2026-05-26 14:14:48    卷: gitlab-config (可能与其他实例冲突)
+[WARN] 2026-05-26 14:14:48    卷: gitlab-data (可能与其他实例冲突)
+[WARN] 2026-05-26 14:14:48    卷: gitlab-logs (可能与其他实例冲突)
+[WARN] 2026-05-26 14:14:48    卷: jenkins-home (可能与其他实例冲突)
+[WARN] 2026-05-26 14:14:48    卷: mantisbt-db-data (可能与其他实例冲突)
+[WARN] 2026-05-26 14:14:48    卷: mantisbt-web (可能与其他实例冲突)
+[INFO] 2026-05-26 14:14:48  已加载 .env 文件: /home/zs/DeployAgent/deploy/.env
+[INFO] 2026-05-26 14:14:49  使用 IP: 172.21.201.77
+[INFO] 2026-05-26 14:14:49  JFrog Artifactory HTTPS 反向代理地址: https://172.21.201.77:18444
+=== 2026-05-26 14:14:49  开始部署: 模式=artifactory, 服务=['artifactory', 'nginx']
+[INFO] 2026-05-26 14:14:49  Nginx 绑定地址: 172.21.201.77
+=== 2026-05-26 14:14:49  部署 artifactory
+
+[0;34m=== 部署 JFrog Artifactory 服务 ===[0m
+[0;32m[INFO][0m 2026-05-26 14:14:49 - 使用 Docker 命名卷存储: artifactory-home
+[0;32m[INFO][0m 2026-05-26 14:14:49 - 创建 Artifactory 容器...
+[WARN] 2026-05-26 14:15:08  artifactory 部署脚本返回 exit=125, 检查容器是否已在运行...
+[ERROR] 2026-05-26 14:15:08  artifactory 部署失败 (exit=125)
+[INFO] 2026-05-26 14:15:08  
+[0;34m=== 部署 JFrog Artifactory 服务 ===[0m
+[0;32m[INFO][0m 2026-05-26 14:14:49 - 使用 Docker 命名卷存储: artifactory-home
+[0;32m[INFO][0m 2026-05-26 14:14:49 - 创建 Artifactory 容器...
+  - 存储: artifactory-home (命名卷)
+
+[ERROR] 2026-05-26 14:15:08  Unable to find image 'jfrog/artifactory-oss:7.67.3' locally
+docker: failed commit on ref "unknown-sha256:4152ccef40c6ca375c5a920b7ade12acb41aaab6f0ffed4e110e521deb922fc6": commit failed: "unknown-sha256:4152ccef40c6ca375c5a920b7ade12acb41aaab6f0ffed4e110e521deb922fc6" failed size validation: 53242 != 52992: failed precondition
+
+Run 'docker run --help' for more information
+
+[INFO] 2026-05-26 14:15:08  跳过独立 Nginx 子脚本，使用 deploy_all.py 内置反向代理编排
+=== 2026-05-26 14:15:08  配置 Nginx 反向代理
+[INFO] 2026-05-26 14:15:08  ✓ 检测到 jenkins 容器 (devopsagent-jenkins)
+[INFO] 2026-05-26 14:15:08    jenkins.conf 内容未变, 跳过
+[INFO] 2026-05-26 14:15:08  ✓ 检测到 gitlab 容器 (devopsagent-gitlab)
+[INFO] 2026-05-26 14:15:08    gitlab.conf 内容未变, 跳过
+[INFO] 2026-05-26 14:15:08  - artifactory 容器未运行, 跳过
+[INFO] 2026-05-26 14:15:08  ✓ 检测到 mantisbt 容器 (devopsagent-mantisbt)
+[INFO] 2026-05-26 14:15:08    mantisbt.conf 内容未变, 跳过
+[INFO] 2026-05-26 14:15:08  - harbor 容器未运行, 跳过
+[INFO] 2026-05-26 14:15:08  - langfuse 容器未运行, 跳过
+[INFO] 2026-05-26 14:15:12  ✓ Nginx 已启动
+[ERROR] 2026-05-26 14:15:12  以下服务部署失败: artifactory
+[INFO] 2026-05-26 14:15:12  已成功部署的服务仍然可用，可单独修复失败的服务
+[INFO] 2026-05-26 14:15:12  部署流程完成!
+[INFO] 2026-05-26 14:30:56  已选择: 仅 JFrog Artifactory (+ Nginx HTTPS)
+[INFO] 2026-05-26 14:30:56  服务: ['artifactory', 'nginx'], Nginx: True
+=== 2026-05-26 14:30:56  端口占用扫描
+[INFO] 2026-05-26 14:30:56  已占用端口: 21 个
+[WARN] 2026-05-26 14:30:56    端口 53 已被占用
+[WARN] 2026-05-26 14:30:56    端口 2222 已被占用
+[WARN] 2026-05-26 14:30:56    端口 3307 已被占用
+[WARN] 2026-05-26 14:30:56    端口 18081 已被占用
+[WARN] 2026-05-26 14:30:56    端口 18440 已被占用
+[WARN] 2026-05-26 14:30:56    端口 18441 已被占用
+[WARN] 2026-05-26 14:30:56    端口 18445 已被占用
+[WARN] 2026-05-26 14:30:56    端口 19092 已被占用
+[WARN] 2026-05-26 14:30:56    端口 19093 已被占用
+[WARN] 2026-05-26 14:30:56    端口 19443 已被占用
+[WARN] 2026-05-26 14:30:56    端口 34889 已被占用
+[WARN] 2026-05-26 14:30:56    端口 38117 已被占用
+[WARN] 2026-05-26 14:30:56    端口 40627 已被占用
+[WARN] 2026-05-26 14:30:56    端口 43479 已被占用
+[WARN] 2026-05-26 14:30:56    端口 44161 已被占用
+[WARN] 2026-05-26 14:30:56    端口 50000 已被占用
+[WARN] 2026-05-26 14:30:56    端口 51000 已被占用
+[WARN] 2026-05-26 14:30:56    端口 51001 已被占用
+[WARN] 2026-05-26 14:30:56    端口 51002 已被占用
+[WARN] 2026-05-26 14:30:56    端口 51003 已被占用
+[WARN] 2026-05-26 14:30:56    端口 51005 已被占用
+[WARN] 2026-05-26 14:30:56    [jenkins/web] 18081 已被占用 → 自动分配 18082
+[WARN] 2026-05-26 14:30:56    [jenkins/agent] 50000 已被占用 → 自动分配 50001
+[WARN] 2026-05-26 14:30:56    [gitlab/http] 19092 已被占用 → 自动分配 19094
+[WARN] 2026-05-26 14:30:56    [gitlab/https] 19443 已被占用 → 自动分配 19444
+[WARN] 2026-05-26 14:30:56    [gitlab/ssh] 2222 已被占用 → 自动分配 2223
+[WARN] 2026-05-26 14:30:56    [mantisbt/web] 19093 已被占用 → 自动分配 19095
+[WARN] 2026-05-26 14:30:56    [mariadb/db] 3307 已被占用 → 自动分配 3308
+[WARN] 2026-05-26 14:30:56    [nginx/jenkins] 18440 已被占用 → 自动分配 18442
+[WARN] 2026-05-26 14:30:56    [nginx/gitlab] 18441 已被占用 → 自动分配 18443
+[WARN] 2026-05-26 14:30:56    [nginx/artifactory] 18442 已被占用 → 自动分配 18444
+[WARN] 2026-05-26 14:30:56    [nginx/mantisbt] 18443 已被占用 → 自动分配 18446
+[WARN] 2026-05-26 14:30:56    [nginx/harbor] 18446 已被占用 → 自动分配 18447
+[WARN] 2026-05-26 14:30:56    [nginx/langfuse] 18447 已被占用 → 自动分配 18448
+=== 2026-05-26 14:30:56  端口扫描完成
+[INFO] 2026-05-26 14:30:56  端口分配已写入: /home/zs/DeployAgent/deploy/.env.auto
+=== 2026-05-26 14:30:56  Docker 网络扫描
+[INFO] 2026-05-26 14:30:56  Docker bridge 子网: 172.18.0.0/16
+[WARN] 2026-05-26 14:30:56  宿主路由表包含非 Docker 私有网段: ['172.21.192.0', '172.21.192.1', '172.18.0.0']
+[INFO] 2026-05-26 14:30:56  物理网卡私有 IP: 172.21.201.77(eth0)
+=== 2026-05-26 14:30:56  Docker 网络扫描完成
+=== 2026-05-26 14:30:56  Docker 卷扫描
+[INFO] 2026-05-26 14:30:56  已发现 6 个卷
+[WARN] 2026-05-26 14:30:56    卷: gitlab-config (可能与其他实例冲突)
+[WARN] 2026-05-26 14:30:56    卷: gitlab-data (可能与其他实例冲突)
+[WARN] 2026-05-26 14:30:56    卷: gitlab-logs (可能与其他实例冲突)
+[WARN] 2026-05-26 14:30:56    卷: jenkins-home (可能与其他实例冲突)
+[WARN] 2026-05-26 14:30:56    卷: mantisbt-db-data (可能与其他实例冲突)
+[WARN] 2026-05-26 14:30:56    卷: mantisbt-web (可能与其他实例冲突)
+[INFO] 2026-05-26 14:30:56  已加载 .env 文件: /home/zs/DeployAgent/deploy/.env
+[INFO] 2026-05-26 14:30:58  使用 IP: 172.21.201.77
+[INFO] 2026-05-26 14:30:58  JFrog Artifactory HTTPS 反向代理地址: https://172.21.201.77:18444
+=== 2026-05-26 14:30:58  开始部署: 模式=artifactory, 服务=['artifactory', 'nginx']
+[INFO] 2026-05-26 14:30:58  Nginx 绑定地址: 172.21.201.77
+=== 2026-05-26 14:30:58  部署 artifactory
+
+[0;34m=== 部署 JFrog Artifactory 服务 ===[0m
+[0;32m[INFO][0m 2026-05-26 14:30:58 - 使用 Docker 命名卷存储：artifactory-home
+[0;32m[INFO][0m 2026-05-26 14:30:58 - 清理旧的镜像缓存...
+[0;32m[INFO][0m 2026-05-26 14:30:58 - 尝试拉取镜像：jfrog/artifactory-oss:7.67.3
+[1;33m[WARN][0m 2026-05-26 14:31:40 - 镜像 jfrog/artifactory-oss:7.67.3 拉取失败，尝试下一个...
+[0;32m[INFO][0m 2026-05-26 14:31:42 - 尝试拉取镜像：docker.jfrog.io/jfrog/artifactory-oss:7.67.3
+[1;33m[WARN][0m 2026-05-26 14:31:44 - 镜像 docker.jfrog.io/jfrog/artifactory-oss:7.67.3 拉取失败，尝试下一个...
+[0;32m[INFO][0m 2026-05-26 14:31:46 - 尝试拉取镜像：releases-docker.jfrog.io/jfrog/artifactory-oss:7.67.3
+[1;33m[WARN][0m 2026-05-26 14:31:48 - 镜像 releases-docker.jfrog.io/jfrog/artifactory-oss:7.67.3 拉取失败，尝试下一个...
+[0;32m[INFO][0m 2026-05-26 14:31:50 - 尝试拉取镜像：jfrog/artifactory-oss:latest
+[1;33m[WARN][0m 2026-05-26 14:32:04 - 镜像 jfrog/artifactory-oss:latest 拉取失败，尝试下一个...
+[0;31m[ERROR][0m 2026-05-26 14:32:06 - 所有 Artifactory 镜像源均失败
+[WARN] 2026-05-26 14:32:06  artifactory 部署脚本返回 exit=1, 检查容器是否已在运行...
+[ERROR] 2026-05-26 14:32:06  artifactory 部署失败 (exit=1)
+[INFO] 2026-05-26 14:32:06  
+[0;34m=== 部署 JFrog Artifactory 服务 ===[0m
+[0;32m[INFO][0m 2026-05-26 14:30:58 - 使用 Docker 命名卷存储：artifactory-home
+[0;32m[INFO][0m 2026-05-26 14:30:58 - 清理旧的镜像缓存...
+[0;32m[INFO][0m 2026-05-26 14:30:58 - 尝试拉取镜像：jfrog/artifactory-oss:7.67.3
+[1;33m[WARN][0m 2026-05-26 14:31:40 - 镜像 jfrog/artifactory-oss:7.67.3 拉取失败，尝试下一个...
+[0;32m[INFO][0m 2026-05-26 14:31:42 - 尝试拉取镜像：docker.jfrog.io/jfrog/artifactory-oss:7.67.3
+[1;33m[WARN][0m 2026-05-26 14:31:44 - 镜像 docker.jfrog.io/jfrog/artifactory-oss:7.67.3 拉取失败，尝试下一个...
+[0;32m[INFO][0m 2026-05-26 14:31:46 - 尝试拉取镜像：releases-docker.jfrog.io/jfrog/artifactory-oss:7.67.3
+[1;33m[WARN][0m 2026-05-26 14:31:48 - 镜像 releases-docker.jfrog.io/jfrog/artifactory-oss:7.67.3 拉取失败，尝试下一个...
+[0;32m[INFO][0m 2026-05-26 14:31:50 - 尝试拉取镜像：jfrog/artifactory-oss:latest
+[1;33m[WARN][0m 2026-05-26 14:32:04 - 镜像 jfrog/artifactory-oss:latest 拉取失败，尝试下一个...
+[0;31m[ERROR][0m 2026-05-26 14:32:06 - 所有 Artifactory 镜像源均失败
+
+[INFO] 2026-05-26 14:32:06  跳过独立 Nginx 子脚本，使用 deploy_all.py 内置反向代理编排
+=== 2026-05-26 14:32:06  配置 Nginx 反向代理
+[INFO] 2026-05-26 14:32:06  ✓ 检测到 jenkins 容器 (devopsagent-jenkins)
+[INFO] 2026-05-26 14:32:06    jenkins.conf 内容未变, 跳过
+[INFO] 2026-05-26 14:32:06  ✓ 检测到 gitlab 容器 (devopsagent-gitlab)
+[INFO] 2026-05-26 14:32:06    gitlab.conf 内容未变, 跳过
+[INFO] 2026-05-26 14:32:06  - artifactory 容器未运行, 跳过
+[INFO] 2026-05-26 14:32:06  ✓ 检测到 mantisbt 容器 (devopsagent-mantisbt)
+[INFO] 2026-05-26 14:32:06    mantisbt.conf 内容未变, 跳过
+[INFO] 2026-05-26 14:32:06  - harbor 容器未运行, 跳过
+[INFO] 2026-05-26 14:32:06  - langfuse 容器未运行, 跳过
+[INFO] 2026-05-26 14:32:09  ✓ Nginx 已启动
+[ERROR] 2026-05-26 14:32:09  以下服务部署失败: artifactory
+[INFO] 2026-05-26 14:32:09  已成功部署的服务仍然可用，可单独修复失败的服务
+[INFO] 2026-05-26 14:32:09  部署流程完成!
+[INFO] 2026-05-26 14:33:25  已选择: 仅 JFrog Artifactory (+ Nginx HTTPS)
+[INFO] 2026-05-26 14:33:25  服务: ['artifactory', 'nginx'], Nginx: True
+=== 2026-05-26 14:33:25  端口占用扫描
+[INFO] 2026-05-26 14:33:26  已占用端口: 21 个
+[WARN] 2026-05-26 14:33:26    端口 53 已被占用
+[WARN] 2026-05-26 14:33:26    端口 2222 已被占用
+[WARN] 2026-05-26 14:33:26    端口 3307 已被占用
+[WARN] 2026-05-26 14:33:26    端口 18081 已被占用
+[WARN] 2026-05-26 14:33:26    端口 18442 已被占用
+[WARN] 2026-05-26 14:33:26    端口 18443 已被占用
+[WARN] 2026-05-26 14:33:26    端口 18446 已被占用
+[WARN] 2026-05-26 14:33:26    端口 19092 已被占用
+[WARN] 2026-05-26 14:33:26    端口 19093 已被占用
+[WARN] 2026-05-26 14:33:26    端口 19443 已被占用
+[WARN] 2026-05-26 14:33:26    端口 34889 已被占用
+[WARN] 2026-05-26 14:33:26    端口 38117 已被占用
+[WARN] 2026-05-26 14:33:26    端口 40627 已被占用
+[WARN] 2026-05-26 14:33:26    端口 43479 已被占用
+[WARN] 2026-05-26 14:33:26    端口 44161 已被占用
+[WARN] 2026-05-26 14:33:26    端口 50000 已被占用
+[WARN] 2026-05-26 14:33:26    端口 51000 已被占用
+[WARN] 2026-05-26 14:33:26    端口 51001 已被占用
+[WARN] 2026-05-26 14:33:26    端口 51002 已被占用
+[WARN] 2026-05-26 14:33:26    端口 51003 已被占用
+[WARN] 2026-05-26 14:33:26    端口 51005 已被占用
+[WARN] 2026-05-26 14:33:26    [jenkins/web] 18081 已被占用 → 自动分配 18082
+[WARN] 2026-05-26 14:33:26    [jenkins/agent] 50000 已被占用 → 自动分配 50001
+[WARN] 2026-05-26 14:33:26    [gitlab/http] 19092 已被占用 → 自动分配 19094
+[WARN] 2026-05-26 14:33:26    [gitlab/https] 19443 已被占用 → 自动分配 19444
+[WARN] 2026-05-26 14:33:26    [gitlab/ssh] 2222 已被占用 → 自动分配 2223
+[WARN] 2026-05-26 14:33:26    [mantisbt/web] 19093 已被占用 → 自动分配 19095
+[WARN] 2026-05-26 14:33:26    [mariadb/db] 3307 已被占用 → 自动分配 3308
+[WARN] 2026-05-26 14:33:26    [nginx/artifactory] 18442 已被占用 → 自动分配 18444
+[WARN] 2026-05-26 14:33:26    [nginx/mantisbt] 18443 已被占用 → 自动分配 18445
+[WARN] 2026-05-26 14:33:26    [nginx/harbor] 18446 已被占用 → 自动分配 18447
+[WARN] 2026-05-26 14:33:26    [nginx/langfuse] 18447 已被占用 → 自动分配 18448
+=== 2026-05-26 14:33:26  端口扫描完成
+[INFO] 2026-05-26 14:33:26  端口分配已写入: /home/zs/DeployAgent/deploy/.env.auto
+=== 2026-05-26 14:33:26  Docker 网络扫描
+[INFO] 2026-05-26 14:33:26  Docker bridge 子网: 172.18.0.0/16
+[WARN] 2026-05-26 14:33:26  宿主路由表包含非 Docker 私有网段: ['172.18.0.0', '172.21.192.0', '172.21.192.1']
+[INFO] 2026-05-26 14:33:26  物理网卡私有 IP: 172.21.201.77(eth0)
+=== 2026-05-26 14:33:26  Docker 网络扫描完成
+=== 2026-05-26 14:33:26  Docker 卷扫描
+[INFO] 2026-05-26 14:33:26  已发现 6 个卷
+[WARN] 2026-05-26 14:33:26    卷: gitlab-config (可能与其他实例冲突)
+[WARN] 2026-05-26 14:33:26    卷: gitlab-data (可能与其他实例冲突)
+[WARN] 2026-05-26 14:33:26    卷: gitlab-logs (可能与其他实例冲突)
+[WARN] 2026-05-26 14:33:26    卷: jenkins-home (可能与其他实例冲突)
+[WARN] 2026-05-26 14:33:26    卷: mantisbt-db-data (可能与其他实例冲突)
+[WARN] 2026-05-26 14:33:26    卷: mantisbt-web (可能与其他实例冲突)
+[INFO] 2026-05-26 14:33:26  已加载 .env 文件: /home/zs/DeployAgent/deploy/.env
+[INFO] 2026-05-26 14:33:27  使用 IP: 172.21.201.77
+[INFO] 2026-05-26 14:33:27  JFrog Artifactory HTTPS 反向代理地址: https://172.21.201.77:18444
+=== 2026-05-26 14:33:27  开始部署: 模式=artifactory, 服务=['artifactory', 'nginx']
+[INFO] 2026-05-26 14:33:27  Nginx 绑定地址: 172.21.201.77
+=== 2026-05-26 14:33:27  部署 artifactory
+
+[0;34m=== 部署 JFrog Artifactory 服务 ===[0m
+[0;32m[INFO][0m 2026-05-26 14:33:27 - 使用 Docker 命名卷存储：artifactory-home
+[0;32m[INFO][0m 2026-05-26 14:33:27 - 清理旧的镜像缓存...
+[0;32m[INFO][0m 2026-05-26 14:33:27 - 尝试拉取镜像：registry.cn-hangzhou.aliyuncs.com/jfrog/artifactory-oss:7.67.3
+[1;33m[WARN][0m 2026-05-26 14:33:27 - 镜像 registry.cn-hangzhou.aliyuncs.com/jfrog/artifactory-oss:7.67.3 拉取失败，尝试下一个...
+[0;32m[INFO][0m 2026-05-26 14:33:29 - 尝试拉取镜像：registry.cn-shanghai.aliyuncs.com/jfrog/artifactory-oss:7.67.3
+[1;33m[WARN][0m 2026-05-26 14:33:30 - 镜像 registry.cn-shanghai.aliyuncs.com/jfrog/artifactory-oss:7.67.3 拉取失败，尝试下一个...
+[0;32m[INFO][0m 2026-05-26 14:33:32 - 尝试拉取镜像：jfrog/artifactory-oss:7.67.3
+[1;33m[WARN][0m 2026-05-26 14:34:49 - 镜像 jfrog/artifactory-oss:7.67.3 拉取失败，尝试下一个...
+[0;32m[INFO][0m 2026-05-26 14:34:51 - 尝试拉取镜像：docker.jfrog.io/jfrog/artifactory-oss:7.67.3
+[1;33m[WARN][0m 2026-05-26 14:34:53 - 镜像 docker.jfrog.io/jfrog/artifactory-oss:7.67.3 拉取失败，尝试下一个...
+[0;32m[INFO][0m 2026-05-26 14:34:55 - 尝试拉取镜像：releases-docker.jfrog.io/jfrog/artifactory-oss:7.67.3
+[1;33m[WARN][0m 2026-05-26 14:34:57 - 镜像 releases-docker.jfrog.io/jfrog/artifactory-oss:7.67.3 拉取失败，尝试下一个...
+[0;32m[INFO][0m 2026-05-26 14:34:59 - 尝试拉取镜像：jfrog/artifactory-oss:latest
+[1;33m[WARN][0m 2026-05-26 14:35:14 - 镜像 jfrog/artifactory-oss:latest 拉取失败，尝试下一个...
+[0;32m[INFO][0m 2026-05-26 14:35:16 - 尝试拉取镜像：registry.cn-hangzhou.aliyuncs.com/jfrog/artifactory-oss:latest
+[1;33m[WARN][0m 2026-05-26 14:35:16 - 镜像 registry.cn-hangzhou.aliyuncs.com/jfrog/artifactory-oss:latest 拉取失败，尝试下一个...
+[0;31m[ERROR][0m 2026-05-26 14:35:18 - 所有 Artifactory 镜像源均失败
+[WARN] 2026-05-26 14:35:18  artifactory 部署脚本返回 exit=1, 检查容器是否已在运行...
+[ERROR] 2026-05-26 14:35:18  artifactory 部署失败 (exit=1)
+[INFO] 2026-05-26 14:35:18  
+[0;34m=== 部署 JFrog Artifactory 服务 ===[0m
+[0;32m[INFO][0m 2026-05-26 14:33:27 - 使用 Docker 命名卷存储：artifactory-home
+[0;32m[INFO][0m 2026-05-26 14:33:27 - 清理旧的镜像缓存...
+[0;32m[INFO][0m 2026-05-26 14:33:27 - 尝试拉取镜像：registry.cn-hangzhou.aliyuncs.com/jfrog/artifactory-oss:7.67.3
+[1;33m[WARN][0m 2026-05-26 14:33:27 - 镜像 registry.cn-hangzhou.aliyuncs.com/jfrog/artifactory-oss:7.67.3 拉取失败，尝试下一个...
+[0;32m[INFO][0m 2026-05-26 14:33:29 - 尝试拉取镜像：registry.cn-shanghai.aliyuncs.com/jfrog/artifactory-oss:7.67.3
+[1;33m[WARN][0m 2026-05-26 14:33:30 - 镜像 registry.cn-shanghai.aliyuncs.com/jfrog/artifactory-oss:7.67.3 拉取失败，尝试下一个...
+[0;32m[INFO][0m 2026-05-26 14:33:32 - 尝试拉取镜像：jfrog/artifactory-oss:7.67.3
+[1;33m[WARN][0m 2026-05-26 14:34:49 - 镜像 jfrog/artifactory-oss:7.67.3 拉取失败，尝试下一个...
+[0;32m[INFO][0m 2026-05-26 14:34:51 - 尝试拉取镜像：docker.jfrog.io/jfrog/artifactory-oss:7.67.3
+[1;33m[WARN][0m 2026-05-26 14:34:53 - 镜像 docker.jfrog.io/jfrog/artifactory-oss:7.67.3 拉取失败，尝试下一个...
+[0;32m[INFO][0m 2026-05-26 14:34:55 - 尝试拉取镜像：releases-docker.jfrog.io/jfrog/artifactory-oss:7.67.3
+[1;33m[WARN][0m 2026-05-26 14:34:57 - 镜像 releases-docker.jfrog.io/jfrog/artifactory-oss:7.67.3 拉取失败，尝试下一个...
+[0;32m[INFO][0m 2026-05-26 14:34:59 - 尝试拉取镜像：jfrog/artifactory-oss:latest
+[1;33m[WARN][0m 2026-05-26 14:35:14 - 镜像 jfrog/artifactory-oss:latest 拉取失败，尝试下一个...
+[0;32m[INFO][0m 2026-05-26 14:35:16 - 尝试拉取镜像：registry.cn-hangzhou.aliyuncs.com/jfrog/artifactory-oss:latest
+[1;33m[WARN][0m 2026-05-26 14:35:16 - 镜像 registry.cn-hangzhou.aliyuncs.com/jfrog/artifactory-oss:latest 拉取失败，尝试下一个...
+[0;31m[ERROR][0m 2026-05-26 14:35:18 - 所有 Artifactory 镜像源均失败
+
+[INFO] 2026-05-26 14:35:18  跳过独立 Nginx 子脚本，使用 deploy_all.py 内置反向代理编排
+=== 2026-05-26 14:35:18  配置 Nginx 反向代理
+[INFO] 2026-05-26 14:35:18  ✓ 检测到 jenkins 容器 (devopsagent-jenkins)
+[INFO] 2026-05-26 14:35:18    jenkins.conf 内容未变, 跳过
+[INFO] 2026-05-26 14:35:18  ✓ 检测到 gitlab 容器 (devopsagent-gitlab)
+[INFO] 2026-05-26 14:35:18    gitlab.conf 内容未变, 跳过
+[INFO] 2026-05-26 14:35:18  - artifactory 容器未运行, 跳过
+[INFO] 2026-05-26 14:35:18  ✓ 检测到 mantisbt 容器 (devopsagent-mantisbt)
+[INFO] 2026-05-26 14:35:18    mantisbt.conf 内容未变, 跳过
+[INFO] 2026-05-26 14:35:18  - harbor 容器未运行, 跳过
+[INFO] 2026-05-26 14:35:18  - langfuse 容器未运行, 跳过
+[INFO] 2026-05-26 14:35:22  ✓ Nginx 已启动
+[ERROR] 2026-05-26 14:35:22  以下服务部署失败: artifactory
+[INFO] 2026-05-26 14:35:22  已成功部署的服务仍然可用，可单独修复失败的服务
+[INFO] 2026-05-26 14:35:23  部署流程完成!
+[INFO] 2026-05-26 14:41:00  已选择: 仅 JFrog Artifactory (+ Nginx HTTPS)
+[INFO] 2026-05-26 14:41:00  服务: ['artifactory', 'nginx'], Nginx: True
+=== 2026-05-26 14:41:00  端口占用扫描
+[INFO] 2026-05-26 14:41:00  已占用端口: 21 个
+[WARN] 2026-05-26 14:41:00    端口 53 已被占用
+[WARN] 2026-05-26 14:41:00    端口 2222 已被占用
+[WARN] 2026-05-26 14:41:00    端口 3307 已被占用
+[WARN] 2026-05-26 14:41:00    端口 18081 已被占用
+[WARN] 2026-05-26 14:41:00    端口 18440 已被占用
+[WARN] 2026-05-26 14:41:00    端口 18441 已被占用
+[WARN] 2026-05-26 14:41:00    端口 18445 已被占用
+[WARN] 2026-05-26 14:41:00    端口 19092 已被占用
+[WARN] 2026-05-26 14:41:00    端口 19093 已被占用
+[WARN] 2026-05-26 14:41:00    端口 19443 已被占用
+[WARN] 2026-05-26 14:41:00    端口 34889 已被占用
+[WARN] 2026-05-26 14:41:00    端口 38117 已被占用
+[WARN] 2026-05-26 14:41:00    端口 40627 已被占用
+[WARN] 2026-05-26 14:41:00    端口 43479 已被占用
+[WARN] 2026-05-26 14:41:00    端口 44161 已被占用
+[WARN] 2026-05-26 14:41:00    端口 50000 已被占用
+[WARN] 2026-05-26 14:41:00    端口 51000 已被占用
+[WARN] 2026-05-26 14:41:00    端口 51001 已被占用
+[WARN] 2026-05-26 14:41:00    端口 51002 已被占用
+[WARN] 2026-05-26 14:41:00    端口 51003 已被占用
+[WARN] 2026-05-26 14:41:00    端口 51005 已被占用
+[WARN] 2026-05-26 14:41:00    [jenkins/web] 18081 已被占用 → 自动分配 18082
+[WARN] 2026-05-26 14:41:00    [jenkins/agent] 50000 已被占用 → 自动分配 50001
+[WARN] 2026-05-26 14:41:00    [gitlab/http] 19092 已被占用 → 自动分配 19094
+[WARN] 2026-05-26 14:41:00    [gitlab/https] 19443 已被占用 → 自动分配 19444
+[WARN] 2026-05-26 14:41:00    [gitlab/ssh] 2222 已被占用 → 自动分配 2223
+[WARN] 2026-05-26 14:41:00    [mantisbt/web] 19093 已被占用 → 自动分配 19095
+[WARN] 2026-05-26 14:41:00    [mariadb/db] 3307 已被占用 → 自动分配 3308
+[WARN] 2026-05-26 14:41:00    [nginx/jenkins] 18440 已被占用 → 自动分配 18442
+[WARN] 2026-05-26 14:41:00    [nginx/gitlab] 18441 已被占用 → 自动分配 18443
+[WARN] 2026-05-26 14:41:00    [nginx/artifactory] 18442 已被占用 → 自动分配 18444
+[WARN] 2026-05-26 14:41:00    [nginx/mantisbt] 18443 已被占用 → 自动分配 18446
+[WARN] 2026-05-26 14:41:00    [nginx/harbor] 18446 已被占用 → 自动分配 18447
+[WARN] 2026-05-26 14:41:00    [nginx/langfuse] 18447 已被占用 → 自动分配 18448
+=== 2026-05-26 14:41:00  端口扫描完成
+[INFO] 2026-05-26 14:41:00  端口分配已写入: /home/zs/DeployAgent/deploy/.env.auto
+=== 2026-05-26 14:41:00  Docker 网络扫描
+[INFO] 2026-05-26 14:41:00  Docker bridge 子网: 172.18.0.0/16
+[WARN] 2026-05-26 14:41:00  宿主路由表包含非 Docker 私有网段: ['172.21.192.0', '172.18.0.0', '172.21.192.1']
+[INFO] 2026-05-26 14:41:00  物理网卡私有 IP: 172.21.201.77(eth0)
+=== 2026-05-26 14:41:00  Docker 网络扫描完成
+=== 2026-05-26 14:41:00  Docker 卷扫描
+[INFO] 2026-05-26 14:41:01  已发现 6 个卷
+[WARN] 2026-05-26 14:41:01    卷: gitlab-config (可能与其他实例冲突)
+[WARN] 2026-05-26 14:41:01    卷: gitlab-data (可能与其他实例冲突)
+[WARN] 2026-05-26 14:41:01    卷: gitlab-logs (可能与其他实例冲突)
+[WARN] 2026-05-26 14:41:01    卷: jenkins-home (可能与其他实例冲突)
+[WARN] 2026-05-26 14:41:01    卷: mantisbt-db-data (可能与其他实例冲突)
+[WARN] 2026-05-26 14:41:01    卷: mantisbt-web (可能与其他实例冲突)
+[INFO] 2026-05-26 14:41:01  已加载 .env 文件: /home/zs/DeployAgent/deploy/.env
+[INFO] 2026-05-26 14:41:02  使用 IP: 172.21.201.77
+[INFO] 2026-05-26 14:41:02  JFrog Artifactory HTTPS 反向代理地址: https://172.21.201.77:18444
+=== 2026-05-26 14:41:02  开始部署: 模式=artifactory, 服务=['artifactory', 'nginx']
+[INFO] 2026-05-26 14:41:02  Nginx 绑定地址: 172.21.201.77
+=== 2026-05-26 14:41:02  部署 artifactory
+
+[0;34m=== 部署 JFrog Artifactory 服务 ===[0m
+[0;32m[INFO][0m 2026-05-26 14:41:02 - 使用 Docker 命名卷存储：artifactory-home
+[0;32m[INFO][0m 2026-05-26 14:41:02 - 清理旧的镜像缓存...
+[0;32m[INFO][0m 2026-05-26 14:41:02 - 尝试拉取镜像：registry.cn-hangzhou.aliyuncs.com/jfrog/artifactory-oss:7.67.3
+[1;33m[WARN][0m 2026-05-26 14:41:02 - 镜像 registry.cn-hangzhou.aliyuncs.com/jfrog/artifactory-oss:7.67.3 拉取失败，尝试下一个...
+[0;32m[INFO][0m 2026-05-26 14:41:03 - 尝试拉取镜像：registry.cn-shanghai.aliyuncs.com/jfrog/artifactory-oss:7.67.3
+[1;33m[WARN][0m 2026-05-26 14:41:04 - 镜像 registry.cn-shanghai.aliyuncs.com/jfrog/artifactory-oss:7.67.3 拉取失败，尝试下一个...
+[0;32m[INFO][0m 2026-05-26 14:41:05 - 尝试拉取镜像：hub-mirror.c.163.com/jfrog/artifactory-oss:7.67.3
+[1;33m[WARN][0m 2026-05-26 14:41:05 - 镜像 hub-mirror.c.163.com/jfrog/artifactory-oss:7.67.3 拉取失败，尝试下一个...
+[0;32m[INFO][0m 2026-05-26 14:41:06 - 尝试拉取镜像：mirror.ccs.tencentyun.com/jfrog/artifactory-oss:7.67.3
+[1;33m[WARN][0m 2026-05-26 14:41:06 - 镜像 mirror.ccs.tencentyun.com/jfrog/artifactory-oss:7.67.3 拉取失败，尝试下一个...
+[0;32m[INFO][0m 2026-05-26 14:41:07 - 尝试拉取镜像：jfrog/artifactory-oss:7.67.3
+[1;33m[WARN][0m 2026-05-26 14:41:21 - 镜像 jfrog/artifactory-oss:7.67.3 拉取失败，尝试下一个...
+[0;32m[INFO][0m 2026-05-26 14:41:22 - 尝试拉取镜像：docker.jfrog.io/jfrog/artifactory-oss:7.67.3
+[1;33m[WARN][0m 2026-05-26 14:41:23 - 镜像 docker.jfrog.io/jfrog/artifactory-oss:7.67.3 拉取失败，尝试下一个...
+[0;32m[INFO][0m 2026-05-26 14:41:24 - 尝试拉取镜像：releases-docker.jfrog.io/jfrog/artifactory-oss:7.67.3
+[1;33m[WARN][0m 2026-05-26 14:41:27 - 镜像 releases-docker.jfrog.io/jfrog/artifactory-oss:7.67.3 拉取失败，尝试下一个...
+[0;32m[INFO][0m 2026-05-26 14:41:28 - 尝试拉取镜像：jfrog/artifactory-oss:latest
+[1;33m[WARN][0m 2026-05-26 14:41:49 - 镜像 jfrog/artifactory-oss:latest 拉取失败，尝试下一个...
+[0;32m[INFO][0m 2026-05-26 14:41:50 - 尝试拉取镜像：registry.cn-hangzhou.aliyuncs.com/jfrog/artifactory-oss:latest
+[1;33m[WARN][0m 2026-05-26 14:41:51 - 镜像 registry.cn-hangzhou.aliyuncs.com/jfrog/artifactory-oss:latest 拉取失败，尝试下一个...
+[0;32m[INFO][0m 2026-05-26 14:41:52 - 尝试拉取镜像：hub-mirror.c.163.com/jfrog/artifactory-oss:latest
+[1;33m[WARN][0m 2026-05-26 14:41:52 - 镜像 hub-mirror.c.163.com/jfrog/artifactory-oss:latest 拉取失败，尝试下一个...
+[0;31m[ERROR][0m 2026-05-26 14:41:53 - 所有 Artifactory 镜像源均失败
+[0;31m[ERROR][0m 2026-05-26 14:41:53 - ============================================
+[0;31m[ERROR][0m 2026-05-26 14:41:53 - 网络环境无法访问外部镜像源
+[0;31m[ERROR][0m 2026-05-26 14:41:53 - 请尝试以下解决方案：
+[0;31m[ERROR][0m 2026-05-26 14:41:53 - 1. 检查网络连接和代理设置
+[0;31m[ERROR][0m 2026-05-26 14:41:53 - 2. 配置 Docker 镜像加速器
+[0;31m[ERROR][0m 2026-05-26 14:41:53 - 3. 手动下载镜像后导入：
+[0;31m[ERROR][0m 2026-05-26 14:41:53 -    docker pull jfrog/artifactory-oss:7.67.3
+[0;31m[ERROR][0m 2026-05-26 14:41:53 - 4. 跳过 Artifactory 部署，选择其他服务
+[0;31m[ERROR][0m 2026-05-26 14:41:53 - ============================================
+[WARN] 2026-05-26 14:41:53  artifactory 部署脚本返回 exit=1, 检查容器是否已在运行...
+[ERROR] 2026-05-26 14:41:53  artifactory 部署失败 (exit=1)
+[INFO] 2026-05-26 14:41:53  像：mirror.ccs.tencentyun.com/jfrog/artifactory-oss:7.67.3
+[1;33m[WARN][0m 2026-05-26 14:41:06 - 镜像 mirror.ccs.tencentyun.com/jfrog/artifactory-oss:7.67.3 拉取失败，尝试下一个...
+[0;32m[INFO][0m 2026-05-26 14:41:07 - 尝试拉取镜像：jfrog/artifactory-oss:7.67.3
+[1;33m[WARN][0m 2026-05-26 14:41:21 - 镜像 jfrog/artifactory-oss:7.67.3 拉取失败，尝试下一个...
+[0;32m[INFO][0m 2026-05-26 14:41:22 - 尝试拉取镜像：docker.jfrog.io/jfrog/artifactory-oss:7.67.3
+[1;33m[WARN][0m 2026-05-26 14:41:23 - 镜像 docker.jfrog.io/jfrog/artifactory-oss:7.67.3 拉取失败，尝试下一个...
+[0;32m[INFO][0m 2026-05-26 14:41:24 - 尝试拉取镜像：releases-docker.jfrog.io/jfrog/artifactory-oss:7.67.3
+[1;33m[WARN][0m 2026-05-26 14:41:27 - 镜像 releases-docker.jfrog.io/jfrog/artifactory-oss:7.67.3 拉取失败，尝试下一个...
+[0;32m[INFO][0m 2026-05-26 14:41:28 - 尝试拉取镜像：jfrog/artifactory-oss:latest
+[1;33m[WARN][0m 2026-05-26 14:41:49 - 镜像 jfrog/artifactory-oss:latest 拉取失败，尝试下一个...
+[0;32m[INFO][0m 2026-05-26 14:41:50 - 尝试拉取镜像：registry.cn-hangzhou.aliyuncs.com/jfrog/artifactory-oss:latest
+[1;33m[WARN][0m 2026-05-26 14:41:51 - 镜像 registry.cn-hangzhou.aliyuncs.com/jfrog/artifactory-oss:latest 拉取失败，尝试下一个...
+[0;32m[INFO][0m 2026-05-26 14:41:52 - 尝试拉取镜像：hub-mirror.c.163.com/jfrog/artifactory-oss:latest
+[1;33m[WARN][0m 2026-05-26 14:41:52 - 镜像 hub-mirror.c.163.com/jfrog/artifactory-oss:latest 拉取失败，尝试下一个...
+[0;31m[ERROR][0m 2026-05-26 14:41:53 - 所有 Artifactory 镜像源均失败
+[0;31m[ERROR][0m 2026-05-26 14:41:53 - ============================================
+[0;31m[ERROR][0m 2026-05-26 14:41:53 - 网络环境无法访问外部镜像源
+[0;31m[ERROR][0m 2026-05-26 14:41:53 - 请尝试以下解决方案：
+[0;31m[ERROR][0m 2026-05-26 14:41:53 - 1. 检查网络连接和代理设置
+[0;31m[ERROR][0m 2026-05-26 14:41:53 - 2. 配置 Docker 镜像加速器
+[0;31m[ERROR][0m 2026-05-26 14:41:53 - 3. 手动下载镜像后导入：
+[0;31m[ERROR][0m 2026-05-26 14:41:53 -    docker pull jfrog/artifactory-oss:7.67.3
+[0;31m[ERROR][0m 2026-05-26 14:41:53 - 4. 跳过 Artifactory 部署，选择其他服务
+[0;31m[ERROR][0m 2026-05-26 14:41:53 - ============================================
+
+[ERROR] 2026-05-26 14:41:53  cted status from HEAD request to https://docker.jfrog.io/v2/jfrog/artifactory-oss/manifests/7.67.3: 403 Forbidden
+Error response from daemon: failed to resolve reference "releases-docker.jfrog.io/jfrog/artifactory-oss:7.67.3": releases-docker.jfrog.io/jfrog/artifactory-oss:7.67.3: not found
+failed commit on ref "unknown-sha256:e975f874a39d362306e34ad128a8eaef505111f88f43094ecc2f53fce73f347e": commit failed: "unknown-sha256:e975f874a39d362306e34ad128a8eaef505111f88f43094ecc2f53fce73f347e" failed size validation: 53242 != 52992: failed precondition
+Error response from daemon: pull access denied for registry.cn-hangzhou.aliyuncs.com/jfrog/artifactory-oss, repository does not exist or may require 'docker login'
+Error response from daemon: failed to resolve reference "hub-mirror.c.163.com/jfrog/artifactory-oss:latest": failed to do request: Head "https://hub-mirror.c.163.com/v2/jfrog/artifactory-oss/manifests/latest": dial tcp: lookup hub-mirror.c.163.com on 10.255.255.254:53: no such host
+
+[INFO] 2026-05-26 14:41:53  跳过独立 Nginx 子脚本，使用 deploy_all.py 内置反向代理编排
+=== 2026-05-26 14:41:53  配置 Nginx 反向代理
+[INFO] 2026-05-26 14:41:53  ✓ 检测到 jenkins 容器 (devopsagent-jenkins)
+[INFO] 2026-05-26 14:41:53    jenkins.conf 内容未变, 跳过
+[INFO] 2026-05-26 14:41:53  ✓ 检测到 gitlab 容器 (devopsagent-gitlab)
+[INFO] 2026-05-26 14:41:53    gitlab.conf 内容未变, 跳过
+[INFO] 2026-05-26 14:41:53  - artifactory 容器未运行, 跳过
+[INFO] 2026-05-26 14:41:53  ✓ 检测到 mantisbt 容器 (devopsagent-mantisbt)
+[INFO] 2026-05-26 14:41:53    mantisbt.conf 内容未变, 跳过
+[INFO] 2026-05-26 14:41:53  - harbor 容器未运行, 跳过
+[INFO] 2026-05-26 14:41:53  - langfuse 容器未运行, 跳过
+[INFO] 2026-05-26 14:41:57  ✓ Nginx 已启动
+[ERROR] 2026-05-26 14:41:57  以下服务部署失败: artifactory
+[INFO] 2026-05-26 14:41:57  已成功部署的服务仍然可用，可单独修复失败的服务
+[INFO] 2026-05-26 14:41:57  部署流程完成!
+[INFO] 2026-05-26 14:52:59  已选择: 仅 JFrog Artifactory (+ Nginx HTTPS)
+[INFO] 2026-05-26 14:52:59  服务: ['artifactory', 'nginx'], Nginx: True
+=== 2026-05-26 14:52:59  端口占用扫描
+[INFO] 2026-05-26 14:52:59  已占用端口: 21 个
+[WARN] 2026-05-26 14:52:59    端口 53 已被占用
+[WARN] 2026-05-26 14:52:59    端口 2222 已被占用
+[WARN] 2026-05-26 14:52:59    端口 3307 已被占用
+[WARN] 2026-05-26 14:52:59    端口 18081 已被占用
+[WARN] 2026-05-26 14:52:59    端口 18442 已被占用
+[WARN] 2026-05-26 14:52:59    端口 18443 已被占用
+[WARN] 2026-05-26 14:52:59    端口 18446 已被占用
+[WARN] 2026-05-26 14:52:59    端口 19092 已被占用
+[WARN] 2026-05-26 14:52:59    端口 19093 已被占用
+[WARN] 2026-05-26 14:52:59    端口 19443 已被占用
+[WARN] 2026-05-26 14:52:59    端口 34889 已被占用
+[WARN] 2026-05-26 14:52:59    端口 38117 已被占用
+[WARN] 2026-05-26 14:52:59    端口 40627 已被占用
+[WARN] 2026-05-26 14:52:59    端口 43479 已被占用
+[WARN] 2026-05-26 14:52:59    端口 44161 已被占用
+[WARN] 2026-05-26 14:52:59    端口 50000 已被占用
+[WARN] 2026-05-26 14:52:59    端口 51000 已被占用
+[WARN] 2026-05-26 14:52:59    端口 51001 已被占用
+[WARN] 2026-05-26 14:52:59    端口 51002 已被占用
+[WARN] 2026-05-26 14:52:59    端口 51003 已被占用
+[WARN] 2026-05-26 14:52:59    端口 51005 已被占用
+[WARN] 2026-05-26 14:52:59    [jenkins/web] 18081 已被占用 → 自动分配 18082
+[WARN] 2026-05-26 14:52:59    [jenkins/agent] 50000 已被占用 → 自动分配 50001
+[WARN] 2026-05-26 14:52:59    [gitlab/http] 19092 已被占用 → 自动分配 19094
+[WARN] 2026-05-26 14:52:59    [gitlab/https] 19443 已被占用 → 自动分配 19444
+[WARN] 2026-05-26 14:52:59    [gitlab/ssh] 2222 已被占用 → 自动分配 2223
+[WARN] 2026-05-26 14:52:59    [mantisbt/web] 19093 已被占用 → 自动分配 19095
+[WARN] 2026-05-26 14:52:59    [mariadb/db] 3307 已被占用 → 自动分配 3308
+[WARN] 2026-05-26 14:52:59    [nginx/artifactory] 18442 已被占用 → 自动分配 18444
+[WARN] 2026-05-26 14:52:59    [nginx/mantisbt] 18443 已被占用 → 自动分配 18445
+[WARN] 2026-05-26 14:52:59    [nginx/harbor] 18446 已被占用 → 自动分配 18447
+[WARN] 2026-05-26 14:52:59    [nginx/langfuse] 18447 已被占用 → 自动分配 18448
+=== 2026-05-26 14:52:59  端口扫描完成
+[INFO] 2026-05-26 14:52:59  端口分配已写入: /home/zs/DeployAgent/deploy/.env.auto
+=== 2026-05-26 14:52:59  Docker 网络扫描
+[INFO] 2026-05-26 14:52:59  Docker bridge 子网: 172.18.0.0/16
+[WARN] 2026-05-26 14:52:59  宿主路由表包含非 Docker 私有网段: ['172.21.192.1', '172.18.0.0', '172.21.192.0']
+[INFO] 2026-05-26 14:52:59  物理网卡私有 IP: 172.21.201.77(eth0)
+=== 2026-05-26 14:52:59  Docker 网络扫描完成
+=== 2026-05-26 14:52:59  Docker 卷扫描
+[INFO] 2026-05-26 14:52:59  已发现 6 个卷
+[WARN] 2026-05-26 14:52:59    卷: gitlab-config (可能与其他实例冲突)
+[WARN] 2026-05-26 14:52:59    卷: gitlab-data (可能与其他实例冲突)
+[WARN] 2026-05-26 14:52:59    卷: gitlab-logs (可能与其他实例冲突)
+[WARN] 2026-05-26 14:52:59    卷: jenkins-home (可能与其他实例冲突)
+[WARN] 2026-05-26 14:52:59    卷: mantisbt-db-data (可能与其他实例冲突)
+[WARN] 2026-05-26 14:52:59    卷: mantisbt-web (可能与其他实例冲突)
+[INFO] 2026-05-26 14:52:59  已加载 .env 文件: /home/zs/DeployAgent/deploy/.env
+[INFO] 2026-05-26 14:53:00  使用 IP: 172.21.201.77
+[INFO] 2026-05-26 14:53:00  JFrog Artifactory HTTPS 反向代理地址: https://172.21.201.77:18444
+=== 2026-05-26 14:53:00  开始部署: 模式=artifactory, 服务=['artifactory', 'nginx']
+[INFO] 2026-05-26 14:53:00  Nginx 绑定地址: 172.21.201.77
+=== 2026-05-26 14:53:00  部署 artifactory
+
+[0;34m=== 部署 JFrog Artifactory 服务 ===[0m
+[0;32m[INFO][0m 2026-05-26 14:53:00 - 使用 Docker 命名卷存储：artifactory-home
+[0;32m[INFO][0m 2026-05-26 14:53:00 - 清理旧的镜像缓存...
+[0;32m[INFO][0m 2026-05-26 14:53:00 - 尝试拉取镜像：registry.cn-hangzhou.aliyuncs.com/jfrog/artifactory-oss:7.67.3
+[1;33m[WARN][0m 2026-05-26 14:53:01 - 镜像 registry.cn-hangzhou.aliyuncs.com/jfrog/artifactory-oss:7.67.3 拉取失败，尝试下一个...
+[0;32m[INFO][0m 2026-05-26 14:53:02 - 尝试拉取镜像：registry.cn-shanghai.aliyuncs.com/jfrog/artifactory-oss:7.67.3
+[1;33m[WARN][0m 2026-05-26 14:53:02 - 镜像 registry.cn-shanghai.aliyuncs.com/jfrog/artifactory-oss:7.67.3 拉取失败，尝试下一个...
+[0;32m[INFO][0m 2026-05-26 14:53:03 - 尝试拉取镜像：hub-mirror.c.163.com/jfrog/artifactory-oss:7.67.3
+[1;33m[WARN][0m 2026-05-26 14:53:03 - 镜像 hub-mirror.c.163.com/jfrog/artifactory-oss:7.67.3 拉取失败，尝试下一个...
+[0;32m[INFO][0m 2026-05-26 14:53:04 - 尝试拉取镜像：mirror.ccs.tencentyun.com/jfrog/artifactory-oss:7.67.3
+[1;33m[WARN][0m 2026-05-26 14:53:04 - 镜像 mirror.ccs.tencentyun.com/jfrog/artifactory-oss:7.67.3 拉取失败，尝试下一个...
+[0;32m[INFO][0m 2026-05-26 14:53:05 - 尝试拉取镜像：jfrog/artifactory-oss:7.67.3
+[1;33m[WARN][0m 2026-05-26 14:53:18 - 镜像 jfrog/artifactory-oss:7.67.3 拉取失败，尝试下一个...
+[0;32m[INFO][0m 2026-05-26 14:53:19 - 尝试拉取镜像：docker.jfrog.io/jfrog/artifactory-oss:7.67.3
+[1;33m[WARN][0m 2026-05-26 14:53:20 - 镜像 docker.jfrog.io/jfrog/artifactory-oss:7.67.3 拉取失败，尝试下一个...
+[0;32m[INFO][0m 2026-05-26 14:53:21 - 尝试拉取镜像：releases-docker.jfrog.io/jfrog/artifactory-oss:7.67.3
+[1;33m[WARN][0m 2026-05-26 14:53:24 - 镜像 releases-docker.jfrog.io/jfrog/artifactory-oss:7.67.3 拉取失败，尝试下一个...
+[0;32m[INFO][0m 2026-05-26 14:53:25 - 尝试拉取镜像：jfrog/artifactory-oss:latest
+[1;33m[WARN][0m 2026-05-26 14:53:41 - 镜像 jfrog/artifactory-oss:latest 拉取失败，尝试下一个...
+[0;32m[INFO][0m 2026-05-26 14:53:42 - 尝试拉取镜像：registry.cn-hangzhou.aliyuncs.com/jfrog/artifactory-oss:latest
+[1;33m[WARN][0m 2026-05-26 14:53:43 - 镜像 registry.cn-hangzhou.aliyuncs.com/jfrog/artifactory-oss:latest 拉取失败，尝试下一个...
+[0;32m[INFO][0m 2026-05-26 14:53:44 - 尝试拉取镜像：hub-mirror.c.163.com/jfrog/artifactory-oss:latest
+[1;33m[WARN][0m 2026-05-26 14:53:44 - 镜像 hub-mirror.c.163.com/jfrog/artifactory-oss:latest 拉取失败，尝试下一个...
+[0;31m[ERROR][0m 2026-05-26 14:53:45 - 所有 Artifactory 镜像源均失败
+[0;31m[ERROR][0m 2026-05-26 14:53:45 - ============================================
+[0;31m[ERROR][0m 2026-05-26 14:53:45 - 网络环境无法访问外部镜像源
+[0;31m[ERROR][0m 2026-05-26 14:53:45 - 请尝试以下解决方案：
+[0;31m[ERROR][0m 2026-05-26 14:53:45 - 1. 检查网络连接和代理设置
+[0;31m[ERROR][0m 2026-05-26 14:53:45 - 2. 配置 Docker 镜像加速器
+[0;31m[ERROR][0m 2026-05-26 14:53:45 - 3. 手动下载镜像后导入：
+[0;31m[ERROR][0m 2026-05-26 14:53:45 -    docker pull jfrog/artifactory-oss:7.67.3
+[0;31m[ERROR][0m 2026-05-26 14:53:45 - 4. 跳过 Artifactory 部署，选择其他服务
+[0;31m[ERROR][0m 2026-05-26 14:53:45 - ============================================
+[WARN] 2026-05-26 14:53:45  artifactory 部署脚本返回 exit=1, 检查容器是否已在运行...
+[ERROR] 2026-05-26 14:53:45  artifactory 部署失败 (exit=1)
+[INFO] 2026-05-26 14:53:45  像：mirror.ccs.tencentyun.com/jfrog/artifactory-oss:7.67.3
+[1;33m[WARN][0m 2026-05-26 14:53:04 - 镜像 mirror.ccs.tencentyun.com/jfrog/artifactory-oss:7.67.3 拉取失败，尝试下一个...
+[0;32m[INFO][0m 2026-05-26 14:53:05 - 尝试拉取镜像：jfrog/artifactory-oss:7.67.3
+[1;33m[WARN][0m 2026-05-26 14:53:18 - 镜像 jfrog/artifactory-oss:7.67.3 拉取失败，尝试下一个...
+[0;32m[INFO][0m 2026-05-26 14:53:19 - 尝试拉取镜像：docker.jfrog.io/jfrog/artifactory-oss:7.67.3
+[1;33m[WARN][0m 2026-05-26 14:53:20 - 镜像 docker.jfrog.io/jfrog/artifactory-oss:7.67.3 拉取失败，尝试下一个...
+[0;32m[INFO][0m 2026-05-26 14:53:21 - 尝试拉取镜像：releases-docker.jfrog.io/jfrog/artifactory-oss:7.67.3
+[1;33m[WARN][0m 2026-05-26 14:53:24 - 镜像 releases-docker.jfrog.io/jfrog/artifactory-oss:7.67.3 拉取失败，尝试下一个...
+[0;32m[INFO][0m 2026-05-26 14:53:25 - 尝试拉取镜像：jfrog/artifactory-oss:latest
+[1;33m[WARN][0m 2026-05-26 14:53:41 - 镜像 jfrog/artifactory-oss:latest 拉取失败，尝试下一个...
+[0;32m[INFO][0m 2026-05-26 14:53:42 - 尝试拉取镜像：registry.cn-hangzhou.aliyuncs.com/jfrog/artifactory-oss:latest
+[1;33m[WARN][0m 2026-05-26 14:53:43 - 镜像 registry.cn-hangzhou.aliyuncs.com/jfrog/artifactory-oss:latest 拉取失败，尝试下一个...
+[0;32m[INFO][0m 2026-05-26 14:53:44 - 尝试拉取镜像：hub-mirror.c.163.com/jfrog/artifactory-oss:latest
+[1;33m[WARN][0m 2026-05-26 14:53:44 - 镜像 hub-mirror.c.163.com/jfrog/artifactory-oss:latest 拉取失败，尝试下一个...
+[0;31m[ERROR][0m 2026-05-26 14:53:45 - 所有 Artifactory 镜像源均失败
+[0;31m[ERROR][0m 2026-05-26 14:53:45 - ============================================
+[0;31m[ERROR][0m 2026-05-26 14:53:45 - 网络环境无法访问外部镜像源
+[0;31m[ERROR][0m 2026-05-26 14:53:45 - 请尝试以下解决方案：
+[0;31m[ERROR][0m 2026-05-26 14:53:45 - 1. 检查网络连接和代理设置
+[0;31m[ERROR][0m 2026-05-26 14:53:45 - 2. 配置 Docker 镜像加速器
+[0;31m[ERROR][0m 2026-05-26 14:53:45 - 3. 手动下载镜像后导入：
+[0;31m[ERROR][0m 2026-05-26 14:53:45 -    docker pull jfrog/artifactory-oss:7.67.3
+[0;31m[ERROR][0m 2026-05-26 14:53:45 - 4. 跳过 Artifactory 部署，选择其他服务
+[0;31m[ERROR][0m 2026-05-26 14:53:45 - ============================================
+
+[ERROR] 2026-05-26 14:53:45  cted status from HEAD request to https://docker.jfrog.io/v2/jfrog/artifactory-oss/manifests/7.67.3: 403 Forbidden
+Error response from daemon: failed to resolve reference "releases-docker.jfrog.io/jfrog/artifactory-oss:7.67.3": releases-docker.jfrog.io/jfrog/artifactory-oss:7.67.3: not found
+failed commit on ref "unknown-sha256:e975f874a39d362306e34ad128a8eaef505111f88f43094ecc2f53fce73f347e": commit failed: "unknown-sha256:e975f874a39d362306e34ad128a8eaef505111f88f43094ecc2f53fce73f347e" failed size validation: 53242 != 52992: failed precondition
+Error response from daemon: pull access denied for registry.cn-hangzhou.aliyuncs.com/jfrog/artifactory-oss, repository does not exist or may require 'docker login'
+Error response from daemon: failed to resolve reference "hub-mirror.c.163.com/jfrog/artifactory-oss:latest": failed to do request: Head "https://hub-mirror.c.163.com/v2/jfrog/artifactory-oss/manifests/latest": dial tcp: lookup hub-mirror.c.163.com on 10.255.255.254:53: no such host
+
+[INFO] 2026-05-26 14:53:45  跳过独立 Nginx 子脚本，使用 deploy_all.py 内置反向代理编排
+=== 2026-05-26 14:53:45  配置 Nginx 反向代理
+[INFO] 2026-05-26 14:53:45  ✓ 检测到 jenkins 容器 (devopsagent-jenkins)
+[INFO] 2026-05-26 14:53:45    jenkins.conf 内容未变, 跳过
+[INFO] 2026-05-26 14:53:45  ✓ 检测到 gitlab 容器 (devopsagent-gitlab)
+[INFO] 2026-05-26 14:53:45    gitlab.conf 内容未变, 跳过
+[INFO] 2026-05-26 14:53:45  - artifactory 容器未运行, 跳过
+[INFO] 2026-05-26 14:53:45  ✓ 检测到 mantisbt 容器 (devopsagent-mantisbt)
+[INFO] 2026-05-26 14:53:45    mantisbt.conf 内容未变, 跳过
+[INFO] 2026-05-26 14:53:45  - harbor 容器未运行, 跳过
+[INFO] 2026-05-26 14:53:45  - langfuse 容器未运行, 跳过
+[INFO] 2026-05-26 14:53:49  ✓ Nginx 已启动
+[ERROR] 2026-05-26 14:53:49  以下服务部署失败: artifactory
+[INFO] 2026-05-26 14:53:49  已成功部署的服务仍然可用，可单独修复失败的服务
+[INFO] 2026-05-26 14:53:49  部署流程完成!
