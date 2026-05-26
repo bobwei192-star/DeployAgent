@@ -38,22 +38,24 @@ STATE_FILE = PROJECT_ROOT / ".deploy_state.json"
 BACKUP_DIR = PROJECT_ROOT / "data" / "backups"
 
 PORT_REGISTRY = {
-    "jenkins":    {"web": 18081, "agent": 50000},
-    "gitlab":     {"http": 19092, "https": 19443, "ssh": 2222},
-    "mantisbt":   {"web": 19093},
-    "mariadb":    {"db": 3307},
-    "langfuse":   {"web": 3000},
-    "nexus":      {"web": 8081},
-    "harbor":     {"http": 8082, "https": 8445, "registry": 5002},
+    "jenkins":     {"web": 18081, "agent": 50000},
+    "gitlab":      {"http": 19092, "https": 19443, "ssh": 2222},
+    "mantisbt":    {"web": 19093},
+    "mariadb":     {"db": 3307},
+    "langfuse":    {"web": 3000},
+    "nexus":       {"web": 8081},
+    "harbor":      {"http": 8082, "https": 8445, "registry": 5002},
+    "artifactory": {"web": 8084},
     "nginx": {
-        "jenkins":   18440,
-        "gitlab":    18441,
-        "nexus":     18442,
-        "mantisbt":  18443,
-        "harbor":    18446,
-        "langfuse":  18447,
+        "jenkins":    18440,
+        "gitlab":     18441,
+        "nexus":      18442,
+        "mantisbt":   18443,
+        "harbor":     18446,
+        "langfuse":   18447,
+        "artifactory": 18448,
     },
-    "webhook":    5000,
+    "webhook":     5000,
 }
 
 SERVICE_CONFIG = {
@@ -115,18 +117,28 @@ SERVICE_CONFIG = {
         "backend_port": 3000,
         "nginx_location": "/",
     },
+    "artifactory": {
+        "deploy_script": PROJECT_ROOT / "deploy_artifactory" / "deploy_artifactory.sh",
+        "container": "devopsagent-artifactory",
+        "nginx_port_key": ("nginx", "artifactory"),
+        "nginx_container_port": 8448,
+        "backend_host": "devopsagent-artifactory",
+        "backend_port": 8081,
+        "nginx_location": "/",
+    },
 }
 
 DEPLOY_MODES = {
-    1: ("full",      "完整部署 (Jenkins + GitLab + MantisBT + Langfuse + Nginx)",  ["jenkins", "gitlab", "mantisbt", "langfuse", "nginx"], True),
-    2: ("full-only", "完整部署 (无 Nginx, Jenkins + GitLab + MantisBT + Langfuse)",  ["jenkins", "gitlab", "mantisbt", "langfuse"],       False),
-    3: ("jenkins",   "仅 Jenkins (+ Nginx HTTPS)",                               ["jenkins", "nginx"],                                   True),
-    4: ("gitlab",    "仅 GitLab (+ Nginx HTTPS)",                                ["gitlab", "nginx"],                                    True),
-    5: ("mantisbt",  "仅 MantisBT (+ Nginx HTTPS)",                               ["mantisbt", "nginx"],                                  True),
-    6: ("langfuse",  "仅 Langfuse (+ Nginx HTTPS)",                               ["langfuse", "nginx"],                                  True),
-    7: ("nginx",     "仅 Nginx 反向代理",                                          ["nginx"],                                              True),
-    8: ("nexus",      "仅 Sonatype Nexus3 制品仓库 (+ Nginx HTTPS)",             ["nexus", "nginx"],                                     True),
-    9: ("harbor",    "仅 Harbor 镜像仓库 (+ Nginx HTTPS)",                        ["harbor", "nginx"],                                    True),
+    1: ("full",        "完整部署 (Jenkins + GitLab + MantisBT + Langfuse + Nginx)",  ["jenkins", "gitlab", "mantisbt", "langfuse", "nginx"], True),
+    2: ("full-only",   "完整部署 (无 Nginx, Jenkins + GitLab + MantisBT + Langfuse)",  ["jenkins", "gitlab", "mantisbt", "langfuse"],       False),
+    3: ("jenkins",     "仅 Jenkins (+ Nginx HTTPS)",                               ["jenkins", "nginx"],                                   True),
+    4: ("gitlab",      "仅 GitLab (+ Nginx HTTPS)",                                ["gitlab", "nginx"],                                    True),
+    5: ("mantisbt",    "仅 MantisBT (+ Nginx HTTPS)",                               ["mantisbt", "nginx"],                                  True),
+    6: ("langfuse",    "仅 Langfuse (+ Nginx HTTPS)",                               ["langfuse", "nginx"],                                  True),
+    7: ("nginx",       "仅 Nginx 反向代理",                                          ["nginx"],                                              True),
+    8: ("artifactory", "仅 JFrog Artifactory 制品仓库 (+ Nginx HTTPS)",            ["artifactory", "nginx"],                               True),
+    9: ("nexus",       "仅 Sonatype Nexus3 制品仓库 (+ Nginx HTTPS)",             ["nexus", "nginx"],                                     True),
+    10: ("harbor",     "仅 Harbor 镜像仓库 (+ Nginx HTTPS)",                        ["harbor", "nginx"],                                    True),
 }
 
 COLORS = {
@@ -736,6 +748,12 @@ def configure_reverse_proxy_env(services, use_nginx, public_host):
             os.environ["LANGFUSE_EXTERNAL_URL"] = f"https://{public_host}:{langfuse_port}"
             info(f"Langfuse HTTPS 反向代理地址: {os.environ['LANGFUSE_EXTERNAL_URL']}")
 
+    if "artifactory" in services and isinstance(nginx_ports, dict):
+        artifactory_port = nginx_ports.get("artifactory")
+        if artifactory_port:
+            os.environ["ARTIFACTORY_URL"] = f"https://{public_host}:{artifactory_port}"
+            info(f"Artifactory HTTPS 反向代理地址: {os.environ['ARTIFACTORY_URL']}")
+
 def _ensure_network():
     """确保 devopsagent-network 存在 (子脚本硬编码此网络名)"""
     r = run(["docker", "network", "ls", "--format", "{{.Name}}"], timeout=5)
@@ -780,6 +798,7 @@ def ensure_nginx_proxy(nginx_bind="0.0.0.0"):
         "mantisbt": ("devopsagent-mantisbt", "80", 8443, "/"),
         "harbor": ("harbor-portal", "8082", 8446, "/"),
         "langfuse": ("langfuse-web", "3000", 8447, "/"),
+        "artifactory": ("devopsagent-artifactory", "8081", 8448, "/"),
     }
 
     for svc, (container, back, listen_port, location) in nginx_confs.items():
@@ -909,7 +928,7 @@ def select_deploy_mode():
         _, desc, _, _ = DEPLOY_MODES[k]
         print(f"  {COLORS['CYAN']}[{k}]{COLORS['NC']} {desc}")
     print(f"{COLORS['CYAN']}【单个服务 + Nginx】{COLORS['NC']}")
-    for k in [3, 4, 5, 6]:
+    for k in [3, 4, 5, 6, 8, 9, 10]:
         _, desc, _, _ = DEPLOY_MODES[k]
         print(f"  {COLORS['CYAN']}[{k}]{COLORS['NC']} {desc}")
     print()
@@ -1161,6 +1180,7 @@ def main():
     parser.add_argument("--deploy-mantisbt-standalone", action="store_true")
     parser.add_argument("--deploy-langfuse-standalone", action="store_true")
     parser.add_argument("--deploy-nexus-standalone", action="store_true")
+    parser.add_argument("--deploy-artifactory-standalone", action="store_true")
     parser.add_argument("--deploy-harbor-standalone", action="store_true")
     parser.add_argument("--deploy-nginx-standalone", action="store_true")
     parser.add_argument("--nginx-bind", type=str, default=None, help="Nginx 绑定地址 (默认使用交互式输入的 IP)")
@@ -1208,6 +1228,7 @@ def main():
         "mantisbt": args.deploy_mantisbt_standalone,
         "langfuse": args.deploy_langfuse_standalone,
         "nexus": args.deploy_nexus_standalone,
+        "artifactory": args.deploy_artifactory_standalone,
         "harbor": args.deploy_harbor_standalone,
         "nginx": args.deploy_nginx_standalone,
     }
