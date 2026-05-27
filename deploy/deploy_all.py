@@ -110,10 +110,10 @@ SERVICE_CONFIG = {
     },
     "langfuse": {
         "deploy_script": PROJECT_ROOT / "deploy_langfuse" / "deploy_langfuse.sh",
-        "container": "langfuse-web",
+        "container": "langfuse-langfuse-web-1",
         "nginx_port_key": ("nginx", "langfuse"),
         "nginx_container_port": 8447,
-        "backend_host": "devopsagent-langfuse-web-1",
+        "backend_host": "langfuse-langfuse-web-1",
         "backend_port": 3000,
         "nginx_location": "/",
     },
@@ -797,7 +797,7 @@ def ensure_nginx_proxy(nginx_bind="0.0.0.0"):
         "nexus": ("devopsagent-nexus", "8081", 8442, "/"),
         "mantisbt": ("devopsagent-mantisbt", "80", 8443, "/"),
         "harbor": ("harbor-portal", "8082", 8446, "/"),
-        "langfuse": ("langfuse-web", "3000", 8447, "/"),
+        "langfuse": ("langfuse-langfuse-web-1", "3000", 8447, "/"),
         "artifactory": ("devopsagent-artifactory", "8081", 8448, "/"),
     }
 
@@ -1033,6 +1033,14 @@ def print_summary(mode, services, use_nginx):
         else:
             print(f"  用户名: root")
             print(f"  密码:   <容器未运行或密码文件已过期>")
+        print()
+
+    if "artifactory" in services:
+        print(f"{COLORS['CYAN']}【JFrog Artifactory 管理员登录】{COLORS['NC']}")
+        print(f"  用户名: admin")
+        print(f"  密码:   password")
+        print(f"  访问地址: https://{ip}:{PORT_REGISTRY['nginx'].get('artifactory', '?')}/artifactory/webapp/")
+        print(f"  提示: 首次登录后请立即修改密码")
         print()
 
     if "langfuse" in services:
