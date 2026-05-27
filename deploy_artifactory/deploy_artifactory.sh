@@ -138,7 +138,7 @@ configure_postgresql() {
 
     # 重启 PostgreSQL 使配置生效
     log_info "重启 PostgreSQL 使配置生效..."
-    systemctl restart postgresql
+    sudo systemctl restart postgresql
     sleep 2
 
     # 验证监听状态
@@ -216,14 +216,14 @@ deploy_artifactory() {
         log_info "✓ PostgreSQL 已安装 (版本: $pg_ver)"
     else
         log_info "安装 PostgreSQL..."
-        apt-get update -qq && apt-get install -y -qq postgresql postgresql-client >/dev/null
+        sudo apt-get update -qq && sudo apt-get install -y -qq postgresql postgresql-client >/dev/null
         log_info "✓ PostgreSQL 安装完成"
     fi
 
     # 检查 PostgreSQL 服务状态
-    if ! systemctl is-active --quiet postgresql; then
+    if ! sudo systemctl is-active --quiet postgresql; then
         log_info "启动 PostgreSQL 服务..."
-        systemctl start postgresql
+        sudo systemctl start postgresql
     fi
     log_info "✓ PostgreSQL 服务正在运行"
 

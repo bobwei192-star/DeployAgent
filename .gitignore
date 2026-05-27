@@ -4,3 +4,16 @@ deploy/__pycache__/
 deploy/data/harbor/
 deploy/deploy_nginx/nginx/ssl/
 deploy/config/artifactory/system.yaml
+data/harbor/data/
+deploy.log
+__pycache__/
+*.pyc
+data/harbor/data/
+deploy.log
+__pycache__/
+*.pyc
+data/harbor/data/
+deploy.log
+__pycache__/
+*.pyc
+data/

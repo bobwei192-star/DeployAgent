@@ -43,7 +43,6 @@ PORT_REGISTRY = {
     "gitlab":      {"http": 19092, "https": 19443, "ssh": 2222},
     "mantisbt":    {"web": 19093},
     "mariadb":     {"db": 3307},
-    "langfuse":    {"web": 3000},
     "nexus":       {"web": 8081},
     "harbor":      {"http": 8082, "https": 8445, "registry": 5002},
     "artifactory": {"web": 8084},
@@ -53,7 +52,6 @@ PORT_REGISTRY = {
         "nexus":      18442,
         "mantisbt":   18443,
         "harbor":     18446,
-        "langfuse":   18447,
         "artifactory": 18448,
     },
     "webhook":     5000,
@@ -98,25 +96,16 @@ SERVICE_CONFIG = {
     },
     "harbor": {
         "deploy_script": PROJECT_ROOT / "deploy_harbor" / "deploy_harbor.sh",
-        "container": "devopsagent-harbor-proxy-1",
+        "container": "devopsagent-harbor_proxy_1",
         "nginx_port_key": ("nginx", "harbor"),
         "nginx_container_port": 8446,
-        "backend_host": "devopsagent-harbor-proxy-1",
+        "backend_host": "devopsagent-harbor_proxy_1",
         "backend_port": 8080,
         "nginx_location": "/",
     },
     "nginx": {
         "deploy_script": PROJECT_ROOT / "deploy_nginx" / "deploy_nginx.sh",
         "container": "devopsagent-nginx",
-    },
-    "langfuse": {
-        "deploy_script": PROJECT_ROOT / "deploy_langfuse" / "deploy_langfuse.sh",
-        "container": "langfuse-langfuse-web-1",
-        "nginx_port_key": ("nginx", "langfuse"),
-        "nginx_container_port": 8447,
-        "backend_host": "langfuse-langfuse-web-1",
-        "backend_port": 3000,
-        "nginx_location": "/",
     },
     "artifactory": {
         "deploy_script": PROJECT_ROOT / "deploy_artifactory" / "deploy_artifactory.sh",
@@ -130,8 +119,8 @@ SERVICE_CONFIG = {
 }
 
 DEPLOY_MODES = {
-    1: ("full",        "完整部署 (Jenkins + GitLab + MantisBT + Langfuse + Nginx)",  ["jenkins", "gitlab", "mantisbt", "langfuse", "nginx"], True),
-    2: ("full-only",   "完整部署 (无 Nginx, Jenkins + GitLab + MantisBT + Langfuse)",  ["jenkins", "gitlab", "mantisbt", "langfuse"],       False),
+    1: ("full",        "完整部署 (Jenkins + GitLab + Artifactory + Harbor + Nginx)",  ["jenkins", "gitlab", "artifactory", "harbor", "nginx"], True),
+    2: ("full-only",   "完整部署 (无 Nginx, Jenkins + GitLab + MantisBT)",  ["jenkins", "gitlab", "mantisbt"],       False),
     3: ("jenkins",     "仅 Jenkins (+ Nginx HTTPS)",                               ["jenkins", "nginx"],                                   True),
     4: ("gitlab",      "仅 GitLab (+ Nginx HTTPS)",                                ["gitlab", "nginx"],                                    True),
     5: ("nginx",       "仅 Nginx 反向代理",                                          ["nginx"],                                              True),
@@ -206,8 +195,16 @@ def detect_local_ip():
 
 def load_env():
     env_vars = {}
+    # 先加载 .env
     if ENV_FILE.exists():
         for line in ENV_FILE.read_text(encoding="utf-8").split("\n"):
+            line = line.strip()
+            if line and not line.startswith("#") and "=" in line:
+                key, _, val = line.partition("=")
+                env_vars[key.strip()] = val.strip().strip('"').strip("'")
+    # 再加载 .env.auto（覆盖 .env 中的相同变量）
+    if ENV_AUTO.exists():
+        for line in ENV_AUTO.read_text(encoding="utf-8").split("\n"):
             line = line.strip()
             if line and not line.startswith("#") and "=" in line:
                 key, _, val = line.partition("=")
@@ -479,9 +476,6 @@ VOLUME_MAP = {
         ("MANTISBT_VOLUME_WEB",  "mantisbt-web"),
         ("MARIADB_VOLUME_DATA",  "mantisbt-db-data"),
     ],
-    "langfuse": [
-        ("LANGFUSE_VOLUME_DATA",  "langfuse-data"),
-    ],
 }
 
 def _resolve_volume_name(base_name):
@@ -529,7 +523,7 @@ def deploy_service(service_name):
 
     _cleanup_old_containers(service_name)
 
-    timeout = 1800 if service_name == "harbor" else 900 if service_name in ("gitlab", "mantisbt", "langfuse") else 600
+    timeout = 1800 if service_name == "harbor" else 900 if service_name in ("gitlab", "mantisbt") else 600
     r = run([str(script), "--deploy"], timeout=timeout, env=env)
 
     if r.returncode != 0:
@@ -577,8 +571,6 @@ def _find_running_container(candidate):
 
 def _cleanup_old_containers(service_name):
     """部署前停掉占用同一端口的旧容器 (devopsagent-*)"""
-    if service_name == "langfuse":
-        return
     cfg = SERVICE_CONFIG.get(service_name, {})
     containers = [cfg.get("container", "")]
     if service_name == "mantisbt":
@@ -751,15 +743,6 @@ def configure_reverse_proxy_env(services, use_nginx, public_host):
             os.environ["HARBOR_URL"] = f"https://{public_host}:{harbor_port}"
             info(f"Harbor HTTPS 反向代理地址: {os.environ['HARBOR_URL']}")
 
-    if "langfuse" in services and isinstance(nginx_ports, dict):
-        langfuse_port = nginx_ports.get("langfuse")
-        if langfuse_port:
-            os.environ["LANGFUSE_USE_HTTPS_PROXY"] = "true"
-            os.environ["LANGFUSE_HOSTNAME"] = public_host
-            os.environ["LANGFUSE_NGINX_PORT"] = str(langfuse_port)
-            os.environ["LANGFUSE_EXTERNAL_URL"] = f"https://{public_host}:{langfuse_port}"
-            info(f"Langfuse HTTPS 反向代理地址: {os.environ['LANGFUSE_EXTERNAL_URL']}")
-
     if "artifactory" in services and isinstance(nginx_ports, dict):
         artifactory_port = nginx_ports.get("artifactory")
         if artifactory_port:
@@ -808,8 +791,7 @@ def ensure_nginx_proxy(nginx_bind="0.0.0.0"):
         "gitlab": ("devopsagent-gitlab", "80", 8441, "/"),
         "nexus": ("devopsagent-nexus", "8081", 8442, "/"),
         "mantisbt": ("devopsagent-mantisbt", "80", 8443, "/"),
-        "harbor": ("devopsagent-harbor-proxy-1", "8080", 8446, "/"),
-        "langfuse": ("langfuse-langfuse-web-1", "3000", 8447, "/"),
+        "harbor": ("devopsagent-harbor_proxy_1", "8080", 8446, "/"),
         "artifactory": ("devopsagent-artifactory", "8082", 8448, "/"),
     }
 
@@ -970,6 +952,88 @@ def select_deploy_mode():
     info(f"服务: {services}, Nginx: {use_nginx}")
     return mode_name, services, use_nginx
 
+def save_credentials_to_env(services, ip, use_nginx):
+    """保存各服务的登录凭证和访问地址到 .env 文件"""
+    if not ENV_FILE.exists():
+        return
+    
+    content = ENV_FILE.read_text(encoding="utf-8")
+    env_vars = []
+    
+    # 保存 MantisBT
+    if "mantisbt" in services:
+        mantisbt_user = os.environ.get("MANTISBT_ADMIN_USER", "administrator")
+        mantisbt_pwd = os.environ.get("MANTISBT_ADMIN_PASSWORD", "root")
+        env_vars.append(f"MANTISBT_ADMIN_USER={mantisbt_user}")
+        env_vars.append(f"MANTISBT_ADMIN_PASSWORD={mantisbt_pwd}")
+        
+        if use_nginx:
+            mantisbt_port = PORT_REGISTRY["nginx"].get("mantisbt")
+            env_vars.append(f"MANTISBT_URL=https://{ip}:{mantisbt_port}")
+        else:
+            mantisbt_port = PORT_REGISTRY["mantisbt"]["web"]
+            env_vars.append(f"MANTISBT_URL=http://{ip}:{mantisbt_port}")
+    
+    # 保存 Jenkins
+    if "jenkins" in services:
+        jenkins_pwd = get_jenkins_password()
+        if jenkins_pwd:
+            env_vars.append(f"JENKINS_ADMIN_PASSWORD={jenkins_pwd}")
+        
+        if use_nginx:
+            jenkins_port = PORT_REGISTRY["nginx"].get("jenkins")
+            env_vars.append(f"JENKINS_URL=https://{ip}:{jenkins_port}/jenkins")
+        else:
+            jenkins_port = PORT_REGISTRY["jenkins"]["web"]
+            env_vars.append(f"JENKINS_URL=http://{ip}:{jenkins_port}/jenkins")
+    
+    # 保存 GitLab
+    if "gitlab" in services:
+        gitlab_pwd = get_gitlab_password()
+        if gitlab_pwd:
+            env_vars.append(f"GITLAB_ROOT_PASSWORD={gitlab_pwd}")
+        
+        if use_nginx:
+            gitlab_port = PORT_REGISTRY["nginx"].get("gitlab")
+            env_vars.append(f"GITLAB_URL=https://{ip}:{gitlab_port}")
+        else:
+            gitlab_port = PORT_REGISTRY["gitlab"]["http"]
+            env_vars.append(f"GITLAB_URL=http://{ip}:{gitlab_port}")
+    
+    # 保存 Harbor
+    if "harbor" in services:
+        if use_nginx:
+            harbor_port = PORT_REGISTRY["nginx"].get("harbor")
+            env_vars.append(f"HARBOR_URL=https://{ip}:{harbor_port}")
+        else:
+            harbor_port = PORT_REGISTRY["harbor"]["http"]
+            env_vars.append(f"HARBOR_URL=http://{ip}:{harbor_port}")
+        env_vars.append(f"HARBOR_ADMIN_PASSWORD=Harbor12345")  # Harbor 默认密码
+    
+    # 保存 Artifactory
+    if "artifactory" in services:
+        if use_nginx:
+            artifactory_port = PORT_REGISTRY["nginx"].get("artifactory")
+            env_vars.append(f"ARTIFACTORY_URL=https://{ip}:{artifactory_port}")
+        else:
+            artifactory_port = PORT_REGISTRY["artifactory"]["web"]
+            env_vars.append(f"ARTIFACTORY_URL=http://{ip}:{artifactory_port}")
+        env_vars.append(f"ARTIFACTORY_ADMIN_PASSWORD=password")
+    
+    # 合并到 content
+    for var in env_vars:
+        key, _ = var.split("=", 1)
+        # 如果已存在，更新；如果不存在，添加
+        pattern = re.compile(rf"^{re.escape(key)}=.*$", re.MULTILINE)
+        if pattern.search(content):
+            content = pattern.sub(var, content)
+        else:
+            content += f"\n{var}"
+    
+    # 写入文件
+    ENV_FILE.write_text(content.rstrip("\n") + "\n", encoding="utf-8")
+    info("✓ 各服务登录凭证和访问地址已保存到 .env 文件")
+
 def print_summary(mode, services, use_nginx):
     ip = detect_local_ip()
     print()
@@ -1055,11 +1119,7 @@ def print_summary(mode, services, use_nginx):
         print(f"  提示: 首次登录后请立即修改密码")
         print()
 
-    if "langfuse" in services:
-        print(f"{COLORS['CYAN']}【Langfuse】{COLORS['NC']}")
-        print(f"  首次访问请注册管理员账号")
-        print(f"  注册后建议将 NEXT_PUBLIC_SIGN_UP_DISABLED 设为 true")
-        print()
+    save_credentials_to_env(services, ip, use_nginx)
 
 # ═══════════════════════════════════════════════════════════════
 # 交互式 .env 配置

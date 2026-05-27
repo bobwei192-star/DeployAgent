@@ -30,7 +30,7 @@ DEPLOY_LOG="${PROJECT_DIR}/deploy.log"
 
 source "$LIB_DIR/common.sh"
 
-HARBOR_PORT_HTTP="${HARBOR_PORT_HTTP:-8082}"
+HARBOR_PORT_HTTP="${HARBOR_PORT_HTTP:-8083}"
 HARBOR_PORT_HTTPS="${HARBOR_PORT_HTTPS:-8445}"
 HARBOR_PORT_REGISTRY="${HARBOR_PORT_REGISTRY:-5002}"
 HARBOR_BIND="${HARBOR_BIND:-127.0.0.1}"
@@ -140,7 +140,7 @@ deploy_harbor() {
 
     log_info "停止并清理旧的 Harbor 容器..."
     if [[ -f "$harbor_install_dir/docker-compose.yml" ]]; then
-        cd "$harbor_install_dir" && docker compose down -v 2>/dev/null || true
+        cd "$harbor_install_dir" && docker-compose down -v 2>/dev/null || true
     fi
 
     log_info "加载 Harbor 镜像并生成配置..."
@@ -152,7 +152,7 @@ deploy_harbor() {
     patch_harbor_compose "$harbor_install_dir"
 
     log_info "启动 Harbor compose 服务..."
-    docker compose -p devopsagent-harbor up -d
+    docker-compose -p devopsagent-harbor up -d
 
     log_info "等待 Harbor 启动..."
     local max_wait=180
@@ -171,7 +171,7 @@ deploy_harbor() {
 
     if [[ $wait_count -ge $max_wait ]]; then
         log_warn "Harbor 启动超时，检查容器状态..."
-        cd "$harbor_install_dir" && docker compose -p devopsagent-harbor ps
+        cd "$harbor_install_dir" && docker-compose -p devopsagent-harbor ps
         return 1
     fi
 
