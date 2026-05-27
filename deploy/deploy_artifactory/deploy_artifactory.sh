@@ -97,6 +97,45 @@ configure_postgresql() {
         log_info "✓ pg_hba.conf 已添加 Docker 网络条目"
     fi
 
+    # ─── WSL2 网络适配: 自动检测 WSL2 特殊网关 IP ───
+    # WSL2 环境下, Docker 容器的连接源 IP 不经过 Docker 桥接,
+    # 而是走 WSL2 虚拟交换机 (Hyper-V), PostgreSQL 看到的来源 IP 可能是:
+    #   10.255.255.254  (WSL2 本地回环特殊地址)
+    #   172.21.x.x      (WSL2 eth0 子网)
+    log_info "检测 WSL/Docker 实际源地址..."
+
+    # 检测 WSL2 特殊回环 IP
+    if ip -4 addr show lo 2>/dev/null | grep -q "10.255.255.254"; then
+        if ! grep -q "10.255.255.254" "$PG_HBA_CONF" 2>/dev/null; then
+            echo "host    ${ARTIFACTORY_DB_NAME}    ${ARTIFACTORY_DB_USER}    10.255.255.254/32    md5" >> "$PG_HBA_CONF"
+            log_info "  ✓ 已添加 WSL2 特殊 IP: 10.255.255.254/32"
+        else
+            log_info "  ✓ WSL2 特殊 IP 已存在"
+        fi
+    fi
+
+    # 检测 WSL2 eth0 子网 (VM 主网络接口)
+    local eth0_cidr
+    eth0_cidr=$(ip -4 addr show eth0 2>/dev/null | grep -oP 'inet \K[\d.]+/\d+')
+    if [[ -n "$eth0_cidr" ]]; then
+        eth0_ip=$(echo "$eth0_cidr" | cut -d/ -f1)
+        eth0_net=$(echo "$eth0_ip" | cut -d. -f1-3)
+        eth0_entry="${eth0_net}.0/24"
+        if ! grep -q "${eth0_net}" "$PG_HBA_CONF" 2>/dev/null; then
+            echo "host    ${ARTIFACTORY_DB_NAME}    ${ARTIFACTORY_DB_USER}    ${eth0_entry}    md5" >> "$PG_HBA_CONF"
+            log_info "  ✓ 已添加 WSL2 eth0 子网: ${eth0_entry}"
+        else
+            log_info "  ✓ WSL2 eth0 子网已存在"
+        fi
+
+        # 同时添加默认网关 (Windows 宿主机 IP)
+        default_gw=$(ip route show default 2>/dev/null | awk '{print $3}' | head -1)
+        if [[ -n "$default_gw" ]] && ! grep -q "${default_gw}" "$PG_HBA_CONF" 2>/dev/null; then
+            echo "host    ${ARTIFACTORY_DB_NAME}    ${ARTIFACTORY_DB_USER}    ${default_gw}/32    md5" >> "$PG_HBA_CONF"
+            log_info "  ✓ 已添加默认网关: ${default_gw}/32"
+        fi
+    fi
+
     # 重启 PostgreSQL 使配置生效
     log_info "重启 PostgreSQL 使配置生效..."
     systemctl restart postgresql
@@ -116,13 +155,19 @@ configure_postgresql() {
     if PGPASSWORD="$ARTIFACTORY_DB_PASSWORD" psql -h "$DOCKER_GATEWAY" -p "$PG_PORT" -U "$ARTIFACTORY_DB_USER" -d "$ARTIFACTORY_DB_NAME" -c "SELECT 1;" >/dev/null 2>&1; then
         log_info "✓ Docker 网关连接验证成功 ($DOCKER_GATEWAY:$PG_PORT)"
     else
+        # WSL2 下 psql -h $DOCKER_GATEWAY 的连接源可能不是 Docker 子网 IP,
+        # 尝试重载配置后以 WSL2 实际 IP 重新验证
         log_warn "Docker 网关连接失败，尝试重载 pg_hba.conf..."
         sudo -u postgres psql -p "$PG_PORT" -c "SELECT pg_reload_conf();" 2>/dev/null || true
         sleep 2
         if PGPASSWORD="$ARTIFACTORY_DB_PASSWORD" psql -h "$DOCKER_GATEWAY" -p "$PG_PORT" -U "$ARTIFACTORY_DB_USER" -d "$ARTIFACTORY_DB_NAME" -c "SELECT 1;" >/dev/null 2>&1; then
             log_info "✓ 重载后连接验证成功"
         else
-            log_error "Docker 网关连接仍然失败! 请手动检查 pg_hba.conf"
+            log_error "Docker 网关连接仍然失败!"
+            log_error "  预期来源 IP: 10.255.255.254 (WSL2) 或 ${DOCKER_GATEWAY} (Docker)"
+            log_error "  请手动执行以下命令排查:"
+            log_error "    sudo -u postgres psql -p $PG_PORT -c \"SELECT * FROM pg_hba_file_rules WHERE database='${ARTIFACTORY_DB_NAME}';\""
+            log_error "    tail -20 /var/log/postgresql/postgresql-${PG_VERSION}-main.log  | grep 'no pg_hba'"
             return 1
         fi
     fi
@@ -148,6 +193,9 @@ shared:
     url: jdbc:postgresql://${DOCKER_GATEWAY}:${PG_PORT}/${ARTIFACTORY_DB_NAME}
     username: ${ARTIFACTORY_DB_USER}
     password: ${ARTIFACTORY_DB_PASSWORD}
+
+jfconnect:
+  enabled: false
 EOF
     chmod 600 "$ARTIFACTORY_CONFIG_DIR/system.yaml"
     log_info "✓ system.yaml 已生成 (PostgreSQL 端口: $PG_PORT)"
@@ -312,10 +360,11 @@ deploy_artifactory() {
         --restart unless-stopped \
         --ulimit nofile=65535:65535 \
         --ulimit nproc=4096:4096 \
-        -p "$ARTIFACTORY_BIND:$ARTIFACTORY_PORT_WEB:8081" \
+        -p "$ARTIFACTORY_BIND:$ARTIFACTORY_PORT_WEB:8082" \
         $volume_mount \
-        -v "$ARTIFACTORY_CONFIG_DIR/system.yaml:/opt/jfrog/artifactory/var/etc/system.yaml:ro" \
+        -v "$ARTIFACTORY_CONFIG_DIR/system.yaml:/opt/jfrog/artifactory/var/etc/system.yaml" \
         -e EXTRA_JAVA_OPTIONS="-Xms512m -Xmx2g" \
+        -e JF_JFCONNECT_ENABLED=false \
         --user root \
         "$selected_image"
 
@@ -355,6 +404,7 @@ deploy_artifactory() {
         docker ps | grep "$ARTIFACTORY_CONTAINER_NAME"
         log_info "最后 30 行日志:"
         docker logs --tail 30 "$ARTIFACTORY_CONTAINER_NAME" 2>&1
+        return 1
     fi
 
     log_info "✓ Artifactory 部署完成"

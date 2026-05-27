@@ -21,6 +21,7 @@ import os
 import re
 import secrets
 import shlex
+import socket
 import subprocess
 import sys
 import time
@@ -97,11 +98,11 @@ SERVICE_CONFIG = {
     },
     "harbor": {
         "deploy_script": PROJECT_ROOT / "deploy_harbor" / "deploy_harbor.sh",
-        "container": "harbor-portal",
+        "container": "devopsagent-harbor-proxy-1",
         "nginx_port_key": ("nginx", "harbor"),
         "nginx_container_port": 8446,
-        "backend_host": "harbor-portal",
-        "backend_port": 8082,
+        "backend_host": "devopsagent-harbor-proxy-1",
+        "backend_port": 8080,
         "nginx_location": "/",
     },
     "nginx": {
@@ -123,7 +124,7 @@ SERVICE_CONFIG = {
         "nginx_port_key": ("nginx", "artifactory"),
         "nginx_container_port": 8448,
         "backend_host": "devopsagent-artifactory",
-        "backend_port": 8081,
+        "backend_port": 8082,
         "nginx_location": "/",
     },
 }
@@ -133,12 +134,9 @@ DEPLOY_MODES = {
     2: ("full-only",   "完整部署 (无 Nginx, Jenkins + GitLab + MantisBT + Langfuse)",  ["jenkins", "gitlab", "mantisbt", "langfuse"],       False),
     3: ("jenkins",     "仅 Jenkins (+ Nginx HTTPS)",                               ["jenkins", "nginx"],                                   True),
     4: ("gitlab",      "仅 GitLab (+ Nginx HTTPS)",                                ["gitlab", "nginx"],                                    True),
-    5: ("mantisbt",    "仅 MantisBT (+ Nginx HTTPS)",                               ["mantisbt", "nginx"],                                  True),
-    6: ("langfuse",    "仅 Langfuse (+ Nginx HTTPS)",                               ["langfuse", "nginx"],                                  True),
-    7: ("nginx",       "仅 Nginx 反向代理",                                          ["nginx"],                                              True),
-    8: ("artifactory", "仅 JFrog Artifactory 制品仓库 (+ Nginx HTTPS)",            ["artifactory", "nginx"],                               True),
-    9: ("nexus",       "仅 Sonatype Nexus3 制品仓库 (+ Nginx HTTPS)",             ["nexus", "nginx"],                                     True),
-    10: ("harbor",     "仅 Harbor 镜像仓库 (+ Nginx HTTPS)",                        ["harbor", "nginx"],                                    True),
+    5: ("nginx",       "仅 Nginx 反向代理",                                          ["nginx"],                                              True),
+    6: ("artifactory", "仅 JFrog Artifactory 制品仓库 (+ Nginx HTTPS)",            ["artifactory", "nginx"],                               True),
+    7: ("harbor",      "仅 Harbor 镜像仓库 (+ Nginx HTTPS)",                        ["harbor", "nginx"],                                    True),
 }
 
 COLORS = {
@@ -284,18 +282,28 @@ def scan_occupied_ports():
     try:
         r = run(["docker", "ps", "--format", "{{.Ports}}"], timeout=10)
         for line in r.stdout.split("\n"):
-            for m in re.finditer(r"0\.0\.0\.0:(\d+)", line):
+            for m in re.finditer(r"(?:0\.0\.0\.0|127\.0\.0\.1|\[::\]|\d+\.\d+\.\d+\.\d+):(\d+)", line):
                 occupied.add(int(m.group(1)))
     except Exception:
         pass
 
     return occupied
 
+def _is_port_bindable(port, host="0.0.0.0"):
+    """实际尝试 bind，捕获 ss/docker ps 无法发现的 Windows/WSL 转发占用。"""
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+        sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        try:
+            sock.bind((host, port))
+            return True
+        except OSError:
+            return False
+
 def find_available_port(default_port, occupied, max_offset=50):
     """从默认端口开始, 找第一个可用端口"""
     for offset in range(max_offset):
         candidate = default_port + offset
-        if candidate not in occupied:
+        if candidate not in occupied and _is_port_bindable(candidate):
             return candidate
     return default_port
 
@@ -309,8 +317,10 @@ def scan_ports(selected_services=None):
 
     port_map = {}
     services_to_scan = selected_services or list(PORT_REGISTRY.keys())
+    services_to_scan = [svc for svc in services_to_scan if svc in PORT_REGISTRY]
 
-    for service, ports in PORT_REGISTRY.items():
+    for service in services_to_scan:
+        ports = PORT_REGISTRY[service]
         if service == "nginx":
             nginx_ports = {}
             for sub_key, default_port in ports.items():
@@ -547,7 +557,9 @@ def deploy_service(service_name):
 def _container_running(container_name):
     try:
         r = run(["docker", "ps", "--filter", f"name={container_name}", "--format", "{{.Names}}"], timeout=5)
-        return bool(r.stdout.strip())
+        # Docker --filter name= 默认是模糊匹配，需要精确过滤
+        running = set(r.stdout.strip().split("\n"))
+        return container_name in running
     except Exception:
         return False
 
@@ -695,7 +707,7 @@ def deploy_services(services, use_nginx, nginx_bind="0.0.0.0"):
     if failed:
         error(f"以下服务部署失败: {', '.join(failed)}")
         info("已成功部署的服务仍然可用，可单独修复失败的服务")
-        return True
+        return False
     return True
 
 def configure_reverse_proxy_env(services, use_nginx, public_host):
@@ -796,9 +808,9 @@ def ensure_nginx_proxy(nginx_bind="0.0.0.0"):
         "gitlab": ("devopsagent-gitlab", "80", 8441, "/"),
         "nexus": ("devopsagent-nexus", "8081", 8442, "/"),
         "mantisbt": ("devopsagent-mantisbt", "80", 8443, "/"),
-        "harbor": ("harbor-portal", "8082", 8446, "/"),
+        "harbor": ("devopsagent-harbor-proxy-1", "8080", 8446, "/"),
         "langfuse": ("langfuse-langfuse-web-1", "3000", 8447, "/"),
-        "artifactory": ("devopsagent-artifactory", "8081", 8448, "/"),
+        "artifactory": ("devopsagent-artifactory", "8082", 8448, "/"),
     }
 
     for svc, (container, back, listen_port, location) in nginx_confs.items():
@@ -928,7 +940,7 @@ def select_deploy_mode():
         _, desc, _, _ = DEPLOY_MODES[k]
         print(f"  {COLORS['CYAN']}[{k}]{COLORS['NC']} {desc}")
     print(f"{COLORS['CYAN']}【单个服务 + Nginx】{COLORS['NC']}")
-    for k in [3, 4, 5, 6, 8, 9, 10]:
+    for k in [3, 4, 6, 7]:
         _, desc, _, _ = DEPLOY_MODES[k]
         print(f"  {COLORS['CYAN']}[{k}]{COLORS['NC']} {desc}")
     print()
@@ -938,7 +950,7 @@ def select_deploy_mode():
         print(f"  {COLORS['CYAN']}[{k}]{COLORS['NC']} {desc}")
     print()
     print(f"{COLORS['CYAN']}【单独部署】{COLORS['NC']}")
-    for k in [7]:
+    for k in [5]:
         _, desc, _, _ = DEPLOY_MODES[k]
         print(f"  {COLORS['CYAN']}[{k}]{COLORS['NC']} {desc}")
     print()
@@ -1305,7 +1317,10 @@ def main():
     step(f"开始部署: 模式={mode}, 服务={services}")
     bind = args.nginx_bind or bind_ip
     info(f"Nginx 绑定地址: {bind}")
-    deploy_services(services, use_nginx, bind)
+    deploy_ok = deploy_services(services, use_nginx, bind)
+    if not deploy_ok:
+        error("部署未完全成功，请检查日志")
+        sys.exit(1)
 
     print_summary(mode, services, use_nginx)
     info("部署流程完成!")

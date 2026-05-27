@@ -21,6 +21,7 @@
 # =============================================================================
 
 set -e
+set -o pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
@@ -37,8 +38,33 @@ HARBOR_ADMIN_PASSWORD="${HARBOR_ADMIN_PASSWORD:-Harbor12345}"
 HARBOR_DATA_DIR="${HARBOR_DATA_DIR:-$PROJECT_DIR/data/harbor}"
 HARBOR_VERSION="${HARBOR_VERSION:-v2.10.0}"
 
+check_harbor_conflicts() {
+    if ss -tln 2>/dev/null | grep -qE '127\.0\.0\.1:1514|0\.0\.0\.0:1514|188\.188\.88\.4:1514'; then
+        log_error "Harbor 日志端口 1514 已被占用，harbor-log 无法启动"
+        log_info "占用情况:"
+        ss -tlnp 2>/dev/null | grep ':1514' || true
+        return 1
+    fi
+}
+
+patch_harbor_compose() {
+    local harbor_install_dir="$1"
+    local compose_file="$harbor_install_dir/docker-compose.yml"
+
+    if [[ ! -f "$compose_file" ]]; then
+        log_error "Harbor docker-compose.yml 不存在: $compose_file"
+        return 1
+    fi
+
+    # Harbor 官方 compose 使用 redis/nginx/registry 等全局 container_name,
+    # 在共享 Docker 主机上容易与其他服务冲突；删除后由 compose 项目前缀隔离。
+    sed -i '/^[[:space:]]*container_name:/d' "$compose_file"
+}
+
 deploy_harbor() {
     log_step "部署 Harbor 容器镜像仓库"
+
+    check_harbor_conflicts
 
     if [[ ! -d "$HARBOR_DATA_DIR" ]]; then
         log_info "创建 Harbor 数据目录: $HARBOR_DATA_DIR"
@@ -48,21 +74,50 @@ deploy_harbor() {
     log_info "下载 Harbor 离线安装包..."
     local harbor_tar="harbor-offline-installer-${HARBOR_VERSION}.tgz"
     local harbor_url="https://github.com/goharbor/harbor/releases/download/${HARBOR_VERSION}/${harbor_tar}"
-    
-    if [[ ! -f "$HARBOR_DATA_DIR/$harbor_tar" ]]; then
-        if ! curl -SL "$harbor_url" -o "$HARBOR_DATA_DIR/$harbor_tar" 2>/dev/null; then
-            log_warn "从 GitHub 下载失败，尝试国内镜像..."
-            curl -SL "https://mirror.ghproxy.com/${harbor_url}" -o "$HARBOR_DATA_DIR/$harbor_tar"
+    local tarball="$HARBOR_DATA_DIR/$harbor_tar"
+
+    # 下载（如果文件已存在先做完整性校验，损坏则重新下载）
+    local need_download=true
+    if [[ -f "$tarball" ]]; then
+        if gzip -t "$tarball" 2>/dev/null; then
+            local fsize; fsize=$(stat -c%s "$tarball" 2>/dev/null || stat -f%z "$tarball" 2>/dev/null)
+            # Harbor v2.10 离线包约 550MB+，小于 100MB 视为损坏
+            if [[ "$fsize" -gt 104857600 ]]; then
+                log_info "安装包已存在且校验通过 (${fsize} bytes)，跳过下载"
+                need_download=false
+            else
+                log_warn "安装包文件过小 (${fsize} bytes)，可能下载中断，重新下载..."
+                rm -f "$tarball"
+            fi
+        else
+            log_warn "安装包 gzip 校验失败，文件损坏，重新下载..."
+            rm -f "$tarball"
         fi
     fi
 
-    if [[ ! -f "$HARBOR_DATA_DIR/$harbor_tar" ]]; then
+    if $need_download; then
+        if ! curl -fSL --connect-timeout 20 --max-time 1200 -o "$tarball" "$harbor_url"; then
+            log_warn "从 GitHub 下载失败，尝试国内镜像..."
+            rm -f "$tarball"
+            if ! curl -fSL --connect-timeout 20 --max-time 1200 -o "$tarball" "https://mirror.ghproxy.com/${harbor_url}"; then
+                log_error "Harbor 安装包下载失败（GitHub 和镜像均失败）"
+                rm -f "$tarball"
+                return 1
+            fi
+        fi
+    fi
+
+    if [[ ! -f "$tarball" ]]; then
         log_error "Harbor 安装包下载失败"
         return 1
     fi
 
     log_info "解压 Harbor 安装包..."
-    tar -xzf "$HARBOR_DATA_DIR/$harbor_tar" -C "$HARBOR_DATA_DIR"
+    if ! tar -xzf "$tarball" -C "$HARBOR_DATA_DIR"; then
+        log_error "Harbor 安装包解压失败，文件已损坏，自动清理后请重新部署"
+        rm -f "$tarball"
+        return 1
+    fi
 
     local harbor_install_dir="$HARBOR_DATA_DIR/harbor"
     if [[ ! -d "$harbor_install_dir" ]]; then
@@ -88,8 +143,16 @@ deploy_harbor() {
         cd "$harbor_install_dir" && docker compose down -v 2>/dev/null || true
     fi
 
-    log_info "运行 Harbor 安装脚本..."
-    cd "$harbor_install_dir" && ./install.sh --with-trivy 2>&1 | tail -20
+    log_info "加载 Harbor 镜像并生成配置..."
+    cd "$harbor_install_dir"
+    if [[ -f harbor*.tar.gz ]]; then
+        docker load -i ./harbor*.tar.gz
+    fi
+    ./prepare --with-trivy
+    patch_harbor_compose "$harbor_install_dir"
+
+    log_info "启动 Harbor compose 服务..."
+    docker compose -p devopsagent-harbor up -d
 
     log_info "等待 Harbor 启动..."
     local max_wait=180
@@ -108,7 +171,8 @@ deploy_harbor() {
 
     if [[ $wait_count -ge $max_wait ]]; then
         log_warn "Harbor 启动超时，检查容器状态..."
-        cd "$harbor_install_dir" && docker compose ps
+        cd "$harbor_install_dir" && docker compose -p devopsagent-harbor ps
+        return 1
     fi
 
     log_info "✓ Harbor 部署完成"
