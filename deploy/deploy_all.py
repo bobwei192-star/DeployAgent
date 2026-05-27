@@ -529,7 +529,7 @@ def deploy_service(service_name):
 
     _cleanup_old_containers(service_name)
 
-    timeout = 900 if service_name in ("gitlab", "mantisbt", "langfuse") else 600
+    timeout = 1800 if service_name == "harbor" else 900 if service_name in ("gitlab", "mantisbt", "langfuse") else 600
     r = run([str(script), "--deploy"], timeout=timeout, env=env)
 
     if r.returncode != 0:
