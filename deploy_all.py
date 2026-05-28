@@ -96,10 +96,10 @@ SERVICE_CONFIG = {
     },
     "harbor": {
         "deploy_script": PROJECT_ROOT / "deploy_harbor" / "deploy_harbor.sh",
-        "container": "devopsagent-harbor_proxy_1",
+        "container": "devopsagent-harbor-proxy-1",
         "nginx_port_key": ("nginx", "harbor"),
         "nginx_container_port": 8446,
-        "backend_host": "devopsagent-harbor_proxy_1",
+        "backend_host": "devopsagent-harbor-proxy-1",
         "backend_port": 8080,
         "nginx_location": "/",
     },
@@ -791,7 +791,7 @@ def ensure_nginx_proxy(nginx_bind="0.0.0.0"):
         "gitlab": ("devopsagent-gitlab", "80", 8441, "/"),
         "nexus": ("devopsagent-nexus", "8081", 8442, "/"),
         "mantisbt": ("devopsagent-mantisbt", "80", 8443, "/"),
-        "harbor": ("devopsagent-harbor_proxy_1", "8080", 8446, "/"),
+        "harbor": ("devopsagent-harbor-proxy-1", "8080", 8446, "/"),
         "artifactory": ("devopsagent-artifactory", "8082", 8448, "/"),
     }
 

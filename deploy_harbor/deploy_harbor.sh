@@ -30,6 +30,18 @@ DEPLOY_LOG="${PROJECT_DIR}/deploy.log"
 
 source "$LIB_DIR/common.sh"
 
+# 检测 Docker Compose 命令（支持 plugin 和 standalone 两种方式）
+if docker compose version &>/dev/null; then
+    DOCKER_COMPOSE_CMD="docker compose"
+    log_info "使用 Docker Compose (plugin)"
+elif command -v docker-compose &>/dev/null; then
+    DOCKER_COMPOSE_CMD="docker-compose"
+    log_info "使用 Docker Compose (standalone)"
+else
+    log_error "Docker Compose 未安装"
+    exit 1
+fi
+
 HARBOR_PORT_HTTP="${HARBOR_PORT_HTTP:-8083}"
 HARBOR_PORT_HTTPS="${HARBOR_PORT_HTTPS:-8445}"
 HARBOR_PORT_REGISTRY="${HARBOR_PORT_REGISTRY:-5002}"
@@ -38,12 +50,36 @@ HARBOR_ADMIN_PASSWORD="${HARBOR_ADMIN_PASSWORD:-Harbor12345}"
 HARBOR_DATA_DIR="${HARBOR_DATA_DIR:-$PROJECT_DIR/data/harbor}"
 HARBOR_VERSION="${HARBOR_VERSION:-v2.10.0}"
 
-check_harbor_conflicts() {
-    if ss -tln 2>/dev/null | grep -qE '127\.0\.0\.1:1514|0\.0\.0\.0:1514|188\.188\.88\.4:1514'; then
-        log_error "Harbor 日志端口 1514 已被占用，harbor-log 无法启动"
-        log_info "占用情况:"
-        ss -tlnp 2>/dev/null | grep ':1514' || true
+# 从 docker-compose.yml 动态提取所有宿主机端口，检查是否被占用
+# 必须在 docker compose down 之后调用（旧容器已停，端口已释放）
+check_compose_port_conflicts() {
+    local compose_file="$1"
+    local ports conflicts=()
+    # 提取 ports 映射中冒号左边的宿主机端口（支持 "- 8080:80" 和 '- "8080:80"' 格式）
+    ports=$(grep -oP '^\s*-\s*"?(\d+\.\d+\.\d+\.\d+:)?\K\d+(?=:\d+)' "$compose_file" 2>/dev/null | sort -u || true)
+    for port in $ports; do
+        if ss -tln 2>/dev/null | grep -q ":${port} "; then
+            conflicts+=("$port")
+        fi
+    done
+    if [[ ${#conflicts[@]} -gt 0 ]]; then
+        log_error "以下端口已被占用，无法启动 Harbor: ${conflicts[*]}"
+        for p in "${conflicts[@]}"; do
+            log_info "  端口 $p 占用详情:"
+            ss -tlnp 2>/dev/null | grep ":$p " | head -3 || true
+        done
         return 1
+    fi
+    return 0
+}
+
+# 停止所有以 devopsagent-harbor 为前缀的旧容器
+stop_old_harbor_containers() {
+    local old_ids
+    old_ids=$(docker ps -aq --filter "name=devopsagent-harbor" 2>/dev/null || true)
+    if [[ -n "$old_ids" ]]; then
+        log_info "检测到旧的 Harbor 容器，正在清理..."
+        echo "$old_ids" | xargs -r docker rm -f 2>/dev/null || true
     fi
 }
 
@@ -64,7 +100,15 @@ patch_harbor_compose() {
 deploy_harbor() {
     log_step "部署 Harbor 容器镜像仓库"
 
-    check_harbor_conflicts
+    # 如果 Harbor 已在正常运行，直接返回
+    if docker ps --format '{{.Names}}' 2>/dev/null | grep -q 'devopsagent-harbor-proxy-1' && \
+       curl -s "http://$HARBOR_BIND:$HARBOR_PORT_HTTP/api/v2.0/ping" | grep -qi "pong"; then
+        log_info "✓ Harbor 已在运行，跳过部署"
+        return 0
+    fi
+
+    # 先清理所有旧的 Harbor 容器，释放端口
+    stop_old_harbor_containers
 
     if [[ ! -d "$HARBOR_DATA_DIR" ]]; then
         log_info "创建 Harbor 数据目录: $HARBOR_DATA_DIR"
@@ -140,7 +184,7 @@ deploy_harbor() {
 
     log_info "停止并清理旧的 Harbor 容器..."
     if [[ -f "$harbor_install_dir/docker-compose.yml" ]]; then
-        cd "$harbor_install_dir" && docker-compose down -v 2>/dev/null || true
+        cd "$harbor_install_dir" && $DOCKER_COMPOSE_CMD down -v 2>/dev/null || true
     fi
 
     log_info "加载 Harbor 镜像并生成配置..."
@@ -151,14 +195,17 @@ deploy_harbor() {
     ./prepare --with-trivy
     patch_harbor_compose "$harbor_install_dir"
 
+    # 动态检查 compose 文件中的端口是否被占用（旧容器已停，此时仍被占用即为真实冲突）
+    check_compose_port_conflicts "$harbor_install_dir/docker-compose.yml"
+
     log_info "启动 Harbor compose 服务..."
-    docker-compose -p devopsagent-harbor up -d
+    $DOCKER_COMPOSE_CMD -p devopsagent-harbor up -d
 
     log_info "等待 Harbor 启动..."
     local max_wait=180
     local wait_count=0
     while [[ $wait_count -lt $max_wait ]]; do
-        if curl -s "http://$HARBOR_BIND:$HARBOR_PORT_HTTP/api/v2.0/ping" | grep -q "pong"; then
+        if curl -s "http://$HARBOR_BIND:$HARBOR_PORT_HTTP/api/v2.0/ping" | grep -qi "pong"; then
             log_info "✓ Harbor 启动完成"
             break
         fi
@@ -171,7 +218,7 @@ deploy_harbor() {
 
     if [[ $wait_count -ge $max_wait ]]; then
         log_warn "Harbor 启动超时，检查容器状态..."
-        cd "$harbor_install_dir" && docker-compose -p devopsagent-harbor ps
+        cd "$harbor_install_dir" && $DOCKER_COMPOSE_CMD -p devopsagent-harbor ps
         return 1
     fi
 
