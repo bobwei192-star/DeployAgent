@@ -140,7 +140,8 @@ deploy_harbor() {
     fi
 
     if $need_download; then
-        if ! curl -fSL --connect-timeout 20 --max-time 1200 -o "$tarball" "$harbor_url"; then
+        log_info "开始下载 Harbor ${HARBOR_VERSION} 离线包 (约 550MB+, 需数分钟)..."
+        if ! curl -fSL --connect-timeout 20 --max-time 1200 --progress-bar -o "$tarball" "$harbor_url"; then
             log_warn "从 GitHub 下载失败，尝试国内镜像..."
             rm -f "$tarball"
             if ! curl -fSL --connect-timeout 20 --max-time 1200 -o "$tarball" "https://mirror.ghproxy.com/${harbor_url}"; then
@@ -156,12 +157,13 @@ deploy_harbor() {
         return 1
     fi
 
-    log_info "解压 Harbor 安装包..."
+    log_info "解压 Harbor 安装包 (约 600MB, 需 1-2 分钟)..."
     if ! tar -xzf "$tarball" -C "$HARBOR_DATA_DIR"; then
         log_error "Harbor 安装包解压失败，文件已损坏，自动清理后请重新部署"
         rm -f "$tarball"
         return 1
     fi
+    log_info "✓ 解压完成"
 
     local harbor_install_dir="$HARBOR_DATA_DIR/harbor"
     if [[ ! -d "$harbor_install_dir" ]]; then
@@ -187,13 +189,36 @@ deploy_harbor() {
         cd "$harbor_install_dir" && $DOCKER_COMPOSE_CMD down -v 2>/dev/null || true
     fi
 
-    log_info "加载 Harbor 镜像并生成配置..."
     cd "$harbor_install_dir"
     if [[ -f harbor*.tar.gz ]]; then
-        docker load -i ./harbor*.tar.gz
+        local img_tar; img_tar=$(ls harbor*.tar.gz 2>/dev/null | head -1)
+        local img_size; img_size=$(stat -c%s "$img_tar" 2>/dev/null || echo "未知")
+        log_info "加载 Harbor Docker 镜像 (${img_size} bytes, 约需 2-5 分钟)..."
+        # 用 pv 显示进度（如果有的话），否则用 docker load 并在后台打印心跳
+        if command -v pv &>/dev/null; then
+            pv "$img_tar" | docker load
+        else
+            log_info "  (可安装 pv 查看详细进度: sudo apt install pv)"
+            docker load -i "$img_tar" &
+            local load_pid=$!
+            local dots=0
+            while kill -0 $load_pid 2>/dev/null; do
+                sleep 3
+                dots=$((dots + 1))
+                log_info "  镜像加载中... (已等待 $((dots * 3)) 秒)"
+            done
+            wait $load_pid || { log_error "镜像加载失败"; return 1; }
+        fi
+        log_info "✓ 镜像加载完成"
     fi
+
+    log_info "执行 prepare --with-trivy 生成配置..."
     ./prepare --with-trivy
+    log_info "✓ prepare 完成"
+
+    log_info "修正 docker-compose.yml..."
     patch_harbor_compose "$harbor_install_dir"
+    log_info "✓ compose 修正完成"
 
     # 动态检查 compose 文件中的端口是否被占用（旧容器已停，此时仍被占用即为真实冲突）
     check_compose_port_conflicts "$harbor_install_dir/docker-compose.yml"

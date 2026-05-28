@@ -152,9 +152,37 @@ def warn(msg):    log(msg, "WARN", "YELLOW")
 def error(msg):   log(msg, "ERROR", "RED")
 def step(msg):    log(msg, "STEP", "BLUE")
 
-def run(cmd, timeout=300, check=False, env=None, input_text=None):
-    """运行命令, 返回 CompletedProcess"""
+def run(cmd, timeout=300, check=False, env=None, input_text=None, stream=False):
+    """运行命令, 返回 CompletedProcess; stream=True 时实时打印输出"""
     try:
+        if stream:
+            # 实时流式输出，stderr 合并到 stdout
+            stdout_lines = []
+            proc = subprocess.Popen(
+                cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                text=True, bufsize=1, env=env,
+            )
+            start = time.time()
+            for line in iter(proc.stdout.readline, ''):
+                elapsed = time.time() - start
+                if elapsed > timeout:
+                    proc.kill()
+                    error(f"命令超时 ({timeout}s): {' '.join(cmd)[:120]}")
+                    raise subprocess.TimeoutExpired(cmd, timeout)
+                print(line, end='', flush=True)
+                stdout_lines.append(line)
+            proc.wait()
+
+            result = type('CompletedProcess', (), {
+                'returncode': proc.returncode,
+                'stdout': ''.join(stdout_lines),
+                'stderr': '',
+            })()
+            if check and proc.returncode != 0:
+                raise subprocess.CalledProcessError(proc.returncode, cmd,
+                    output=result.stdout, stderr=result.stderr)
+            return result
+
         result = subprocess.run(
             cmd, capture_output=True, text=True, timeout=timeout,
             check=check, env=env, input=input_text,
@@ -524,7 +552,7 @@ def deploy_service(service_name):
     _cleanup_old_containers(service_name)
 
     timeout = 1800 if service_name == "harbor" else 900 if service_name in ("gitlab", "mantisbt") else 600
-    r = run([str(script), "--deploy"], timeout=timeout, env=env)
+    r = run([str(script), "--deploy"], timeout=timeout, env=env, stream=True)
 
     if r.returncode != 0:
         warn(f"{service_name} 部署脚本返回 exit={r.returncode}, 检查容器是否已在运行...")
