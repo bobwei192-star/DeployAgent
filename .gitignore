@@ -1,19 +1,52 @@
-deploy/.env.auto
-deploy/deploy.log
-deploy/__pycache__/
-deploy/data/harbor/
-deploy/deploy_nginx/nginx/ssl/
-deploy/config/artifactory/system.yaml
-data/harbor/data/
-deploy.log
-__pycache__/
-*.pyc
-data/harbor/data/
-deploy.log
-__pycache__/
-*.pyc
-data/harbor/data/
-deploy.log
-__pycache__/
-*.pyc
+# ============================================================
+# 系统/IDE
+# ============================================================
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ============================================================
+# 敏感文件（绝不可提交）
+# ============================================================
+.env
+.env.auto
+.env.example
+*.key
+*.pem
+*.crt
+deploy_nginx/nginx/ssl/
+config/artifactory/system.yaml
+config/**/*.new
+
+# ============================================================
+# 运行时数据
+# ============================================================
 data/
+deploy.log
+*.log
+*.pid
+
+# ============================================================
+# Python
+# ============================================================
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# ============================================================
+# Docker
+# ============================================================
+docker-compose.override.yml
+
+# ============================================================
+# 临时文件
+# ============================================================
+tmp/
+temp/
+*.tmp
