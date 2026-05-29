@@ -24,7 +24,8 @@ ARTIFACTORY_VOLUME_HOME="${ARTIFACTORY_VOLUME_HOME:-artifactory-home}"
 # PostgreSQL 配置
 ARTIFACTORY_DB_NAME="${ARTIFACTORY_DB_NAME:-artifactory}"
 ARTIFACTORY_DB_USER="${ARTIFACTORY_DB_USER:-artifactory}"
-ARTIFACTORY_DB_PASSWORD="${ARTIFACTORY_DB_PASSWORD:-artifactory_secret}"
+_AUTO_ARTIFACTORY_DB_PASS=$(openssl rand -hex 16 2>/dev/null || echo "$(date +%s)$RANDOM")
+ARTIFACTORY_DB_PASSWORD="${ARTIFACTORY_DB_PASSWORD:-$_AUTO_ARTIFACTORY_DB_PASS}"
 
 # 配置目录
 ARTIFACTORY_CONFIG_DIR="${PROJECT_DIR}/config/artifactory"
@@ -365,7 +366,7 @@ deploy_artifactory() {
         -v "$ARTIFACTORY_CONFIG_DIR/system.yaml:/opt/jfrog/artifactory/var/etc/system.yaml" \
         -e EXTRA_JAVA_OPTIONS="-Xms512m -Xmx2g" \
         -e JF_JFCONNECT_ENABLED=false \
-        --user root \
+        --user "1030:1030" \
         "$selected_image"
 
     # ─── 步骤 7: 等待 Artifactory 启动 ───
@@ -409,7 +410,7 @@ deploy_artifactory() {
 
     log_info "✓ Artifactory 部署完成"
     log_info "  默认用户名：admin"
-    log_info "  默认密码：password"
+    log_info "  默认密码：password (首次登录后请立即修改)"
     log_info "  访问地址：http://${ARTIFACTORY_BIND}:${ARTIFACTORY_PORT_WEB}"
     log_info "  数据库：PostgreSQL $PG_VERSION @ $DOCKER_GATEWAY:$PG_PORT"
 

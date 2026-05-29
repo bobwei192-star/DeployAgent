@@ -41,9 +41,13 @@ MARIADB_DATA_DIR="${MARIADB_DATA_DIR:-$PROJECT_DIR/data/mantisbt-db}"
 
 MANTISBT_DB_NAME="${MANTISBT_DB_NAME:-mantisbt}"
 MANTISBT_DB_USER="${MANTISBT_DB_USER:-mantisbt}"
-MANTISBT_DB_PASSWORD="${MANTISBT_DB_PASSWORD:-mantisbt_secret}"
+
+# 自动生成强随机密码（可通过环境变量覆盖）
+_AUTO_DB_PASS=$(openssl rand -hex 16 2>/dev/null || echo "$(date +%s)$RANDOM$(hostname)")
+MANTISBT_DB_PASSWORD="${MANTISBT_DB_PASSWORD:-$_AUTO_DB_PASS}"
+_AUTO_ADMIN_PASS=$(openssl rand -hex 12 2>/dev/null || echo "$(date +%s)$RANDOM")
 MANTISBT_ADMIN_USER="${MANTISBT_ADMIN_USER:-administrator}"
-MANTISBT_ADMIN_PASSWORD="${MANTISBT_ADMIN_PASSWORD:-root}"
+MANTISBT_ADMIN_PASSWORD="${MANTISBT_ADMIN_PASSWORD:-$_AUTO_ADMIN_PASS}"
 MANTISBT_USE_NAMED_VOLUMES="${MANTISBT_USE_NAMED_VOLUMES:-true}"
 
 MANTISBT_USE_HTTPS_PROXY="${MANTISBT_USE_HTTPS_PROXY:-false}"
@@ -183,7 +187,7 @@ deploy_mantisbt() {
         -e MANTISBT_DB_HOST="$MARIADB_CONTAINER_NAME" \
         -e MANTISBT_DB_PORT=3306 \
         -e MANTISBT_DB_NAME="$MANTISBT_DB_NAME" \
-        -e MANTISBT_DB_USER="root" \
+        -e MANTISBT_DB_USER="$MANTISBT_DB_USER" \
         -e MANTISBT_DB_PASSWORD="$MANTISBT_DB_PASSWORD" \
         -e MANTISBT_ADMIN_USER="$MANTISBT_ADMIN_USER" \
         -e MANTISBT_ADMIN_PASSWORD="$MANTISBT_ADMIN_PASSWORD" \
@@ -210,7 +214,7 @@ deploy_mantisbt() {
     docker exec "$MANTISBT_CONTAINER_NAME" bash -c "cat > /var/www/html/config/config_inc.php << 'CONFIGEOF'
 <?php
 \$g_hostname      = '$MARIADB_CONTAINER_NAME';
-\$g_db_username   = 'root';
+\$g_db_username   = '$MANTISBT_DB_USER';
 \$g_db_password   = '$MANTISBT_DB_PASSWORD';
 \$g_database_name = '$MANTISBT_DB_NAME';
 \$g_db_type       = 'mysqli';
@@ -258,7 +262,7 @@ chmod 644 /var/www/html/config/config_inc.php"
     if [[ -n "$schema_file" ]]; then
         log_info "  发现 SQL schema 文件: $schema_file"
         local import_output
-        if import_output=$(docker exec "$MANTISBT_CONTAINER_NAME" cat "$schema_file" | docker exec -i "$MARIADB_CONTAINER_NAME" mysql -u root -p"$MANTISBT_DB_PASSWORD" "$MANTISBT_DB_NAME" 2>&1); then
+        if import_output=$(docker exec "$MANTISBT_CONTAINER_NAME" cat "$schema_file" | docker exec -i "$MARIADB_CONTAINER_NAME" mysql -u "$MANTISBT_DB_USER" -p"$MANTISBT_DB_PASSWORD" "$MANTISBT_DB_NAME" 2>&1); then
             log_info "  ✓ SQL schema 已导入"
             installed=true
         else
@@ -276,7 +280,7 @@ chmod 644 /var/www/html/config/config_inc.php"
             define('PLUGINS_DISABLED', true);
 
             \$g_hostname      = '$MARIADB_CONTAINER_NAME';
-            \$g_db_username   = 'root';
+            \$g_db_username   = '$MANTISBT_DB_USER';
             \$g_db_password   = '$MANTISBT_DB_PASSWORD';
             \$g_database_name = '$MANTISBT_DB_NAME';
             \$g_db_type       = 'mysqli';
@@ -295,7 +299,7 @@ chmod 644 /var/www/html/config/config_inc.php"
 
     sleep 3
 
-    local table_count=$(docker exec "$MARIADB_CONTAINER_NAME" mysql -u root -p"$MANTISBT_DB_PASSWORD" -e "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema='$MANTISBT_DB_NAME'" 2>/dev/null | tail -1)
+    local table_count=$(docker exec "$MARIADB_CONTAINER_NAME" mysql -u "$MANTISBT_DB_USER" -p"$MANTISBT_DB_PASSWORD" -e "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema='$MANTISBT_DB_NAME'" 2>/dev/null | tail -1)
     if [[ "$table_count" -gt 0 ]] 2>/dev/null; then
         log_info "✓ 数据库表安装完成 ($table_count 张表)"
     else
@@ -315,7 +319,7 @@ chmod 644 /var/www/html/config/config_inc.php"
             curl -s -o "$resp_file" -w "\n%{http_code}" -X POST \
                 -d "install=2" \
                 -d "hostname=$MARIADB_CONTAINER_NAME" \
-                -d "db_username=root" \
+                -d "db_username=$MANTISBT_DB_USER" \
                 -d "db_password=$MANTISBT_DB_PASSWORD" \
                 -d "database_name=$MANTISBT_DB_NAME" \
                 -d "db_type=mysqli" \
@@ -341,7 +345,7 @@ chmod 644 /var/www/html/config/config_inc.php"
         fi
 
         sleep 2
-        table_count=$(docker exec "$MARIADB_CONTAINER_NAME" mysql -u root -p"$MANTISBT_DB_PASSWORD" -e "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema='$MANTISBT_DB_NAME'" 2>/dev/null | tail -1)
+        table_count=$(docker exec "$MARIADB_CONTAINER_NAME" mysql -u "$MANTISBT_DB_USER" -p"$MANTISBT_DB_PASSWORD" -e "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema='$MANTISBT_DB_NAME'" 2>/dev/null | tail -1)
         if [[ "$table_count" -gt 0 ]] 2>/dev/null; then
             log_info "✓ 数据库表安装完成 ($table_count 张表)"
         else
@@ -392,14 +396,14 @@ WHERE NOT EXISTS (
 );
 EOSQL
 )
-    docker exec -i "$MARIADB_CONTAINER_NAME" mysql -u root -p"$MANTISBT_DB_PASSWORD" "$MANTISBT_DB_NAME" <<< "$admin_sql"
+    docker exec -i "$MARIADB_CONTAINER_NAME" mysql -u "$MANTISBT_DB_USER" -p"$MANTISBT_DB_PASSWORD" "$MANTISBT_DB_NAME" <<< "$admin_sql"
     log_info "  ✓ 管理员账号已配置: $MANTISBT_ADMIN_USER / $MANTISBT_ADMIN_PASSWORD"
 
     log_info "验证数据库连接..."
     local php_test=$(docker exec "$MANTISBT_CONTAINER_NAME" php -r "
         \$config = include '/var/www/html/config/config_inc.php';
         try {
-            \$mysqli = new mysqli('$MARIADB_CONTAINER_NAME', 'root', '$MANTISBT_DB_PASSWORD', '$MANTISBT_DB_NAME', 3306);
+            \$mysqli = new mysqli('$MARIADB_CONTAINER_NAME', '$MANTISBT_DB_USER', '$MANTISBT_DB_PASSWORD', '$MANTISBT_DB_NAME', 3306);
             if (\$mysqli->connect_error) {
                 echo 'DB_CONNECT_FAIL: ' . \$mysqli->connect_error;
             } else {

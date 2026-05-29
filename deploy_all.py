@@ -20,6 +20,7 @@ import json
 import os
 import re
 import secrets
+import select
 import shlex
 import socket
 import subprocess
@@ -531,13 +532,72 @@ def _resolve_service_volumes(service_name):
         result[env_var] = resolved
     return result
 
+def _prompt_existing_container(service_name):
+    """检查已有运行中的容器 → 让用户选择: Y/超时=直接使用, N=停止删除重建"""
+    cfg = SERVICE_CONFIG.get(service_name, {})
+    container = cfg.get("container", "")
+    if not container:
+        return False  # 无容器名配置, 走正常部署流程
+
+    running = _find_running_container(container)
+    if not running:
+        # 检查是否有已停止的旧容器（仅提示，不影响部署）
+        try:
+            r = run(["docker", "ps", "-a", "--filter", f"name={container}",
+                     "--format", "{{.Status}}"], timeout=5)
+            if r.stdout.strip():
+                info(f"  {service_name}: 发现已停止的旧容器，将重新创建")
+        except Exception:
+            pass
+        return False  # 没有运行中的容器, 继续正常部署
+
+    # 容器正在运行 → 询问用户
+    print()
+    warn(f"⚠ 检测到 {service_name} 容器已在运行 ({running})")
+    print(f"  {COLORS['GREEN']}[Y/Enter]  直接使用现有容器 (跳过部署){COLORS['NC']}")
+    print(f"  {COLORS['RED']}[N]        停止并重新创建容器{COLORS['NC']}")
+    print(f"  (30 秒内无输入, 默认直接使用现有容器)")
+    try:
+        print(f"  请选择 [Y/n]: ", end='', flush=True)
+        if sys.stdin.isatty():
+            ready, _, _ = select.select([sys.stdin], [], [], 30)
+            if ready:
+                choice = sys.stdin.readline().strip().lower()
+            else:
+                choice = ""
+                print("(超时)")
+        else:
+            # 非交互终端 (管道/重定向) → 默认 Y
+            print("(非交互终端, 默认 Y)")
+            choice = ""
+    except Exception:
+        choice = ""
+
+    if choice in ("n", "no"):
+        info(f"  用户选择重新创建 {service_name} 容器")
+        return False  # 继续正常部署 (子脚本会 stop/rm/recreate)
+    else:
+        info(f"  ✓ 跳过 {service_name} 部署, 直接使用现有容器 ({running})")
+        return True  # 跳过部署
+
+# 全局标记: 本次部署是否有任何后端被实际重建 (非跳过)
+_backend_redeployed = False
+
 def deploy_service(service_name):
+    global _backend_redeployed
     cfg = SERVICE_CONFIG.get(service_name)
     if not cfg or not cfg["deploy_script"].exists():
         error(f"部署脚本不存在: {cfg['deploy_script'] if cfg else 'N/A'}")
         return False
 
     step(f"部署 {service_name}")
+
+    # 检查已有运行容器, 让用户选择
+    if _prompt_existing_container(service_name):
+        return True  # 用户选择直接使用现有容器, 跳过部署
+
+    _backend_redeployed = True  # 有后端被实际部署/重建
+
     script = cfg["deploy_script"]
     if not os.access(str(script), os.X_OK):
         run(["chmod", "+x", str(script)], timeout=5)
@@ -712,7 +772,9 @@ def _generate_nginx_conf(conf_file, listen_port, container, back, ssl_dir, locat
         info(f"✓ {conf_file.name} 已更新 → proxy_pass http://{container}:{back}")
 
 def deploy_services(services, use_nginx, nginx_bind="0.0.0.0"):
+    global _backend_redeployed
     _ensure_network()
+    _backend_redeployed = False
     failed = []
     for svc in services:
         if svc == "nginx" and use_nginx:
@@ -721,7 +783,7 @@ def deploy_services(services, use_nginx, nginx_bind="0.0.0.0"):
         if not deploy_service(svc):
             failed.append(svc)
     if use_nginx:
-        nginx_ok = ensure_nginx_proxy(nginx_bind)
+        nginx_ok = ensure_nginx_proxy(nginx_bind, backend_redeployed=_backend_redeployed)
         if not nginx_ok:
             failed.append("nginx")
     if failed:
@@ -789,7 +851,7 @@ def _ensure_network():
     info("✓ 创建网络: devopsagent-network")
     return "devopsagent-network"
 
-def ensure_nginx_proxy(nginx_bind="0.0.0.0"):
+def ensure_nginx_proxy(nginx_bind="0.0.0.0", backend_redeployed=False):
     step("配置 Nginx 反向代理")
     nginx_conf_d = PROJECT_ROOT / "deploy_nginx" / "nginx" / "conf.d"
     nginx_ssl_dir = PROJECT_ROOT / "deploy_nginx" / "nginx" / "ssl"
@@ -847,9 +909,49 @@ def ensure_nginx_proxy(nginx_bind="0.0.0.0"):
 
     # 启动/重启 Nginx
     if detected:
+        # 检查已有 nginx 容器, 决定是否需要重启
+        nginx_skip = False
+        if _container_running("devopsagent-nginx"):
+            if not backend_redeployed:
+                # 所有后端都是跳过的, nginx 配置没变, 无需重启
+                info("所有后端均未重建, nginx 配置无需更新, 跳过重启")
+                nginx_skip = True
+            else:
+                print()
+                warn(f"⚠ 检测到 nginx 容器已在运行 (devopsagent-nginx)")
+                warn(f"  有后端被重建, 建议重启 nginx 以刷新 DNS 解析")
+                print(f"  {COLORS['GREEN']}[Y/Enter]  直接使用现有容器 (跳过重启, 如有异常可稍后手动重启){COLORS['NC']}")
+                print(f"  {COLORS['RED']}[N]        停止并重新创建容器{COLORS['NC']}")
+                print(f"  (30 秒内无输入, 默认直接使用现有容器)")
+                try:
+                    print(f"  请选择 [Y/n]: ", end='', flush=True)
+                    if sys.stdin.isatty():
+                        ready, _, _ = select.select([sys.stdin], [], [], 30)
+                        if ready:
+                            choice = sys.stdin.readline().strip().lower()
+                        else:
+                            choice = ""
+                            print("(超时)")
+                    else:
+                        print("(非交互终端, 默认 Y)")
+                        choice = ""
+                except Exception:
+                    choice = ""
+                if choice in ("n", "no"):
+                    info(f"  用户选择重新创建 nginx 容器")
+                else:
+                    info(f"  ✓ 跳过 nginx 重启, 直接使用现有容器 (devopsagent-nginx)")
+                    nginx_skip = True
+
+        if not nginx_skip:
+            run(["docker", "rm", "-f", "devopsagent-nginx"], timeout=30)
         for container in detected_containers:
             run(["docker", "network", "connect", "devopsagent-network", container], timeout=10)
-        run(["docker", "rm", "-f", "devopsagent-nginx"], timeout=30)
+
+        if nginx_skip:
+            info("✓ Nginx 容器保持运行")
+            return True
+
         cmd = ["docker", "run", "-d", "--name", "devopsagent-nginx",
                "--network", "devopsagent-network", "--restart", "unless-stopped",
                "-v", f"{PROJECT_ROOT}/deploy_nginx/nginx/nginx.conf:/etc/nginx/nginx.conf:ro",
@@ -981,85 +1083,163 @@ def select_deploy_mode():
     return mode_name, services, use_nginx
 
 def save_credentials_to_env(services, ip, use_nginx):
-    """保存各服务的登录凭证和访问地址到 .env 文件"""
+    """保存各服务的完整登录凭证/访问地址/改密说明到 .env 文件"""
     if not ENV_FILE.exists():
         return
-    
+
     content = ENV_FILE.read_text(encoding="utf-8")
-    env_vars = []
-    
-    # 保存 MantisBT
-    if "mantisbt" in services:
-        mantisbt_user = os.environ.get("MANTISBT_ADMIN_USER", "administrator")
-        mantisbt_pwd = os.environ.get("MANTISBT_ADMIN_PASSWORD", "root")
-        env_vars.append(f"MANTISBT_ADMIN_USER={mantisbt_user}")
-        env_vars.append(f"MANTISBT_ADMIN_PASSWORD={mantisbt_pwd}")
-        
-        if use_nginx:
-            mantisbt_port = PORT_REGISTRY["nginx"].get("mantisbt")
-            env_vars.append(f"MANTISBT_URL=https://{ip}:{mantisbt_port}")
-        else:
-            mantisbt_port = PORT_REGISTRY["mantisbt"]["web"]
-            env_vars.append(f"MANTISBT_URL=http://{ip}:{mantisbt_port}")
-    
-    # 保存 Jenkins
+
+    # 先清理旧的自动生成凭证区块（以 # ══ 凭证 开头的 Section）
+    old_start = content.find("\n# ══ 凭证")
+    if old_start >= 0:
+        content = content[:old_start].rstrip("\n") + "\n"
+
+    # 清理孤立的旧凭证变量（行尾无 section 包裹的裸 key=value）
+    old_cred_keys = [
+        "HARBOR_URL", "HARBOR_ADMIN_PASSWORD", "HARBOR_ADMIN_USER", "HARBOR_HTTP_URL",
+        "JENKINS_ADMIN_PASSWORD", "JENKINS_ADMIN_USER",
+        "GITLAB_ROOT_PASSWORD", "GITLAB_ROOT_USER",
+        "ARTIFACTORY_URL", "ARTIFACTORY_ADMIN_PASSWORD", "ARTIFACTORY_ADMIN_USER",
+        "MANTISBT_URL", "MANTISBT_ADMIN_PASSWORD", "MANTISBT_ADMIN_USER",
+        "NEXUS_URL", "NEXUS_ADMIN_PASSWORD", "NEXUS_ADMIN_USER",
+    ]
+    for key in old_cred_keys:
+        content = re.sub(rf"^{re.escape(key)}=.*\n?", "", content, flags=re.MULTILINE)
+    # 清理尾部多余的空白行
+    content = content.rstrip("\n") + "\n"
+
+    lines = []
+    lines.append("")
+    lines.append("# ══════════════════════════════════════════════")
+    lines.append("# 凭证信息 (deploy_all.py 部署后自动生成/更新)")
+    lines.append(f"# 生成时间: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    lines.append(f"# 服务器 IP: {ip}")
+    lines.append("# ══════════════════════════════════════════════")
+    lines.append("")
+    lines.append("# 【修改端口后需要同步修改的文件】")
+    lines.append("#   1. docker-compose.yml (ports 部分)")
+    lines.append("#   2. .env (此文件)")
+    lines.append("#   3. doc/9deploy_ci_tool.md (文档)")
+    lines.append("#   4. deploy_nginx/nginx/conf.d/*.conf (Nginx 配置)")
+    lines.append("")
+
+    # ── Jenkins ──────────────────────────────────
     if "jenkins" in services:
         jenkins_pwd = get_jenkins_password()
+        lines.append("# ── Jenkins ────────────────────────────────")
+        lines.append(f"JENKINS_ADMIN_USER=admin")
         if jenkins_pwd:
-            env_vars.append(f"JENKINS_ADMIN_PASSWORD={jenkins_pwd}")
-        
+            lines.append(f"JENKINS_ADMIN_PASSWORD={jenkins_pwd}")
+        else:
+            lines.append(f"# JENKINS_ADMIN_PASSWORD=<容器未运行或密码已被修改>")
         if use_nginx:
             jenkins_port = PORT_REGISTRY["nginx"].get("jenkins")
-            env_vars.append(f"JENKINS_URL=https://{ip}:{jenkins_port}/jenkins")
+            lines.append(f"JENKINS_URL=https://{ip}:{jenkins_port}/jenkins")
+            lines.append(f"#   → HTTP 直连: http://{ip}:{PORT_REGISTRY['jenkins']['web']}/jenkins")
         else:
             jenkins_port = PORT_REGISTRY["jenkins"]["web"]
-            env_vars.append(f"JENKINS_URL=http://{ip}:{jenkins_port}/jenkins")
-    
-    # 保存 GitLab
+            lines.append(f"JENKINS_URL=http://{ip}:{jenkins_port}/jenkins")
+        lines.append("# 改密: 登录后右上角用户名 → Settings → Password")
+        lines.append("# JENKINS_API_TOKEN 需在首次登录后手动获取（参考上方说明）")
+        lines.append("")
+
+    # ── GitLab ───────────────────────────────────
     if "gitlab" in services:
         gitlab_pwd = get_gitlab_password()
+        lines.append("# ── GitLab ─────────────────────────────────")
+        lines.append(f"GITLAB_ROOT_USER=root")
         if gitlab_pwd:
-            env_vars.append(f"GITLAB_ROOT_PASSWORD={gitlab_pwd}")
-        
+            lines.append(f"GITLAB_ROOT_PASSWORD={gitlab_pwd}")
+        else:
+            lines.append(f"# GITLAB_ROOT_PASSWORD=<容器未运行或密码文件已过期(24h)>")
         if use_nginx:
             gitlab_port = PORT_REGISTRY["nginx"].get("gitlab")
-            env_vars.append(f"GITLAB_URL=https://{ip}:{gitlab_port}")
+            lines.append(f"GITLAB_URL=https://{ip}:{gitlab_port}")
+            lines.append(f"#   → SSH 直连: ssh://git@{ip}:{PORT_REGISTRY['gitlab']['ssh']}")
         else:
             gitlab_port = PORT_REGISTRY["gitlab"]["http"]
-            env_vars.append(f"GITLAB_URL=http://{ip}:{gitlab_port}")
-    
-    # 保存 Harbor
+            lines.append(f"GITLAB_URL=http://{ip}:{gitlab_port}")
+            lines.append(f"#   → SSH 直连: ssh://git@{ip}:{PORT_REGISTRY['gitlab']['ssh']}")
+        lines.append("# 改密: 登录后右上角头像 → Edit profile → Password")
+        lines.append("# 注意: 初始密码文件 24 小时后自动删除，务必及时改密并保存！")
+        lines.append("# 获取初始密码: docker exec devopsagent-gitlab cat /etc/gitlab/initial_root_password")
+        lines.append("")
+
+    # ── Harbor ───────────────────────────────────
     if "harbor" in services:
+        harbor_http_port = PORT_REGISTRY["harbor"]["http"]
+        lines.append("# ── Harbor 容器镜像仓库 ──────────────────────")
+        lines.append(f"HARBOR_ADMIN_USER=admin")
+        harbor_pwd = os.environ.get("HARBOR_ADMIN_PASSWORD", "<随机生成，见部署日志>")
+        lines.append(f"HARBOR_ADMIN_USER=admin")
+        lines.append(f"HARBOR_ADMIN_PASSWORD={harbor_pwd}")
+        lines.append(f"HARBOR_HTTP_URL=http://{ip}:{harbor_http_port}")
         if use_nginx:
             harbor_port = PORT_REGISTRY["nginx"].get("harbor")
-            env_vars.append(f"HARBOR_URL=https://{ip}:{harbor_port}")
+            lines.append(f"HARBOR_URL=https://{ip}:{harbor_port}")
         else:
-            harbor_port = PORT_REGISTRY["harbor"]["http"]
-            env_vars.append(f"HARBOR_URL=http://{ip}:{harbor_port}")
-        env_vars.append(f"HARBOR_ADMIN_PASSWORD=Harbor12345")  # Harbor 默认密码
-    
-    # 保存 Artifactory
+            lines.append(f"HARBOR_URL=http://{ip}:{harbor_http_port}")
+        lines.append(f"#   → Registry 直连: docker login {ip}:{PORT_REGISTRY['harbor']['registry']}")
+        lines.append("# 改密: 登录后右上角用户名 → 修改密码")
+        lines.append("# 注意: 首次登录后务必修改默认密码!")
+        lines.append("")
+
+    # ── Artifactory ──────────────────────────────
     if "artifactory" in services:
+        lines.append("# ── JFrog Artifactory ──────────────────────")
+        lines.append(f"ARTIFACTORY_ADMIN_USER=admin")
+        arti_pwd = os.environ.get("ARTIFACTORY_ADMIN_PASSWORD", "password")
+        lines.append(f"ARTIFACTORY_ADMIN_USER=admin")
+        lines.append(f"ARTIFACTORY_ADMIN_PASSWORD={arti_pwd}")
         if use_nginx:
             artifactory_port = PORT_REGISTRY["nginx"].get("artifactory")
-            env_vars.append(f"ARTIFACTORY_URL=https://{ip}:{artifactory_port}")
+            lines.append(f"ARTIFACTORY_URL=https://{ip}:{artifactory_port}")
         else:
             artifactory_port = PORT_REGISTRY["artifactory"]["web"]
-            env_vars.append(f"ARTIFACTORY_URL=http://{ip}:{artifactory_port}")
-        env_vars.append(f"ARTIFACTORY_ADMIN_PASSWORD=password")
-    
-    # 合并到 content
-    for var in env_vars:
-        key, _ = var.split("=", 1)
-        # 如果已存在，更新；如果不存在，添加
-        pattern = re.compile(rf"^{re.escape(key)}=.*$", re.MULTILINE)
-        if pattern.search(content):
-            content = pattern.sub(var, content)
+            lines.append(f"ARTIFACTORY_URL=http://{ip}:{artifactory_port}")
+        lines.append(f"#   → Web 管理界面: /artifactory/webapp/")
+        lines.append("# 改密: 登录后右上角 admin → Edit Profile → Change Password")
+        lines.append("# 注意: 首次登录后务必修改默认密码!")
+        lines.append("")
+
+    # ── MantisBT ─────────────────────────────────
+    if "mantisbt" in services:
+        mantisbt_user = os.environ.get("MANTISBT_ADMIN_USER", "administrator")
+        mantisbt_pwd = os.environ.get("MANTISBT_ADMIN_PASSWORD", "<随机生成，见部署日志>")
+        lines.append("# ── MantisBT 缺陷追踪 ───────────────────────")
+        lines.append(f"MANTISBT_ADMIN_USER={mantisbt_user}")
+        lines.append(f"MANTISBT_ADMIN_PASSWORD={mantisbt_pwd}")
+        if use_nginx:
+            mantisbt_port = PORT_REGISTRY["nginx"].get("mantisbt")
+            lines.append(f"MANTISBT_URL=https://{ip}:{mantisbt_port}")
         else:
-            content += f"\n{var}"
-    
-    # 写入文件
-    ENV_FILE.write_text(content.rstrip("\n") + "\n", encoding="utf-8")
+            mantisbt_port = PORT_REGISTRY["mantisbt"]["web"]
+            lines.append(f"MANTISBT_URL=http://{ip}:{mantisbt_port}")
+        lines.append(f"#   数据库: mariadb (容器: devopsagent-mantisbt-db)")
+        lines.append(f"#   数据库用户: mantisbt / 密码: {os.environ.get('MANTISBT_DB_PASSWORD', 'mantisbt_secret')}")
+        lines.append("# 改密: 登录后右上角用户名 → My Account → Change Password")
+        lines.append("")
+
+    # ── Nexus ────────────────────────────────────
+    if "nexus" in services:
+        lines.append("# ── Nexus Repository ───────────────────────")
+        lines.append(f"NEXUS_ADMIN_USER=admin")
+        lines.append(f"# NEXUS_ADMIN_PASSWORD=<首次启动后查看容器日志>")
+        if use_nginx:
+            nexus_port = PORT_REGISTRY["nginx"].get("nexus")
+            lines.append(f"NEXUS_URL=https://{ip}:{nexus_port}")
+        else:
+            nexus_port = PORT_REGISTRY["nexus"]["web"]
+            lines.append(f"NEXUS_URL=http://{ip}:{nexus_port}")
+        lines.append("# 获取初始密码: docker exec devopsagent-nexus cat /nexus-data/admin.password")
+        lines.append("# 改密: 首次登录后按向导提示修改")
+        lines.append("")
+
+    lines.append("# ══ 凭证信息结束 ══")
+
+    # 追加到 content 末尾
+    content = content.rstrip("\n") + "\n" + "\n".join(lines) + "\n"
+    ENV_FILE.write_text(content, encoding="utf-8")
     info("✓ 各服务登录凭证和访问地址已保存到 .env 文件")
 
 def print_summary(mode, services, use_nginx):
@@ -1139,10 +1319,21 @@ def print_summary(mode, services, use_nginx):
             print(f"  密码:   <容器未运行或密码文件已过期>")
         print()
 
+    if "harbor" in services:
+        print(f"{COLORS['CYAN']}【Harbor 管理员登录】{COLORS['NC']}")
+        print(f"  用户名: admin")
+        harbor_show_pwd = os.environ.get("HARBOR_ADMIN_PASSWORD", "见部署日志(随机生成)")
+        print(f"  密码:   {harbor_show_pwd}")
+        print(f"  提示: 首次登录后务必修改默认密码!")
+        print(f"  Registry 地址: {ip}:{PORT_REGISTRY['harbor']['registry']}")
+        print(f"  docker login {ip}:{PORT_REGISTRY['harbor']['registry']}")
+        print()
+
     if "artifactory" in services:
         print(f"{COLORS['CYAN']}【JFrog Artifactory 管理员登录】{COLORS['NC']}")
         print(f"  用户名: admin")
-        print(f"  密码:   password")
+        arti_show_pwd = os.environ.get("ARTIFACTORY_ADMIN_PASSWORD", "password")
+        print(f"  密码:   {arti_show_pwd}")
         print(f"  访问地址: https://{ip}:{PORT_REGISTRY['nginx'].get('artifactory', '?')}/artifactory/webapp/")
         print(f"  提示: 首次登录后请立即修改密码")
         print()

@@ -46,7 +46,8 @@ HARBOR_PORT_HTTP="${HARBOR_PORT_HTTP:-8083}"
 HARBOR_PORT_HTTPS="${HARBOR_PORT_HTTPS:-8445}"
 HARBOR_PORT_REGISTRY="${HARBOR_PORT_REGISTRY:-5002}"
 HARBOR_BIND="${HARBOR_BIND:-127.0.0.1}"
-HARBOR_ADMIN_PASSWORD="${HARBOR_ADMIN_PASSWORD:-Harbor12345}"
+_AUTO_HARBOR_PASS=$(openssl rand -hex 12 2>/dev/null || echo "$(date +%s)$RANDOM")
+HARBOR_ADMIN_PASSWORD="${HARBOR_ADMIN_PASSWORD:-$_AUTO_HARBOR_PASS}"
 HARBOR_DATA_DIR="${HARBOR_DATA_DIR:-$PROJECT_DIR/data/harbor}"
 HARBOR_VERSION="${HARBOR_VERSION:-v2.10.0}"
 
@@ -251,6 +252,15 @@ deploy_harbor() {
     log_info "  默认用户名: admin"
     log_info "  默认密码: $HARBOR_ADMIN_PASSWORD"
     log_info "  访问地址: http://${HARBOR_BIND}:${HARBOR_PORT_HTTP}"
+
+    # 将密码写入 .env 供 deploy_all.py 读取
+    if [ -f "$PROJECT_DIR/.env" ]; then
+        if grep -q "^HARBOR_ADMIN_PASSWORD=" "$PROJECT_DIR/.env" 2>/dev/null; then
+            sed -i "s/^HARBOR_ADMIN_PASSWORD=.*/HARBOR_ADMIN_PASSWORD=$HARBOR_ADMIN_PASSWORD/" "$PROJECT_DIR/.env"
+        else
+            echo "HARBOR_ADMIN_PASSWORD=$HARBOR_ADMIN_PASSWORD" >> "$PROJECT_DIR/.env"
+        fi
+    fi
 
     return 0
 }

@@ -32,7 +32,7 @@ volumes:
     driver: local
 
 services:
-  agent:
+  devopsagent:
     image: ${AGENT_IMAGE:-ghcr.io/agent/agent:latest}
     container_name: ${AGENT_CONTAINER_NAME:-devopsagent-agent}
     restart: unless-stopped
@@ -53,6 +53,14 @@ services:
     environment:
       - AGENT_GATEWAY_TOKEN=${AGENT_GATEWAY_TOKEN}
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    deploy:
+      resources:
+        limits:
+          memory: 256m
+          cpus: '1.0'
+        reservations:
+          memory: 128m
+          cpus: '0.5'
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://127.0.0.1:18789/health" ]
       interval: 30s
@@ -60,7 +68,7 @@ services:
       retries: 3
       start_period: 60s
     labels:
-      - "devopsagent.service=agent"
+      - "devopsagent.service=devopsagent"
       - "devopsagent.version=4.1.0"
       - "devopsagent.expose_port=${NGINX_ENABLED:-false}"
 
@@ -68,7 +76,7 @@ services:
     image: ${JENKINS_IMAGE:-jenkins/jenkins:lts-jdk21}
     container_name: ${JENKINS_CONTAINER_NAME:-devopsagent-jenkins}
     restart: unless-stopped
-    user: root
+    user: "1000:989"
     networks:
       - devopsagent-network
     ports:
@@ -82,11 +90,19 @@ services:
       - JENKINS_OPTS=--prefix=/jenkins
       - JAVA_OPTS=${JENKINS_JAVA_OPTS:--Xmx2g -Xms512m}
       - JENKINS_URL=${JENKINS_URL:-http://127.0.0.1:8081/jenkins}
-      - AGENT_HOST=${AGENT_CONTAINER_NAME:-devopsagent-agent}
+      - AGENT_HOST=${AGENT_CONTAINER_NAME:-devopsagent-devopsagent}
       - AGENT_PORT=18789
       - DEFAULT_MODEL=${DEFAULT_MODEL:-deepseek-reasoner}
       - MAX_RETRY=${MAX_RETRY:-5}
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    deploy:
+      resources:
+        limits:
+          memory: 4g
+          cpus: '2.0'
+        reservations:
+          memory: 2g
+          cpus: '1.0'
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://127.0.0.1:8080/jenkins/login" ]
       interval: 30s
@@ -94,7 +110,7 @@ services:
       retries: 5
       start_period: 120s
     depends_on:
-      - agent
+      - devopsagent
     labels:
       - "devopsagent.service=jenkins"
       - "devopsagent.version=4.1.0"
@@ -123,6 +139,14 @@ services:
         gitlab_rails['gitlab_shell_ssh_port'] = ${GITLAB_PORT_SSH:-2222};
         nginx['listen_port'] = 80;
         nginx['listen_https'] = false;
+    deploy:
+      resources:
+        limits:
+          memory: 4g
+          cpus: '2.0'
+        reservations:
+          memory: 2g
+          cpus: '1.0'
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://127.0.0.1:80/-/health" ]
       interval: 60s
@@ -150,8 +174,16 @@ services:
       - MYSQL_USER=${MANTISBT_DB_USER:-mantisbt}
       - MYSQL_PASSWORD=${MANTISBT_DB_PASSWORD:-mantisbt_secret}
       - TZ=Asia/Shanghai
+    deploy:
+      resources:
+        limits:
+          memory: 1g
+          cpus: '1.0'
+        reservations:
+          memory: 512m
+          cpus: '0.5'
     healthcheck:
-      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MANTISBT_DB_PASSWORD:-mantisbt_secret}", "--silent" ]
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "--password=${MANTISBT_DB_PASSWORD:-mantisbt_secret}", "--silent" ]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -174,11 +206,19 @@ services:
       - MANTISBT_DB_HOST=${MARIADB_CONTAINER_NAME:-devopsagent-mantisbt-db}
       - MANTISBT_DB_PORT=3306
       - MANTISBT_DB_NAME=${MANTISBT_DB_NAME:-mantisbt}
-      - MANTISBT_DB_USER=root
+      - MANTISBT_DB_USER=${MANTISBT_DB_USER:-mantisbt}
       - MANTISBT_DB_PASSWORD=${MANTISBT_DB_PASSWORD:-mantisbt_secret}
       - MANTISBT_ADMIN_USER=${MANTISBT_ADMIN_USER:-administrator}
-      - MANTISBT_ADMIN_PASSWORD=${MANTISBT_ADMIN_PASSWORD:-root}
+      - MANTISBT_ADMIN_PASSWORD=${MANTISBT_ADMIN_PASSWORD:-change_me_on_first_login}
       - TZ=Asia/Shanghai
+    deploy:
+      resources:
+        limits:
+          memory: 512m
+          cpus: '0.5'
+        reservations:
+          memory: 256m
+          cpus: '0.25'
     depends_on:
       - mantisbt-db
     labels:
@@ -209,6 +249,14 @@ services:
       - ./deploy_nginx/nginx/conf.d:/etc/nginx/conf.d:ro
       - ./deploy_nginx/nginx/ssl:/etc/nginx/ssl:ro
       - nginx-logs:/var/log/nginx
+    deploy:
+      resources:
+        limits:
+          memory: 256m
+          cpus: '0.5'
+        reservations:
+          memory: 128m
+          cpus: '0.25'
     healthcheck:
       test: [ "CMD", "nginx", "-t" ]
       interval: 30s

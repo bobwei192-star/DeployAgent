@@ -92,6 +92,7 @@ EOFPERMS
         --name "$JENKINS_CONTAINER_NAME" \
         --network devopsagent-network \
         --restart unless-stopped \
+        --user "1000:$(getent group docker | cut -d: -f3)" \
         -p "$JENKINS_BIND:$JENKINS_PORT_WEB:8080" \
         -p "$JENKINS_BIND:$JENKINS_PORT_AGENT:50000" \
         $volume_mount \
